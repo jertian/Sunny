@@ -1,0 +1,1 @@
+Attended meeting to assign roles to each member of the group. Roles were divided into Api calls/Information processing, Server Setup, UI and Accounts / Database. I was assigned to work on the UI. For the next meeting we will each present some progress in learning out role, for myself I will produce a simple react native app to get started. 

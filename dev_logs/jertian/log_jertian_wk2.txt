@@ -1,0 +1,1 @@
+Demo'd camera barcode scanner. Need to work on flask api call to retrieve product information

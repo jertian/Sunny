@@ -1,0 +1,2 @@
+September 29th
+Worked on setting up firebase with react native. Work on hooking up android studio emulator to react native. Got add, get and delete for database set up. Will learn flask next

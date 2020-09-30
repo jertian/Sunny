@@ -1,0 +1,5 @@
+Week 1 - meeting sept 22:
+  -decided on demonstrable parts for each member. 
+  -by next week I need to have a working product for the barcode API
+  -need to have an understanding of react-native
+  

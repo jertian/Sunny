@@ -1,0 +1,4 @@
+install python
+install flask and flask-restful
+>pip install flask
+>pip install flask-restful 

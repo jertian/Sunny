@@ -1,0 +1,1 @@
+Worked on adding menus and connecting api functionality. cleaned up ui and code to be more modular

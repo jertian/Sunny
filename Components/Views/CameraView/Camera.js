@@ -6,7 +6,15 @@ function Camera({ scanned, setScanned, navigation }) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     navigation.navigate("ProductSingleScreen", { type, data });
-  };
+    fetch("http://108.162.100.190:5000/sub",{
+          method: 'POST',
+          body: JSON.stringify({'codeType': type,'code': data}),
+           headers: {
+          "Content-Type": "application/json"
+          }}).then(response => response.json().then(data => {
+        //this.setState({....});
+        console.log(data)
+      }))
 
   return (
     <Fragment>

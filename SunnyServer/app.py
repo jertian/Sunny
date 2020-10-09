@@ -10,6 +10,7 @@ class ScannedCode(Resource):
         req_json= request.json
         codeType = req_json.get('codeType')
         code = req_json.get('code')
+        print("the code type is: " + codeType+ " the code is: "+code)
         message = json.dumps({'msg': 'received'})
         return Response(message, status=201, mimetype='application/json')
 

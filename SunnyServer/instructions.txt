@@ -1,12 +1,12 @@
-install python
-install flask and flask-restful
+Go to https://www.python.org/ and install python
+Then install flask and flask-restful using the commands:
 >pip install flask
 >pip install flask-restful 
 
 For testing locally run in app.py set and test from postman
 app.run(debug=True)  
 
-in your command line
+Run in your command line using:
 >python app.py
 
 To test from expo app set

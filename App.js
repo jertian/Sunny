@@ -8,6 +8,7 @@ import ProductSingleScreen from "./Components/Views/ProductView/ProductSingleScr
 import HomeScreen from "./Components/Views/HomeView/HomeScreen";
 import ScreenExample from "./Components/Views/ScreenExampleView/ScreenExampleScreen";
 import DatabaseTesterScreen from "./Components/Views/DatabaseTesterView/DatabaseTesterScreen";
+import ServerScreen from "./Components/Views/ServerView/ServerScreen";
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,8 @@ export default class App extends React.Component {
           />
           <Stack.Screen name="ScreenExample" component={ScreenExample} />
           <Stack.Screen name="Camera" component={CameraScreen} />
+          <Stack.Screen name="ServerScreen" component={ServerScreen} />
+
           <Stack.Screen
             name="ProductSingleScreen"
             component={ProductSingleScreen}

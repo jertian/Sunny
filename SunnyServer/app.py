@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify, json, Response
 from flask_restful import Resource, Api
+from flask_cors import CORS
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 
 class ScannedCode(Resource):
     def post(self):
@@ -17,4 +19,5 @@ class ScannedCode(Resource):
 api.add_resource(ScannedCode, '/ScannedCode')
 
 if __name__ == '__main__':
-    app.run(debug=True)  #app.run(host='0.0.0.0')
+    app.run(debug=True)  
+    app.run(host='0.0.0.0')

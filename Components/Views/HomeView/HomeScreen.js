@@ -28,6 +28,12 @@ export default function HomeScreen({ navigation }) {
             navigation.navigate("ProductSingleScreen", { type, data });
           }}
         />
+        <ThemedButton
+          title={"Go to Server Tester"}
+          onPress={() => {
+            navigation.navigate("ServerScreen");
+          }}
+        />
       </ThemeContext.Provider>
     </View>
   );

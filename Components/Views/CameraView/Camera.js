@@ -6,8 +6,7 @@ function Camera({ scanned, setScanned, navigation }) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     navigation.navigate("ProductSingleScreen", { type, data });
-  };
-
+ 
   return (
     <Fragment>
       <BarCodeScanner
@@ -25,6 +24,7 @@ function Camera({ scanned, setScanned, navigation }) {
       )}
     </Fragment>
   );
+}
 }
 
 export default Camera;

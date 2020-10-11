@@ -13,6 +13,10 @@ export default function HomeScreen({ navigation }) {
           onPress={() => navigation.navigate("ScreenExample")}
         />
         <ThemedButton
+          title={"See List"}
+          onPress={() => navigation.navigate("ListScreen")}
+        />
+        <ThemedButton
           title={"Go to Database Tester"}
           onPress={() => navigation.navigate("DatabaseTesterScreen")}
         />

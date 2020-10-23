@@ -9,7 +9,8 @@ function ServerScreen({ navigation }) {
   async function getInfo () {
     console.log("button press")
     try {
-      let res = await fetch("http://127.0.0.1:5000/ScannedCode", {
+      //use router IP to connect to phone
+      let res = await fetch("http://<router-ip>/ScannedCode", { 
         method: "POST",
         //mode: 'no-cors', // no-cors, *cors, same-origin, cors
 
@@ -19,7 +20,7 @@ function ServerScreen({ navigation }) {
         },
         body: JSON.stringify({
           codeType: "2",
-          code: "abc123",
+          code: "803979036007",
         }),
       });
       res = await res.json();

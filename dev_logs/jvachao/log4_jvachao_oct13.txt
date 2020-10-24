@@ -1,0 +1,1 @@
+Moved firebase stuff to flask backend, added serverinfo to keep uniformity

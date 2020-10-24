@@ -10,8 +10,9 @@ function ServerScreen({ navigation }) {
   async function getInfo () {
     console.log("button press")
     try {
-  
+
       let res = await fetch(serverInfo.path + "/ScannedCode", {
+
         method: "POST",
         //mode: 'no-cors', // no-cors, *cors, same-origin, cors
 
@@ -21,7 +22,7 @@ function ServerScreen({ navigation }) {
         },
         body: JSON.stringify({
           codeType: "2",
-          code: "abc123",
+          code: "803979036007",
         }),
       });
       res = await res.json();

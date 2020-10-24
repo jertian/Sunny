@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, json, Response
 from flask_restful import Resource, Api
 from flask_cors import CORS
 from firebase_admin import credentials, firestore, initialize_app
+import requests
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -116,7 +117,14 @@ class ScannedCode(Resource):
         codeType = req_json.get('codeType')
         code = req_json.get('code')
         print("the code type is: " + codeType+ " the code is: "+code)
-        message = json.dumps({'msg': 'received'})
+        
+        url = "https://api.barcodelookup.com/v2/products?"
+        payload = {'barcode': code,
+                    'formatted': 'y',
+                    'key': '22n44r2hfyrqzrbm2qgp61a0w7o3n1'}
+
+        response = requests.get(url, params=payload)
+        message = response.text
         return Response(message, status=201, mimetype='application/json')
 
 api.add_resource(ScannedCode, '/ScannedCode')
@@ -128,3 +136,4 @@ api.add_resource(ScannedCode, '/ScannedCode')
 if __name__ == '__main__':
     ip = '192.168.1.2'  # change ip to individual ip. found using ipconfig.
     app.run(host=ip, port=5000, debug=True, threaded=True)
+

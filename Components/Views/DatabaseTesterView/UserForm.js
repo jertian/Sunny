@@ -1,12 +1,12 @@
 import React, { ChangeEvent, Fragment } from "react";
-import firebase from "firebase";
 import { TextInput, Button, View, StyleSheet } from "react-native";
 import { Formik, Form, Field } from "formik";
+import serverInfo from '../../Common/ServerInfo.js';
 
 const BLUE = "#428AF8";
 const LIGHT_GRAY = "#D3D3D3";
 
-class User extends React.Component {
+class UserForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,6 +15,9 @@ class User extends React.Component {
     };
   }
 
+  getAllUsers() {
+    this.props.getAllUsers();
+  }
   updateInput(e, param) {
     const target = e.target;
     var name = param;
@@ -25,16 +28,19 @@ class User extends React.Component {
     console.log(this.state);
   }
 
-  addUser = (e) => {
-    /*
-With firebase.firestore() we’re initialising Firestore through firebase and saving to a variable.
-db.collection(“users”) is simply pointing to our database; the collection we created called users.
-finally the .add() method is submitting our data object with the users full name and email taken from our updated state.
-*/
-    const db = firebase.firestore();
-    db.settings({});
-    const userRef = db.collection("users").add({
-      e
+   async addUser(e) {
+
+    await fetch(serverInfo.path + "/add", {
+      method: "POST",
+      cache: "no-cache",
+
+      //mode: 'no-cors', // no-cors, *cors, same-origin, cors
+      headers:{
+        "Content-Type":"application/json",
+    },
+      body: JSON.stringify({user:e})
+    }).then(response => {
+      console.log( response.json());
     });
     console.log("Added");
     console.log(this.state);
@@ -44,6 +50,7 @@ finally the .add() method is submitting our data object with the users full name
       firstName: "",
       lastName: "",
     });
+    this.getAllUsers();
   };
   handleFocus = (event) => {
     this.setState({ isFocused: true });
@@ -121,4 +128,4 @@ const testInputStyle = StyleSheet.create({
   },
 });
 
-export default User;
+export default UserForm;

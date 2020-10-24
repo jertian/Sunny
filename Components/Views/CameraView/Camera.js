@@ -6,25 +6,26 @@ function Camera({ scanned, setScanned, navigation }) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     navigation.navigate("ProductSingleScreen", { type, data });
- 
-  return (
-    <Fragment>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
-      {scanned && (
-        <Button
-          title={"Tap to Scan Again"}
-          onPress={() => {
-            setScanned(false);
-            ExpoCamera.resumePreview();
-          }}
+  }
+
+    return (
+      <Fragment>
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
         />
-      )}
-    </Fragment>
-  );
-}
-}
+        {scanned && (
+          <Button
+            title={"Tap to Scan Again"}
+            onPress={() => {
+              setScanned(false);
+              ExpoCamera.resumePreview();
+            }}
+          />
+        )}
+      </Fragment>
+    );
+  };
+
 
 export default Camera;

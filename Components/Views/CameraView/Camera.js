@@ -27,5 +27,4 @@ function Camera({ scanned, setScanned, navigation }) {
   );
 }
 
-
 export default Camera;

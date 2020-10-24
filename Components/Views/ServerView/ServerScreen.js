@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Button, Text } from "react-native";
 import ThemedButton from "../../Common/ThemedButton";
+import serverInfo from './../../Common/ServerInfo.js';
 
 const ThemeContext = React.createContext("light");
 
@@ -9,8 +10,9 @@ function ServerScreen({ navigation }) {
   async function getInfo () {
     console.log("button press")
     try {
-      //use router IP to connect to phone
-      let res = await fetch("http://<router-ip>/ScannedCode", { 
+
+      let res = await fetch(serverInfo.path + "/ScannedCode", {
+
         method: "POST",
         //mode: 'no-cors', // no-cors, *cors, same-origin, cors
 

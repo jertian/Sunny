@@ -1,0 +1,1 @@
+Worked on scraping api, set up scraping documentation for everyone to follow and scraping for parent company

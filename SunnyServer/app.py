@@ -166,21 +166,25 @@ def ScrapeParent():
 
 class ScannedCode(Resource):
     def post(self):
-        req_json = request.get_json()
-        req_json = request.json
+        req_json= request.get_json()
+        req_json= request.json
         codeType = req_json.get('codeType')
-        code = req_json.get('code')
-        print("the code type is: " + codeType + " the code is: "+code)
-
+        code = int(req_json.get('code'),10)
+        print("the code type is: " + codeType+ " the code is: "+str(code))
+        
         url = "https://api.barcodelookup.com/v2/products?"
         payload = {'barcode': code,
-                   'formatted': 'y',
-                   'key': '22n44r2hfyrqzrbm2qgp61a0w7o3n1'}
+                    'geo' : 'CA',
+                    'formatted': 'y',
+                    'key': 'vqodwnltkjt512dublw3xg1cfpe74c'}
 
         response = requests.get(url, params=payload)
-        message = response.text
+        print("The response status" + str(response.status_code))
+        print("content " + json.dumps(response.json()))
+        print("ingredients  " + json.dumps(response.json()["products"][0]["ingredients"]))
+        message_text = response.text
+        message = json.dumps({'msg': message_text})
         return Response(message, status=201, mimetype='application/json')
-
 
 api.add_resource(ScannedCode, '/ScannedCode')
 

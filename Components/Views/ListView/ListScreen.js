@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Button, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Button, Text, StyleSheet, TouchableOpacity,FlatList,Alert } from "react-native";
 import { v4 as uuidv4 } from 'uuid';
 import Header from "./Header"
 import AddItem from "./AddItem"
+import ListItem from "./ListItem"
 
 const ThemeContext = React.createContext("light");
 
@@ -36,6 +37,11 @@ function ListScreen({ navigation }) {
     <View style={styles.container}>
       <Header></Header>
       <AddItem addItem={addItem}/>
+      <FlatList 
+        data = {items} 
+        renderItem= {({item}) => (<ListItem item ={item} deleteItem={deleteItem} />
+      )}/>
+
       <ThemeContext.Provider value="light">
         <Button title="Go back a page" onPress={() => navigation.goBack()} />
         <Button

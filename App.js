@@ -5,10 +5,14 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import CameraScreen from "./Components/Views/CameraView/CameraScreen";
 import ProductSingleScreen from "./Components/Views/ProductView/ProductSingleScreen";
-import HomeScreen from "./Components/Views/HomeView/HomeScreen";
-import ScreenExample from "./Components/Views/ScreenExampleView/ScreenExampleScreen";
+import HomeExampleScreen from "./Components/Views/HomeExampleView/HomeExampleScreen";
+import ScreenExampleScreen from "./Components/Views/ScreenExampleView/ScreenExampleScreen";
 import DatabaseTesterScreen from "./Components/Views/DatabaseTesterView/DatabaseTesterScreen";
 import ListScreen from "./Components/Views/ListView/ListScreen";
+import LandingScreen from "./Components/Views/LandingView/LandingScreen";
+import LoginScreen from "./Components/Views/LoginView/LoginScreen";
+import DataScreen from "./Components/Views/DataView/DataScreen";
+import PreferencesScreen from "./Components/Views/PreferencesView/PreferencesScreen";
 
 const Stack = createStackNavigator();
 
@@ -20,15 +24,19 @@ export default class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="LandingScreen">
           <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ title: "Home" }}
+            name="LandingScreen"
+            component={LandingScreen}
+            options={{ title: "LandingScreen" }}
           />
-          <Stack.Screen name="ScreenExample" component={ScreenExample} />
+          <Stack.Screen name="ScreenExample" component={ScreenExampleScreen} />
           <Stack.Screen name="ListScreen" component={ListScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeExampleScreen} />
           <Stack.Screen name="Camera" component={CameraScreen} />
+          <Stack.Screen name="DataScreen" component={DataScreen} />
+          <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} />
           <Stack.Screen
             name="ProductSingleScreen"
             component={ProductSingleScreen}

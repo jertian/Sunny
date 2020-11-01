@@ -22,7 +22,7 @@ function ServerScreen({ navigation }) {
         },
         body: JSON.stringify({
           codeType: "2",
-          code: "803979036007",
+          code: "016000275287",
         }),
       });
       

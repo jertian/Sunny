@@ -11,7 +11,7 @@ function ServerScreen({ navigation }) {
     console.log("button press")
     try {
 
-      let res = await fetch(serverInfo.path + "/ScannedCode", {
+      let res = await fetch(serverInfo.path + "/scannedCode", {
 
         method: "POST",
         //mode: 'no-cors', // no-cors, *cors, same-origin, cors
@@ -25,9 +25,10 @@ function ServerScreen({ navigation }) {
           code: "803979036007",
         }),
       });
-      res = await res.json();
-      console.log(res);
-      setData(JSON.stringify(res));
+      
+      let response = await res.json();
+      console.log(response);
+      setData(JSON.stringify(response));
 
     } catch (e) {
       console.error(e);

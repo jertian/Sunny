@@ -1,0 +1,4 @@
+Nov 1
+
+Camera to server connection. BClookup and edamam api working with camera. 
+Next steps: store multiple scanned products

@@ -1,0 +1,7 @@
+intergated the edamam api to get ingredients, and barcode api to get manufactuer and image from barcode lookup api
+refactored backend, created product object to keep product info organized
+did research to find the amount of green house gas (ghg) emmisions per kg of diffrent food products and created an algorithm to estimate the amount 
+of ghg emission based on ingredients
+created a dictonary of food based on differnt categories of food
+wrote functions to estimate ghg per kg of food product
+wrote function to check if a product is vegan and a function to determin if a product is vegetarian 

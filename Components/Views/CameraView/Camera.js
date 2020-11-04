@@ -4,10 +4,19 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 
 function Camera({ scanned, setScanned, navigation }) {
   const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    navigation.navigate("ProductSingleScreen", { type, data });
-  };
-
+    //workaround for camera scanning in background
+    //common issue: https://github.com/expo/expo/issues/345
+    if(scanned!=undefined){
+      navigation.pop()
+      setScanned(true);
+      console.log("navigating")
+      navigation.navigate("ProductSingleScreen", { type, data });
+    } else{
+      //camera scans a few times before navigating
+      //console.log("spam")
+    }
+  }
+ 
   return (
     <Fragment>
       <BarCodeScanner

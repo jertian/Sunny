@@ -1,6 +1,8 @@
 node_modules/**/*
 node_modules/
 
+/SunnyServer
+/SunnyServer/**
 .expo/*
 npm-debug.*
 *.jks
@@ -15,3 +17,7 @@ web-build/
 
 # macOS
 .DS_Store
+/.vscode/launch.json
+/.vscode/settings.json
+/SunnyServer/__pycache__/app.cpython-37.pyc
+/app

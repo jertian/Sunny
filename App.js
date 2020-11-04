@@ -13,6 +13,8 @@ import LandingScreen from "./Components/Views/LandingView/LandingScreen";
 import LoginScreen from "./Components/Views/LoginView/LoginScreen";
 import DataScreen from "./Components/Views/DataView/DataScreen";
 import PreferencesScreen from "./Components/Views/PreferencesView/PreferencesScreen";
+import ServerScreen from "./Components/Views/ServerView/ServerScreen";
+
 
 const Stack = createStackNavigator();
 
@@ -37,6 +39,8 @@ export default class App extends React.Component {
           <Stack.Screen name="Camera" component={CameraScreen} />
           <Stack.Screen name="DataScreen" component={DataScreen} />
           <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} />
+          <Stack.Screen name="ServerScreen" component={ServerScreen} />
+
           <Stack.Screen
             name="ProductSingleScreen"
             component={ProductSingleScreen}

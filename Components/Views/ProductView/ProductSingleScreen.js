@@ -4,6 +4,10 @@ import { useFonts, Nunito_400Regular} from '@expo-google-fonts/nunito';
 import { AppLoading} from 'expo';
 import * as Font from 'expo-font'
 import AddItem from "./AddItem"
+import serverInfo from './../../Common/ServerInfo.js';
+
+//workaround for Jeremy being dumb, not knowing how to fix multiple queries
+let wait = false
 
 export default function ProductSingleScreen({ route, navigation }) {
   let { data } = route.params;
@@ -20,11 +24,45 @@ export default function ProductSingleScreen({ route, navigation }) {
   //  Nunito_400Regular,
   //});
   const [fontsLoaded, setFontLoaded] = useState(false);
+  const [info, setInfo] = useState("");
 
   Font.loadAsync( {
     'Nunito': require('../../../assets/fonts/Nunito-Regular.ttf')
   }
-  ).then( () => setFontLoaded(true) )
+  ).then( () => setFontLoaded(true));
+
+  async function getInfo () {
+    try {
+      let res = await fetch(serverInfo.path + "/scannedCode", {
+
+        method: "POST",
+        //mode: 'no-cors', // no-cors, *cors, same-origin, cors
+
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          codeType: "",
+          code: data,
+        }),
+      });
+      
+      let response = await res.json();
+      console.log(response);
+      setInfo(JSON.stringify(response));
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  if(!wait){
+    getInfo()
+    wait = true 
+  } else {
+    console.log("waiting")
+  }
 
   if( !fontsLoaded ) {
     return <AppLoading/>
@@ -37,9 +75,14 @@ export default function ProductSingleScreen({ route, navigation }) {
           style={styles.productImage}
         />
         <Text style={styles.text}>{data}</Text>
+        <Text>
+        Bar code with type {type} and data {data} has been scanned!
+        Info: {info}
+      </Text>
         <AddItem addItem={"I"}/>
       </View>
     );
+
 
 }
 

@@ -1,6 +1,8 @@
 node_modules/**/*
 node_modules/
 
+/SunnyServer
+/SunnyServer/**
 .expo/*
 npm-debug.*
 *.jks

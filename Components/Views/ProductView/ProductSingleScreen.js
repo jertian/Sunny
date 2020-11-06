@@ -6,8 +6,7 @@ import * as Font from 'expo-font'
 import AddItem from "./AddItem"
 import serverInfo from './../../Common/ServerInfo.js';
 
-//workaround for Jeremy being dumb, not knowing how to fix multiple queries
-let wait = false
+var products = []
 
 export default function ProductSingleScreen({ route, navigation }) {
   let { data } = route.params;
@@ -50,6 +49,7 @@ export default function ProductSingleScreen({ route, navigation }) {
       
       let response = await res.json();
       console.log(response);
+      products.push(response)
       setInfo(JSON.stringify(response));
 
     } catch (e) {
@@ -57,9 +57,8 @@ export default function ProductSingleScreen({ route, navigation }) {
     }
   }
 
-  if(!wait){
+  if(info==="" && !fontsLoaded){
     getInfo()
-    wait = true 
   } else {
     console.log("waiting")
   }

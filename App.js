@@ -13,8 +13,9 @@ import LandingScreen from "./Components/Views/LandingView/LandingScreen";
 import LoginScreen from "./Components/Views/LoginView/LoginScreen";
 import DataScreen from "./Components/Views/DataView/DataScreen";
 import PreferencesScreen from "./Components/Views/PreferencesView/PreferencesScreen";
-import ServerScreen from "./Components/Views/ServerView/ServerScreen";
 
+import ServerScreen from "./Components/Views/ServerView/ServerScreen";
+import HomeScreen from "./Components/Views/HomeView/HomeScreen";
 
 const Stack = createStackNavigator();
 
@@ -30,17 +31,16 @@ export default class App extends React.Component {
           <Stack.Screen
             name="LandingScreen"
             component={LandingScreen}
-            options={{ title: "LandingScreen" }}
+            options={{ title: "LandingScreen" }, {headerShown: false}}
           />
           <Stack.Screen name="ScreenExample" component={ScreenExampleScreen} />
-          <Stack.Screen name="ListScreen" component={ListScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="HomeScreen" component={HomeExampleScreen} />
-          <Stack.Screen name="Camera" component={CameraScreen} />
-          <Stack.Screen name="DataScreen" component={DataScreen} />
-          <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} />
-          <Stack.Screen name="ServerScreen" component={ServerScreen} />
-
+          <Stack.Screen name="ListScreen" component={ListScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="HomeExampleScreen" component={HomeExampleScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="DataScreen" component={DataScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} options={{ headerShown: false }} />
           <Stack.Screen
             name="ProductSingleScreen"
             component={ProductSingleScreen}

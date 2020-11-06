@@ -5,18 +5,36 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import CameraScreen from "./Components/Views/CameraView/CameraScreen";
 import ProductSingleScreen from "./Components/Views/ProductView/ProductSingleScreen";
-import HomeExampleScreen from "./Components/Views/HomeExampleView/HomeExampleScreen";
+import HomeExampleScreen from "./Components/Views/HomeView/HomeScreen";
 import ScreenExampleScreen from "./Components/Views/ScreenExampleView/ScreenExampleScreen";
 import DatabaseTesterScreen from "./Components/Views/DatabaseTesterView/DatabaseTesterScreen";
 import ListScreen from "./Components/Views/ListView/ListScreen";
 import LandingScreen from "./Components/Views/LandingView/LandingScreen";
 import LoginScreen from "./Components/Views/LoginView/LoginScreen";
 import DataScreen from "./Components/Views/DataView/DataScreen";
-import PreferencesScreen from "./Components/Views/PreferencesView/PreferencesScreen";
+import PreferencesScreen from "./Components/Views/PreferenceView/PreferencesScreen";
 import ServerScreen from "./Components/Views/ServerView/ServerScreen";
-
-
+import HomeScreen from "./Components/Views/HomeView/HomeScreen";
+import { store } from './Components/Common/Redux/store'
+import { Provider } from 'react-redux'
+import {createStore} from 'redux'
+import rootReducer from './Components/Common/Redux/reducer'
+import {composeWithDevTools} from 'redux-devtools-extension'
 const Stack = createStackNavigator();
+
+/*
+const composedEnhancer = composeWithDevTools()
+const store = createStore(rootReducer, composedEnhancer)
+*/
+console.log('Initial state: ', store.getState())
+
+const unsubscribe = store.subscribe(() =>
+  console.log('State after dispatch: ', store.getState())
+)
+
+store.dispatch({type: 'preferences/update', preference: "Vegetarian", payload: true})
+
+unsubscribe()
 
 export default class App extends React.Component {
   constructor(props) {
@@ -25,22 +43,23 @@ export default class App extends React.Component {
 
   render() {
     return (
+        <Provider store={store}>
+ 
       <NavigationContainer>
         <Stack.Navigator initialRouteName="LandingScreen">
           <Stack.Screen
             name="LandingScreen"
             component={LandingScreen}
-            options={{ title: "LandingScreen" }}
+            options={{ title: "LandingScreen" }, {headerShown: false}}
           />
           <Stack.Screen name="ScreenExample" component={ScreenExampleScreen} />
           <Stack.Screen name="ListScreen" component={ListScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="HomeScreen" component={HomeExampleScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="Camera" component={CameraScreen} />
           <Stack.Screen name="DataScreen" component={DataScreen} />
           <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} />
           <Stack.Screen name="ServerScreen" component={ServerScreen} />
-
           <Stack.Screen
             name="ProductSingleScreen"
             component={ProductSingleScreen}
@@ -51,6 +70,7 @@ export default class App extends React.Component {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      </Provider>
     );
   }
 }

@@ -1,18 +1,31 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { View, Button, TouchableOpacity,Image, Text, StyleSheet } from "react-native";
-import LoginButton from "./LoginButton"
+import PreferenceButton from "./PreferenceButton"
 import { useFonts, Nunito_400Regular} from '@expo-google-fonts/nunito';
+import { useSelector, useDispatch  } from 'react-redux'
+import { constants } from "redux-firestore";
 
 const ThemeContext = React.createContext("light");
+const selectPreferences = state => state.preferences
 
 const PreferencesScreen = ({navigation}) => {
+  const dispatchPreferences = useDispatch()
+
+  const updatePreference = (preference, isTracking) => {
+    debugger;
+    dispatchPreferences({ type: 'preferences/update', preference: preference, payload: isTracking })
+  }
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
   let [fontsLoaded] = useFonts({
     Nunito_400Regular,
   });
+
+  const preferences = useSelector(selectPreferences);
+  console.log(preferences);
 
 
   return (
@@ -22,20 +35,14 @@ const PreferencesScreen = ({navigation}) => {
       <Text style={styles.text}>Set Your Preferences</Text>
 
 
-      <LoginButton
-        buttonTitle="Vegetarian"
+      <PreferenceButton
+        buttonTitle="Vegetarian" initialToggle={preferences.isTrackingVegetarian} onClickCallback={(isTracking) => updatePreference("Vegetarian", isTracking)}
       />
-       <LoginButton
-        buttonTitle="Vegan"
+       <PreferenceButton
+        buttonTitle="Vegan" initialToggle= {preferences.isTrackingVegan} onClickCallback={(isTracking) => updatePreference("Vegan", isTracking)}
       />
-       <LoginButton
-        buttonTitle="GMO"
-      />
-       <LoginButton
-        buttonTitle="Plastic Content"
-      />
-       <LoginButton
-        buttonTitle="Water Consumption"
+       <PreferenceButton
+        buttonTitle="Peanut Allergy" initialToggle= {preferences.isTrackingPeanutAllergy} onClickCallback={(isTracking) => updatePreference("PeanutAllergy", isTracking)}
       />
 
     </View>

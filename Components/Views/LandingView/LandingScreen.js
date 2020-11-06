@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Button, Text,StyleSheet,TouchableOpacity,Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeExampleScreen from "../HomeExampleView/HomeExampleScreen";
+import HomeExampleScreen from "./../HomeView/HomeScreen";
 
 
 const ThemeContext = React.createContext("light");

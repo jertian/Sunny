@@ -2,7 +2,7 @@ import React, { useState, useEffect }  from 'react';
 import {Text, TouchableOpacity, StyleSheet, TouchableHighlight, Button, Alert} from 'react-native';
 import {windowHeight, windowWidth} from '../../../utils/Dimensions';
 
-const LoginButton = ({buttonTitle, ...rest}) => {
+const PreferenceButton = ({buttonTitle, ...rest}) => {
 
   /*
   var touchProps = {
@@ -25,14 +25,16 @@ let y = foo.y;
 
 //x = 5
 //y = 2
-*/
-  const [color, setColor] = useState("#841584");
-  let foo = {initalColor:"#841584", second :"#000080"}
-  let {initalColor,second} = foo
+*/  
+  const [isToggled, setToggled] = useState(false);
 
-  return (
-    <Button
+  const [color, setColor] = useState("#FFFFFF");
+  let foo = {initalColor:"#FFFFFF", second :"#98FB98"}
+  let {initalColor,second} = foo
+/*
+  <Button
       title= {buttonTitle}
+      backgroundColor = 'red'
       color= {color}
       onPress={(event) => {
         if (color == "#000080"){
@@ -51,12 +53,29 @@ let y = foo.y;
       }}
       accessibilityLabel="Learn more about this purple button"
     />
+*/
+  return (
+    <TouchableOpacity style={{backgroundColor: color, marginTop: 20, width: '100%',height: windowHeight / 12,padding: 10,alignItems: 'center',justifyContent: 'center',
+    borderRadius: 3,}} {...rest}
+    
+     onPress={(event,style) => { 
+      if (isToggled){
+          setToggled(false);
+          setColor("#FFFFFF");
+        }
+        else{
+          setToggled(true);
+          setColor("#98FB98");
+        }
 
+     }}>
+      <Text style={styles.buttonText}>{buttonTitle}</Text>
+    </TouchableOpacity>
     
   );
 };
 
-export default LoginButton;
+export default PreferenceButton;
 
 const styles = StyleSheet.create({
   buttonContainer: {

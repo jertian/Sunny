@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { View, Button, TouchableOpacity,Image, Text, StyleSheet } from "react-native";
-import LoginButton from "./LoginButton"
+import PreferenceButton from "./PreferenceButton"
 import { useFonts, Nunito_400Regular} from '@expo-google-fonts/nunito';
 
 const ThemeContext = React.createContext("light");
@@ -22,19 +22,19 @@ const PreferencesScreen = ({navigation}) => {
       <Text style={styles.text}>Set Your Preferences</Text>
 
 
-      <LoginButton
+      <PreferenceButton
         buttonTitle="Vegetarian"
       />
-       <LoginButton
+       <PreferenceButton
         buttonTitle="Vegan"
       />
-       <LoginButton
-        buttonTitle="GMO"
+       <PreferenceButton
+        buttonTitle="Peanut Allergy"
       />
-       <LoginButton
+       <PreferenceButton
         buttonTitle="Plastic Content"
       />
-       <LoginButton
+       <PreferenceButton
         buttonTitle="Water Consumption"
       />
 

@@ -22,17 +22,9 @@ import rootReducer from './Components/Common/Redux/reducer'
 import {composeWithDevTools} from 'redux-devtools-extension'
 const Stack = createStackNavigator();
 
-/*
-const composedEnhancer = composeWithDevTools()
-const store = createStore(rootReducer, composedEnhancer)
-*/
-console.log('Initial state: ', store.getState())
 
-const unsubscribe = store.subscribe(() =>
-  console.log('State after dispatch: ', store.getState())
-)
 
-store.dispatch({type: 'preferences/update', preference: "Vegetarian", payload: true})
+store.dispatch({type: 'preferences/update', preference: "PeanutAllergy", payload: true})
 
 unsubscribe()
 

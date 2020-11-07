@@ -4,8 +4,8 @@ const initialState = {
 }
 
 /*
-{type: account/login, payload: boolean}
-{type: account/name, payload: string}
+{type: "account/login", payload: boolean}
+{type: "account/name", payload: "string"}
 
 */
 

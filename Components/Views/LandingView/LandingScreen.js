@@ -18,7 +18,7 @@ function LandingScreen({ navigation }) {
         <Button 
           color= "black"
           title="get started"
-          onPress={() => navigation.navigate("HomeScreen")}
+          onPress={() => navigation.navigate("LoginScreen")}
         />
         <TouchableOpacity activeOpacity={0.95} style={styles.button}></TouchableOpacity>
         <Image 

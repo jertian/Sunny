@@ -13,6 +13,10 @@ export default function ProductSingleScreen({ route, navigation }) {
   let { type } = route.params;
   let { name } = route.params;
 
+  //Testing purpose===============
+  data = "016000275287";
+
+  //=============
   if (data === "" || data === undefined) {
     data = "[data_info should be here]";
     name = "[data_info should be here]";
@@ -32,6 +36,7 @@ export default function ProductSingleScreen({ route, navigation }) {
 
   async function getInfo () {
     try {
+
       let res = await fetch(serverInfo.path + "/scannedCode", {
 
         method: "POST",
@@ -51,6 +56,7 @@ export default function ProductSingleScreen({ route, navigation }) {
       console.log(response);
       products.push(response)
       setInfo(JSON.stringify(response));
+      console.log (info);
 
     } catch (e) {
       console.error(e);

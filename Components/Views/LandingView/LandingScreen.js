@@ -11,6 +11,9 @@ const Stack = createStackNavigator();
 
 
 function LandingScreen({ navigation }) {
+
+
+
   return (
     <View style={{ flex: 1,flexDirection: 'column',justifyContent: "center", backgroundColor: '#FBFFF1'}}>
       <Text style = {styles.title}>sunny scanner</Text>
@@ -43,29 +46,31 @@ const styles = StyleSheet.create({
     fontSize: 40, 
     height: 60,
     textAlign: 'center',
+    fontFamily: 'nunito'
   },
   text: {
     color: '#A3A3A3',
     fontSize: 13, 
     height: 20,
     textAlign: 'center',
+    fontFamily: 'nunito'
 
   },
   button: {
     fontSize: 13, 
     height: 0,
-    marginTop: 0,
+
   },
   pink_blob: {
-    height: 250,
+    height: 255,
     width: 250,
     justifyContent: 'flex-end',
     alignSelf: 'flex-end', 
-    marginTop: 60,
+    marginBottom: -210,
   },
   yellow_blob: {
     height: 100,
-    width: 50,
+    width: 60,
     justifyContent: 'flex-end',
     alignSelf: 'flex-end', 
   },

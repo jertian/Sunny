@@ -16,22 +16,48 @@ import PreferencesScreen from "./Components/Views/PreferencesView/PreferencesScr
 
 import ServerScreen from "./Components/Views/ServerView/ServerScreen";
 import HomeScreen from "./Components/Views/HomeView/HomeScreen";
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
 
 const Stack = createStackNavigator();
+const fetchFonts = () => {
+  return Font.loadAsync({
+    'nunito': require('../../../assets/fonts/Nunito-ExtraBold.ttf')
+
+  });
+  };
+
+
+
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isFontLoading : true
+
+    }
   }
 
+
   render() {
+    debugger
+  if( !this.state.isFontLoading ) {
+    return <AppLoading
+      startAsync = {fetchFonts}
+      onFinish={() => this.state.isFontLoading = false}
+
+    />
+  }
     return (
       <NavigationContainer>
+
         <Stack.Navigator initialRouteName="LandingScreen">
           <Stack.Screen
             name="LandingScreen"
             component={LandingScreen}
             options={{ title: "LandingScreen" }, {headerShown: false}}
+            
           />
           <Stack.Screen name="ScreenExample" component={ScreenExampleScreen} />
           <Stack.Screen name="ListScreen" component={ListScreen} options={{ headerShown: false }} />
@@ -41,10 +67,7 @@ export default class App extends React.Component {
           <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
           <Stack.Screen name="DataScreen" component={DataScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} options={{ headerShown: false }} />
-          <Stack.Screen
-            name="ProductSingleScreen"
-            component={ProductSingleScreen}
-          />
+          <Stack.Screen name="ProductSingleScreen" component={ProductSingleScreen}/>
           <Stack.Screen
             name="DatabaseTesterScreen"
             component={DatabaseTesterScreen}

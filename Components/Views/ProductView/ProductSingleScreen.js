@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text,StyleSheet,Image } from "react-native";
-import { useFonts, Nunito_400Regular} from '@expo-google-fonts/nunito';
 import { AppLoading} from 'expo';
 import * as Font from 'expo-font'
 import AddItem from "./AddItem"
@@ -20,16 +19,14 @@ export default function ProductSingleScreen({ route, navigation }) {
     type = "[type_info should be here]";
   }
 
-  //let [fontsLoaded] = useFonts({
-  //  Nunito_400Regular,
-  //});
+
   const [fontsLoaded, setFontLoaded] = useState(false);
   const [info, setInfo] = useState("");
 
-  Font.loadAsync( {
-    'Nunito': require('../../../assets/fonts/Nunito-Regular.ttf')
-  }
-  ).then( () => setFontLoaded(true));
+
+ 
+
+  
 
   async function getInfo () {
     try {
@@ -64,9 +61,6 @@ export default function ProductSingleScreen({ route, navigation }) {
     console.log("waiting")
   }
 
-  if( !fontsLoaded ) {
-    return <AppLoading/>
-  }
     return (
       <View style={styles.container}>
       <Text style={styles.textTitle}>Product Screen</Text>

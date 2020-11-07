@@ -23,7 +23,9 @@ export default function ProductSingleScreen({ route, navigation }) {
   //  Nunito_400Regular,
   //});
   const [fontsLoaded, setFontLoaded] = useState(false);
-  const [info, setInfo] = useState("");
+  const [info, setInfo] = useState({scanned: false, Emissions:0, image: "", ingredients: [], 
+                                      isVegan: false, isVegetarian: false, item: "", 
+                                      manufacturer: "", parentCompany: "", upc: ""});
 
   Font.loadAsync( {
     'Nunito': require('../../../assets/fonts/Nunito-Regular.ttf')
@@ -50,14 +52,15 @@ export default function ProductSingleScreen({ route, navigation }) {
       let response = await res.json();
       console.log(response);
       products.push(response)
-      setInfo(JSON.stringify(response));
-
+      setInfo({scanned: true, Emissions:response.gHGEmissions, image: response.image, ingredients: response.ingredients, 
+                                      isVegan: response.isVegan, isVegetarian: response.isVegetarian, item: response.item, 
+                                      manufacturer: response.manufacturer, parentCompany: response.parentCompany, upc: response.upc})
     } catch (e) {
       console.error(e);
     }
   }
 
-  if(info==="" && !fontsLoaded){
+  if(!info.scanned && !fontsLoaded){
     getInfo()
   } else {
     console.log("waiting")
@@ -76,7 +79,8 @@ export default function ProductSingleScreen({ route, navigation }) {
         <Text style={styles.text}>{data}</Text>
         <Text>
         Bar code with type {type} and data {data} has been scanned!
-        Info: {info}
+        Info: {info.Emissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
+        {info.manufacturer}, {info.parentCompany}, {info.upc}, 
       </Text>
         <AddItem addItem={"I"}/>
       </View>

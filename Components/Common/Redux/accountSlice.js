@@ -1,11 +1,13 @@
 const initialState = {
     login : false,
-    name : "New User"
+    name : "Guest",
+    email : ""
 }
 
 /*
 {type: "account/login", payload: boolean}
 {type: "account/name", payload: "string"}
+{type: "account/email", payload: "string"}
 
 */
 
@@ -15,6 +17,14 @@ export default function todosReducer(state = initialState, action) {
         return {
             ...state,
             login : action.payload
+            
+        }
+         
+      }
+      case 'account/email': {
+        return {
+            ...state,
+            email : action.payload
             
         }
          

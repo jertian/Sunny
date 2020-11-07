@@ -9,6 +9,9 @@ import { constants } from "redux-firestore";
 const ThemeContext = React.createContext("light");
 const selectPreferences = state => state.preferences
 
+
+
+
 const PreferencesScreen = ({navigation}) => {
   const dispatchPreferences = useDispatch()
 

@@ -20,13 +20,13 @@ import { Provider } from 'react-redux'
 import {createStore} from 'redux'
 import rootReducer from './Components/Common/Redux/reducer'
 import {composeWithDevTools} from 'redux-devtools-extension'
+
 const Stack = createStackNavigator();
 
 
 
 store.dispatch({type: 'preferences/update', preference: "PeanutAllergy", payload: true})
 
-unsubscribe()
 
 export default class App extends React.Component {
   constructor(props) {

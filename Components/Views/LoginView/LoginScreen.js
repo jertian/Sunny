@@ -178,10 +178,10 @@ const LoginScreen = ({ navigation }) => {
 
     <View style={styles.container}>
       <Image
-        source={require('../../../assets/sun_blob.png')}
+        source={require('../../../assets/person_sitting.png')}
         style={styles.logo}
       />
-      <Text style={styles.text}>Sunny Scanner</Text>
+      <Text style={styles.text}>Sign in to Continue</Text>
       <LoginInput
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
@@ -243,32 +243,34 @@ const LoginScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f9fafd',
+    backgroundColor: 'white',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
   logo: {
-    height: 150,
-    width: 150,
+    height: 200,
+    width: 200,
     resizeMode: 'cover',
   },
   text: {
-    fontSize: 28,
+    fontSize: 20,
     marginBottom: 10,
     color: '#051d5f',
+    fontFamily: 'Nunito_400Regular'
+
   },
   navButton: {
     marginTop: 15,
   },
   forgotButton: {
-    marginVertical: 35,
+    marginVertical: 20,
   },
   navButtonText: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: '500',
-    color: '#2e64e5',
+    color: 'black',
   },
 });
 

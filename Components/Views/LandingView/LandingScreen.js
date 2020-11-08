@@ -5,26 +5,29 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeExampleScreen from "./../HomeView/HomeScreen";
 
 
+
 const ThemeContext = React.createContext("light");
 const Stack = createStackNavigator();
 
 
 function LandingScreen({ navigation }) {
 
+
+
   return (
-    <View style={{ flex: 1,flexDirection: 'column',justifyContent: "center", backgroundColor: "white"}}>
+    <View style={{ flex: 1,flexDirection: 'column',justifyContent: "center",alignItems: 'center', backgroundColor: '#FFFFFF'}}>
       <Text style = {styles.title}>sunny scanner</Text>
       <Text style = {styles.text}>take the step to a more responsible shopping experience </Text>
       <ThemeContext.Provider value="light">
-        <Button 
-          color= "black"
-          title="get started"
-          onPress={() => navigation.navigate("LoginScreen")}
-        />
-        <TouchableOpacity activeOpacity={0.95} style={styles.button}></TouchableOpacity>
-        <Image 
-        source={require('../../../assets/sun_blob2.png')}
-        style={styles.image} />
+        
+      <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("LoginScreen")} >
+      <Text style={styles.buttonText}>get started</Text>
+      </TouchableOpacity>
+
+      <Image 
+      source={require('../../../assets/sunny_land2.png')}
+      style={styles.orange} />
+         
       </ThemeContext.Provider>
 
     </View>
@@ -35,8 +38,24 @@ function LandingScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    height: 40,
+    width: 100,
+    backgroundColor: "#f19820",
+    resizeMode: 'cover',
+    borderRadius:10,
+    padding:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
+  },
   title: {
-    color: 'black',
+    color: '#D0B580',
     fontSize: 40, 
     height: 60,
     textAlign: 'center',
@@ -44,23 +63,31 @@ const styles = StyleSheet.create({
 
   },
   text: {
-    color: 'black',
+    color: '#A3A3A3',
     fontSize: 13, 
-    height: 70,
+    height: 50,
     textAlign: 'center',
-    marginTop: 0,
     fontFamily: 'Nunito_400Regular'
   },
-  button: {
-    color: 'black',
-    fontSize: 13, 
-    height: 100,
-    marginTop: 0,
-    textAlign: 'center',
+  orange: {
+    height: 405,
+    width: 370,
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end', 
+    marginBottom: -210,
   },
-  image: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  pink_blob: {
+    height: 255,
+    width: 250,
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end', 
+    marginBottom: -210,
+  },
+  yellow_blob: {
+    height: 100,
+    width: 60,
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end', 
   },
 
 

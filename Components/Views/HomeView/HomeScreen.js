@@ -1,70 +1,100 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
-import ThemedButton from "../../Common/ThemedButton";
-const ThemeContext = React.createContext("light");
 import { useSelector, useDispatch } from 'react-redux'
+import { View, Text,TouchableOpacity, StyleSheet, Image} from "react-native";
+import ThemedButton from "../../Common/ThemedButton";
+import LoginButton from "./LoginButton"
+import { createStackNavigator } from "@react-navigation/stack";
+const ThemeContext = React.createContext("light");
+import {windowHeight, windowWidth} from '../../../utils/Dimensions';
 
+const Stack = createStackNavigator();
 export default function HomeScreen({ navigation }) {
-  const selectAccount = state => state.account
+  const selectAccount = state => state.account;
   const account = useSelector(selectAccount);
-
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <ThemeContext.Provider value="dark">
-        {
+    <View style={ styles.container}>
+    {
           
           <Text h4> Welcome {account.name}</Text>
         
         
         }
-        
-        <ThemedButton
-          title={"Go to Simple Screen Navigation Example"}
-          onPress={() => navigation.navigate("ScreenExample")}
+        <Image
+          source={require('../../../assets/grocery2.png')}
+          style={styles.bigGraph}
         />
-        <ThemedButton
-          title={"Landing Screen"}
-          onPress={() => navigation.navigate("LandingScreen")}
-        />
-         <ThemedButton
-          title={"Preferences Screen"}
-          onPress={() => navigation.navigate("PreferencesScreen")}
-        />
-        <ThemedButton
-          title={"Data Screen"}
-          onPress={() => navigation.navigate("DataScreen")}
-        />
-         <ThemedButton
-          title={"Login Screen"}
-          onPress={() => navigation.navigate("LoginScreen")}
-        />
-        <ThemedButton
-          title={"See List"}
-          onPress={() => navigation.navigate("ListScreen")}
-        />
-        <ThemedButton
-          title={"Go to Database Tester"}
-          onPress={() => navigation.navigate("DatabaseTesterScreen")}
-        />
-        <ThemedButton
-          title={"Go to Camera"}
-          onPress={() => navigation.navigate("Camera")}
-        />
-        <ThemedButton
-          title={"Go an example Product Screen"}
-          onPress={() => {
+
+        <TouchableOpacity  onPress={() => navigation.navigate("Camera")}>
+        <Image
+          source={require('../../../assets/barcode.png')}
+          style={styles.logo}/>
+        </TouchableOpacity>
+
+        <TouchableOpacity  onPress={() => navigation.navigate("PreferencesScreen")}>
+        <Image
+          source={require('../../../assets/preferences.png')}
+          style={styles.logo}/>
+        </TouchableOpacity>
+
+        <TouchableOpacity  onPress={() => navigation.navigate("DataScreen")}>
+        <Image
+          source={require('../../../assets/data.png')}
+          style={styles.logo}/>
+        </TouchableOpacity>
+
+        <TouchableOpacity  onPress={() => navigation.navigate("ListScreen")}>
+        <Image
+          source={require('../../../assets/items.png')}
+          style={styles.logo}/>
+        </TouchableOpacity>
+
+        <TouchableOpacity  onPress={() => navigation.navigate("LoginScreen")}>
+        <Image
+          source={require('../../../assets/login.png')}
+          style={styles.logo}/>
+        </TouchableOpacity>
+
+        <TouchableOpacity  onPress={() => {
             const { type } = "";
             const { data } = "";
             navigation.navigate("ProductSingleScreen", { type, data });
-          }}
-        />
-        <ThemedButton
-          title={"Go to Server Tester"}
-          onPress={() => {
-            navigation.navigate("ServerScreen");
-          }}
-        />
-      </ThemeContext.Provider>
+          }}>
+        <Image
+          source={require('../../../assets/login.png')}
+          style={styles.logo}/>
+        </TouchableOpacity>
+
+        
+
+        
+
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  logo: {
+    height: 90,
+    width: 90,
+    resizeMode: 'cover',
+    margin: 7,
+    borderRadius:10,
+  },
+  bigGraph: {
+    height: 350,
+    width: 500,
+    resizeMode: 'cover',
+    borderRadius:10,
+    marginTop: 90,
+  },
+});
+
+

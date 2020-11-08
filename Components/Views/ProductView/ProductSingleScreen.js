@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text,StyleSheet,Image } from "react-native";
+import React, {Fragment, useState, useEffect } from "react";
+import {Button, View, Text,StyleSheet,Image } from "react-native";
 import { useFonts, Nunito_400Regular} from '@expo-google-fonts/nunito';
 import { AppLoading} from 'expo';
 import * as Font from 'expo-font'
@@ -23,16 +23,15 @@ export default function ProductSingleScreen({ route, navigation }) {
     type = "[type_info should be here]";
   }
 
-  //let [fontsLoaded] = useFonts({
-  //  Nunito_400Regular,
-  //});
-  const [fontsLoaded, setFontLoaded] = useState(false);
-  const [info, setInfo] = useState("");
 
-  Font.loadAsync( {
+  const [fontsLoaded, setFontLoaded] = useState(false);
+  const [info, setInfo] = useState({scanned: false, Emissions:0, image: "", ingredients: [], 
+                                      isVegan: false, isVegetarian: false, item: "", 
+                                      manufacturer: "", parentCompany: "", upc: ""});
+
+  Font.loadAsync({
     'Nunito': require('../../../assets/fonts/Nunito-Regular.ttf')
-  }
-  ).then( () => setFontLoaded(true));
+  }).then(() => setFontLoaded(true));
 
   async function getInfo () {
     try {
@@ -51,28 +50,59 @@ export default function ProductSingleScreen({ route, navigation }) {
           code: data,
         }),
       });
-      
       let response = await res.json();
       console.log(response);
-      products.push(response)
-      setInfo(JSON.stringify(response));
-      console.log (info);
-
+      setInfo({
+        scanned: true,
+        Emissions: response.gHGEmissions,
+        image: response.image,
+        ingredients: response.ingredients,
+        isVegan: response.isVegan,
+        isVegetarian: response.isVegetarian,
+        item: response.item,
+        manufacturer: response.manufacturer,
+        parentCompany: response.parentCompany,
+        upc: response.upc
+      })
     } catch (e) {
       console.error(e);
     }
   }
 
-  if(info==="" && !fontsLoaded){
+  if (!info.scanned && !fontsLoaded) {
     getInfo()
   } else {
     console.log("waiting")
   }
 
-  if( !fontsLoaded ) {
-    return <AppLoading/>
+  function compare() {
+    console.log("comparing")
+    products.push(JSON.stringify(info))
+    console.log(products)
+    navigation.pop()
+    navigation.navigate("Camera")
   }
+
+  function viewComparison(){
+    products.push(JSON.stringify(info))
+    console.log(products)
+    navigation.pop()
+    navigation.navigate("CompareScreen", { products })
+  }
+
+  function addItem(){
+    let item = info.item
+    let upc = info.upc
+    let image = info.image
+    navigation.navigate("ListScreen", { item, upc, image })
+  }
+
+  if (!fontsLoaded) {
+    return <AppLoading / >
+  }
+
     return (
+      <Fragment>
       <View style={styles.container}>
       <Text style={styles.textTitle}>Product Screen</Text>
         <Image
@@ -82,10 +112,32 @@ export default function ProductSingleScreen({ route, navigation }) {
         <Text style={styles.text}>{data}</Text>
         <Text>
         Bar code with type {type} and data {data} has been scanned!
-        Info: {info}
+        Info: {info.Emissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
+        {info.manufacturer}, {info.parentCompany}, {info.upc}, 
       </Text>
-        <AddItem addItem={"I"}/>
+        <Button
+          title={"Add Item"}
+          onPress={() => {
+            addItem()
+          }}
+        />
+        <Button
+          title={"Compare"}
+          onPress={() => {
+            compare()
+          }}
+        />
+        
+        {products.length>0 && 
+          <Button
+           title={"View Comparisons"}
+            onPress={() => {
+              viewComparison()
+            }}
+        />}
+        
       </View>
+      </Fragment>
     );
 
 

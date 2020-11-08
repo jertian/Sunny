@@ -47,11 +47,19 @@ export default function HomeScreen({ navigation }) {
           style={styles.logo}/>
         </TouchableOpacity>
 
-        <TouchableOpacity  onPress={() => navigation.navigate("ListScreen")}>
+        <TouchableOpacity  onPress={() => {
+            const { type } = "";
+            const { data } = "";
+            navigation.navigate("ProductSingleScreen", { type, data });
+          }}>
         <Image
-          source={require('../../../assets/items.png')}
+          source={require('../../../assets/login.png')}
           style={styles.logo}/>
         </TouchableOpacity>
+
+        
+
+        
 
     </View>
   );
@@ -64,8 +72,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center', 
     alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'white',
   },
   logo: {
     height: 90,
@@ -79,6 +86,7 @@ const styles = StyleSheet.create({
     width: 500,
     resizeMode: 'cover',
     borderRadius:10,
+    marginTop: 90,
   },
 });
 

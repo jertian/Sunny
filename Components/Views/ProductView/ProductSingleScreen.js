@@ -19,9 +19,7 @@ export default function ProductSingleScreen({ route, navigation }) {
     type = "[type_info should be here]";
   }
 
-  //let [fontsLoaded] = useFonts({
-  //  Nunito_400Regular,
-  //});
+
   const [fontsLoaded, setFontLoaded] = useState(false);
   const [info, setInfo] = useState({scanned: false, Emissions:0, image: "", ingredients: [], 
                                       isVegan: false, isVegetarian: false, item: "", 
@@ -30,6 +28,7 @@ export default function ProductSingleScreen({ route, navigation }) {
   Font.loadAsync({
     'Nunito': require('../../../assets/fonts/Nunito-Regular.ttf')
   }).then(() => setFontLoaded(true));
+
   async function getInfo () {
     try {
       let res = await fetch(serverInfo.path + "/scannedCode", {
@@ -89,6 +88,7 @@ export default function ProductSingleScreen({ route, navigation }) {
   if (!fontsLoaded) {
     return <AppLoading / >
   }
+
     return (
       <Fragment>
       <View style={styles.container}>

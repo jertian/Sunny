@@ -2,17 +2,12 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { View, Button, TouchableOpacity,Image, Text, StyleSheet } from "react-native";
 import LoginButton from "./LoginButton"
-import { useFonts, Nunito_400Regular} from '@expo-google-fonts/nunito';
 
 const ThemeContext = React.createContext("light");
 
 const PreferencesScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-
-  let [fontsLoaded] = useFonts({
-    Nunito_400Regular,
-  });
 
 
   return (
@@ -59,7 +54,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginBottom: 10,
     color: '#FFFFFF',
-    fontFamily: 'Nunito_400Regular'
+    fontFamily: 'nunito'
   },
   navButton: {
     marginTop: 15,

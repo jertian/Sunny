@@ -57,11 +57,11 @@ let y = foo.y;
     borderRadius: 3,}} {...rest}
     
      onPress={(event,style) => { 
-      if (color == "#98FB98"){
+      if (color == "#e0ffdd"){
           setColor("#FFFFFF")
         }
         else{
-          setColor("#98FB98")
+          setColor("#e0ffdd")
         }
 
      }}>

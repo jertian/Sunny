@@ -67,7 +67,7 @@ export default class App extends React.Component {
           <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
           <Stack.Screen name="DataScreen" component={DataScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="ProductSingleScreen" component={ProductSingleScreen}/>
+          <Stack.Screen name="ProductSingleScreen" component={ProductSingleScreen} options={{ headerShown: false }}/>
           <Stack.Screen
             name="CompareScreen"
             component={CompareScreen}

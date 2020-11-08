@@ -54,7 +54,7 @@ let y = foo.y;
 */
   return (
     <TouchableOpacity style={{backgroundColor: color, marginTop: 20, width: '100%',height: windowHeight / 12,padding: 10,alignItems: 'center',justifyContent: 'center',
-    borderRadius: 3,}} {...rest}
+    borderRadius: 10,}} {...rest}
     
      onPress={(event,style) => { 
       if (color == "#e0ffdd"){

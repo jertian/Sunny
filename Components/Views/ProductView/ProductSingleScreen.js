@@ -1,10 +1,11 @@
 import React, {Fragment, useState, useEffect } from "react";
-import {Button, View, Text,StyleSheet,Image } from "react-native";
+import {Button, View, Text,StyleSheet,Image, TouchableOpacity } from "react-native";
 import { useFonts, Nunito_400Regular} from '@expo-google-fonts/nunito';
 import { AppLoading} from 'expo';
 import * as Font from 'expo-font'
 import AddItem from "./AddItem"
 import serverInfo from './../../Common/ServerInfo.js';
+import Header from "./Header"
 
 var products = []
 
@@ -91,33 +92,43 @@ export default function ProductSingleScreen({ route, navigation }) {
 
     return (
       <Fragment>
+      <Header></Header>
       <View style={styles.container}>
+      
       <Text style={styles.textTitle}>Product Screen</Text>
         <Image
           source={require('../../../assets/sun_blob.png')}
           style={styles.productImage}
         />
         <Text style={styles.text}>{data}</Text>
+        {/**
+        
         <Text>
-        Bar code with type {type} and data {data} has been scanned!
+        Bar code: {type} data {data} has been scanned!
+      </Text>
+      <Text>
+        Data: {data} has been scanned!
+      </Text>
+      <Text>
         Info: {info.Emissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
         {info.manufacturer}, {info.parentCompany}, {info.upc}, 
       </Text>
+        
+        
+         */}
+        
         <AddItem addItem={"I"}/>
-        <Button
-          title={"Compare"}
-          onPress={() => {
-            compare()
-          }}
-        />
+        
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => {compare()}} >
+          <Text style={styles.buttonText}>compare</Text>
+        </TouchableOpacity>
         
         {products.length>0 && 
-          <Button
-           title={"View Comparisons"}
-            onPress={() => {
-              viewComparison()
-            }}
-        />}
+          
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => {viewComparison()}} >
+          <Text style={styles.buttonText}>view comparison</Text>
+        </TouchableOpacity>
+        }
         
       </View>
       </Fragment>
@@ -128,27 +139,45 @@ export default function ProductSingleScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E9BF9F',
+    backgroundColor: '#FFFFFF',
     flex: 1,
     alignItems: "center", 
     justifyContent: "center",
     padding: 20,
+    
+  },
+  buttonContainer: {
+    height: 40,
+    width: 100,
+    backgroundColor: "#f19820",
+    resizeMode: 'cover',
+    borderRadius:10,
+    padding:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
   },
   productImage: {
     height: 350,
     width: 250,
     resizeMode: 'cover',
-    borderRadius:10
+    borderRadius:10,
+    
   },
   textTitle: {
     fontSize: 38,
-    color: '#FFFFFF',
-    marginTop: -100,
+    color: 'black',
+    marginTop: -80,
     fontFamily: 'Nunito'
   },
   text: {
     fontSize: 18,
-    color: '#FFFFFF',
+    color: "black",
     textAlign: 'center'
   },
   navButton: {

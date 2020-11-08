@@ -16,7 +16,7 @@ const LoginScreen = ({navigation}) => {
 
     <View style={styles.container}>
       <Image
-        source={require('../../../assets/person_sitting.png')}
+        source={require('../../../assets/login_person.png')}
         style={styles.logo}
       />
       <Text style={styles.text}>Sign in to Continue</Text>

@@ -39,7 +39,7 @@ const PreferencesScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E9BF9F',
+    backgroundColor: '#fab919',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

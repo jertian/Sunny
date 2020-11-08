@@ -13,7 +13,7 @@ export default function HomeScreen({ navigation }) {
     <View style={ styles.container}>
 
         <Image
-          source={require('../../../assets/grocery2.png')}
+          source={require('../../../assets/shopping_person.png')}
           style={styles.bigGraph}
         />
 

@@ -4,16 +4,16 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import CameraScreen from "./Components/Views/CameraView/CameraScreen";
+import CompareScreen from "./Components/Views/CompareView/CompareScreen";
+import DataScreen from "./Components/Views/DataView/DataScreen";
+import DatabaseTesterScreen from "./Components/Views/DatabaseTesterView/DatabaseTesterScreen";
 import ProductSingleScreen from "./Components/Views/ProductView/ProductSingleScreen";
 import HomeExampleScreen from "./Components/Views/HomeExampleView/HomeExampleScreen";
 import ScreenExampleScreen from "./Components/Views/ScreenExampleView/ScreenExampleScreen";
-import DatabaseTesterScreen from "./Components/Views/DatabaseTesterView/DatabaseTesterScreen";
 import ListScreen from "./Components/Views/ListView/ListScreen";
 import LandingScreen from "./Components/Views/LandingView/LandingScreen";
 import LoginScreen from "./Components/Views/LoginView/LoginScreen";
-import DataScreen from "./Components/Views/DataView/DataScreen";
 import PreferencesScreen from "./Components/Views/PreferencesView/PreferencesScreen";
-
 import ServerScreen from "./Components/Views/ServerView/ServerScreen";
 import HomeScreen from "./Components/Views/HomeView/HomeScreen";
 
@@ -44,6 +44,10 @@ export default class App extends React.Component {
           <Stack.Screen
             name="ProductSingleScreen"
             component={ProductSingleScreen}
+          />
+          <Stack.Screen
+            name="CompareScreen"
+            component={CompareScreen}
           />
           <Stack.Screen
             name="DatabaseTesterScreen"

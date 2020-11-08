@@ -31,7 +31,7 @@ export default function ProductSingleScreen({ route, navigation }) {
 
   async function getInfo () {
     try {
-      let res = await fetch(serverInfo.path + "/test", {
+      let res = await fetch(serverInfo.path + "/scannedCode", {
 
         method: "POST",
         //mode: 'no-cors', // no-cors, *cors, same-origin, cors

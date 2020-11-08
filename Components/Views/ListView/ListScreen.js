@@ -8,7 +8,6 @@ import ListItem from "./ListItem"
 const ThemeContext = React.createContext("light");
 
 function ListScreen({ route, navigation }) {
-  console.log(route)
   let {item} = ""
   if(route.params!=undefined){
     item = route.params.item;

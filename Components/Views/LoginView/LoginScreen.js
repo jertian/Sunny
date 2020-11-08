@@ -6,15 +6,19 @@ import LoginButton from "./LoginButton"
 import LoginSocialButton from "./LoginSocialButton"
 import { useFonts } from '@expo-google-fonts/nunito';
 import { useSelector, useDispatch } from 'react-redux'
-import "firebase/auth";
 import "firebase/firestore";
 import firebase from "firebase/app";
 import {firebaseConfig} from "./../../Common/Firebase/firebase"
+//import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Google from 'expo-google-app-auth';
 
 if (!firebase.apps.length) {
 
 firebase.initializeApp(firebaseConfig);
 }
+
+
+/*
 const ThemeContext = React.createContext("light");
 const selectAccount = state => state.account
 const providerGoogle = new firebase.auth.GoogleAuthProvider();
@@ -31,6 +35,7 @@ firebase.auth().languageCode = 'en';
 providerGoogle.setCustomParameters({
   'login_hint': 'user@example.com'
 });
+*/
 
 
 
@@ -40,11 +45,18 @@ const LoginScreen = ({ navigation }) => {
   const [loginResult, setLoginResult] = useState("");
 
   const dispatchAccount = useDispatch()
-
+  debugger;
+  const initAsync = async () => {
+    await GoogleSignIn.initAsync({
+    });
+    this._syncUserWithStateAsync();
+  };
+  initAsync();
 
   const facebookLoginClick = () => {
-
-    firebase.auth().signInWithPopup(providerFacebook).then(function(result) {
+/*
+    firebase.auth().signInWithCredential(facebookCred)
+       .then(function(result) {
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       var token = result.credential.accessToken;
       console.log("facebook button click")
@@ -67,11 +79,45 @@ const LoginScreen = ({ navigation }) => {
       console.error(error)
       // ...
     });
+    */
   }
+  /*
+  const signInGoogleAsync = async () => {
+    try {
+      await GoogleSignIn.askForPlayServicesAsync();
+      const { type, user } = await GoogleSignIn.signInAsync();
+      if (type === 'success') {
+        this._syncUserWithStateAsync();
+      }
+    } catch ({ message }) {
+      alert('login: Error:' + message);
+    }
+  };
+  //const cred = firebase.auth.GoogleAuthProvider.credential(googleIdToken, googleAccessToken);
+*/
+  
   const googleLoginOnClick = () =>{
+    /*
+    const { type, accessToken, user } = await Google.logInAsync({
+      iosClientId: `967944969087-8l43mueeeg97trtt5aa5u42pe7on7qev.apps.googleusercontent.com`,
+      androidClientId: `<YOUR_ANDROID_CLIENT_ID_FOR_EXPO>`,
+
+
+    });
+    if (type === 'success') {
+      // Then you can use the Google REST API
+      let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+    }
+    */
+    //signInGoogleAsync();
+
+    /*
     console.log("google button cluck")
 
-  firebase.auth().signInWithPopup(providerGoogle).then(function(result) {
+    firebase.auth().signInWithCredential(googleCred)
+      .then(function(result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
     var token = result.credential.accessToken;
     // The signed-in user info.
@@ -89,8 +135,10 @@ const LoginScreen = ({ navigation }) => {
     var email = error.email;
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
+    console.error(error)
     // ...
   });
+  */
 }
 
   function validateEmail(email) {
@@ -116,6 +164,7 @@ const LoginScreen = ({ navigation }) => {
   const signInOnClick = (event) => {
     console.log(email);
 
+    
     if (validateEmail(email)) {
       dispatchAccount({ type: "account/login", payload: true })
       dispatchAccount({ type: "account/name", payload: email })

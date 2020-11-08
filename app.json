@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "comp3004",
-    "slug": "comp3004",
+    "name": "sunnyscanner",
+    "slug": "sunnerscanner",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,10 +17,24 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sunnycompany.sunnyscanner",
+      "buildNumber": "1.0.0",
+      "googleServicesFile" : "./app/GoogleService-Info.plist",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId" : "com.googleusercontent.apps.1051695623142-fp6s6eti0h6l8p9cv6dalf4a01id0131"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.sunnycompany.sunnyscanner",
+      "versionCode": 1,
+      "googleServicesFile" : "./app/google-services.json"
+
     }
   }
 }

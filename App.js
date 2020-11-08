@@ -22,7 +22,7 @@ import { AppLoading } from 'expo';
 const Stack = createStackNavigator();
 const fetchFonts = () => {
   return Font.loadAsync({
-    'nunito': require('../../../assets/fonts/Nunito-ExtraBold.ttf')
+    'nunito': require('./assets/fonts/Nunito-ExtraBold.ttf')
 
   });
   };

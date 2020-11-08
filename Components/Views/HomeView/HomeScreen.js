@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     width: 500,
     resizeMode: 'cover',
     borderRadius:10,
-    marginTop: 40,
+    marginTop: 90,
   },
 });
 

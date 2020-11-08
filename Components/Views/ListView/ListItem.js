@@ -2,20 +2,6 @@ import React from 'react';
 import { StyleSheet, Text,  View, TouchableOpacity,Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ListItem = ({item, deleteItem}) => {
-  return (
-    <TouchableOpacity style={styles.listItem}>
-      <View style = {styles.listItemView}>
-      <Image
-          source={require('../../../assets/preferences.png')}
-          style={styles.logo}/>
-        <Text style = {styles.listItemText}>{item.text}</Text>
-        <Icon name="remove" size={20} color="black"
-        onPress={() => deleteItem(item.id)}/>
-      </View> 
-    </TouchableOpacity>
-  );
-};
 
 const styles = StyleSheet.create({
   listItem:{

@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { View, Button, Text, StyleSheet, TouchableOpacity,FlatList,Alert } from "react-native";
+import { View, Button, Text, StyleSheet, TouchableOpacity,FlatList,Alert, Image } from "react-native";
 import { v4 as uuidv4 } from 'uuid';
 import Header from "./Header"
 import AddItem from "./AddItem"
-import ListItem from "./ListItem"
+import Icon from 'react-native-vector-icons/FontAwesome';
+//import ListItem from "./ListItem"
 
 const ThemeContext = React.createContext("light");
 
 function ListScreen({ route, navigation }) {
   let {item} = ""
+  let {upc} = ""
+  let {image} = ""
   if(route.params!=undefined){
     item = route.params.item;
-    let { upc } = route.params;
-    let { image } = route.params;
+    upc = route.params.upc;
+    image = route.params.image;
+  }
+
+  function onPress(press){
+    let type = ""
+    if (press.text == item){
+      console.log("going to prod")
+      navigation.navigate("ProductSingleScreen", { type, upc })
+    }
   }
 
   const [items, setItems] = useState([
@@ -41,6 +52,25 @@ function ListScreen({ route, navigation }) {
     }   
   }
 
+  const ListItem = ({item, deleteItem}) => {
+  return (
+    <TouchableOpacity 
+      style={styles.listItem}
+      onPress={()=> onPress(item)}>
+      
+      <View style = {styles.listItemView}>
+      <Image
+          source={require('../../../assets/preferences.png')}
+          style={styles.logo}/>
+        <Text style = {styles.listItemText}>{item.text}</Text>
+        <Icon name="remove" size={20} color="black"
+        onPress={() => deleteItem(item.id)}/>
+      </View> 
+    </TouchableOpacity>
+  );
+};
+
+
 
   return (
     <View style={styles.container}>
@@ -67,6 +97,29 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 60,
     backgroundColor: '#FFFFFF',
+  },
+   listItem:{
+    padding: 15, 
+    backgroundColor: '#ffffff', 
+    borderBottomWidth: 1, 
+    borderColor: '#eee',
+    margin: 7,
+  }, 
+  listItemView: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    backgroundColor:"#ffffff"
+  }, 
+  listItemText: {
+    fontSize: 18, 
+  },
+  logo: {
+    height: 90,
+    width: 90,
+    resizeMode: 'cover',
+    margin: 7,
+    borderRadius:10,
   },
 });
 

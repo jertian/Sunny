@@ -31,7 +31,7 @@ export default function ProductSingleScreen({ route, navigation }) {
 
   async function getInfo () {
     try {
-      let res = await fetch(serverInfo.path + "/scannedCode", {
+      let res = await fetch(serverInfo.path + "/test", {
 
         method: "POST",
         //mode: 'no-cors', // no-cors, *cors, same-origin, cors
@@ -85,6 +85,13 @@ export default function ProductSingleScreen({ route, navigation }) {
     navigation.navigate("CompareScreen", { products })
   }
 
+  function addItem(){
+    let item = info.item
+    let upc = info.upc
+    let image = info.image
+    navigation.navigate("ListScreen", { item, upc, image })
+  }
+
   if (!fontsLoaded) {
     return <AppLoading / >
   }
@@ -103,7 +110,12 @@ export default function ProductSingleScreen({ route, navigation }) {
         Info: {info.Emissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
         {info.manufacturer}, {info.parentCompany}, {info.upc}, 
       </Text>
-        <AddItem addItem={"I"}/>
+        <Button
+          title={"Add Item"}
+          onPress={() => {
+            addItem()
+          }}
+        />
         <Button
           title={"Compare"}
           onPress={() => {

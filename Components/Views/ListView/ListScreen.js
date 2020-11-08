@@ -7,13 +7,23 @@ import ListItem from "./ListItem"
 
 const ThemeContext = React.createContext("light");
 
-function ListScreen({ navigation }) {
+function ListScreen({ route, navigation }) {
+  console.log(route)
+  let {item} = ""
+  if(route.params!=undefined){
+    item = route.params.item;
+    let { upc } = route.params;
+    let { image } = route.params;
+  }
+
   const [items, setItems] = useState([
+      {id: uuidv4(), text: item},
       {id: uuidv4(), text: 'Milk'},
       {id: uuidv4(), text: 'Eggs'},
       {id: uuidv4(), text: 'Bread'},
       {id: uuidv4(), text: 'Juice'},
     ])
+
 
   const deleteItem = (id) => {
     setItems(prevItems =>{

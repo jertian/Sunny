@@ -4,20 +4,24 @@ import { View, Button, TouchableOpacity, Image, Text, StyleSheet } from "react-n
 import LoginInput from "./LoginInput"
 import LoginButton from "./LoginButton"
 import LoginSocialButton from "./LoginSocialButton"
-import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
+import { useFonts } from '@expo-google-fonts/nunito';
 import { useSelector, useDispatch } from 'react-redux'
-import './../../Common/Firebase/firebase'
 import "firebase/auth";
 import "firebase/firestore";
 import firebase from "firebase/app";
+import {firebaseConfig} from "./../../Common/Firebase/firebase"
 
+if (!firebase.apps.length) {
+
+firebase.initializeApp(firebaseConfig);
+}
 const ThemeContext = React.createContext("light");
 const selectAccount = state => state.account
 const providerGoogle = new firebase.auth.GoogleAuthProvider();
 providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.profile');
 providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.email');
 
-var providerFacebook = new firebase.auth.FacebookAuthProvider();
+const providerFacebook = new firebase.auth.FacebookAuthProvider();
 providerFacebook.addScope('user_photos');
 providerFacebook.setCustomParameters({
   'display': 'popup'
@@ -37,14 +41,13 @@ const LoginScreen = ({ navigation }) => {
 
   const dispatchAccount = useDispatch()
 
-  let [fontsLoaded] = useFonts({
-    Nunito_400Regular,
-  });
 
   const facebookLoginClick = () => {
+
     firebase.auth().signInWithPopup(providerFacebook).then(function(result) {
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       var token = result.credential.accessToken;
+      console.log("facebook button click")
       // The signed-in user info.
       debugger;
       var user = result.user;
@@ -53,6 +56,7 @@ const LoginScreen = ({ navigation }) => {
       dispatchAccount({ type: 'account/email', payload: user.email })
       navigation.navigate("HomeScreen")
     }).catch(function(error) {
+      debugger;
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -60,10 +64,13 @@ const LoginScreen = ({ navigation }) => {
       var email = error.email;
       // The firebase.auth.AuthCredential type that was used.
       var credential = error.credential;
+      console.error(error)
       // ...
     });
   }
   const googleLoginOnClick = () =>{
+    console.log("google button cluck")
+
   firebase.auth().signInWithPopup(providerGoogle).then(function(result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
     var token = result.credential.accessToken;
@@ -202,7 +209,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginBottom: 10,
     color: '#051d5f',
-    fontFamily: 'Nunito_400Regular'
   },
   navButton: {
     marginTop: 15,

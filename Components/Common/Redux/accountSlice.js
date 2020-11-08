@@ -11,7 +11,7 @@ const initialState = {
 
 */
 
-export default function todosReducer(state = initialState, action) {
+export default function accountSlice(state = initialState, action) {
     switch (action.type) {
       case 'account/login': {
         return {

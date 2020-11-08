@@ -20,6 +20,8 @@ import { Provider } from 'react-redux'
 import {createStore} from 'redux'
 import rootReducer from './Components/Common/Redux/reducer'
 import {composeWithDevTools} from 'redux-devtools-extension'
+import firebase from "firebase/app";
+
 
 const Stack = createStackNavigator();
 

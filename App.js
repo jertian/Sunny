@@ -21,21 +21,27 @@ import {createStore} from 'redux'
 import rootReducer from './Components/Common/Redux/reducer'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import firebase from "firebase/app";
+import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
+import { AppLoading } from 'expo';
 
 
 const Stack = createStackNavigator();
 
-
-
 store.dispatch({type: 'preferences/update', preference: "PeanutAllergy", payload: true})
 
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
+export default function App() {
+
+
+
+  let [fontsLoaded] = useFonts({
+    Nunito_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
   }
 
-  render() {
     return (
         <Provider store={store}>
  
@@ -66,7 +72,8 @@ export default class App extends React.Component {
       </NavigationContainer>
       </Provider>
     );
-  }
+    
+  
 }
 
 const styles = StyleSheet.create({

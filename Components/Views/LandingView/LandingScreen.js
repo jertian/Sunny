@@ -10,6 +10,7 @@ const Stack = createStackNavigator();
 
 
 function LandingScreen({ navigation }) {
+
   return (
     <View style={{ flex: 1,flexDirection: 'column',justifyContent: "center", backgroundColor: "white"}}>
       <Text style = {styles.title}>sunny scanner</Text>
@@ -30,6 +31,7 @@ function LandingScreen({ navigation }) {
     
     
   );
+  
 }
 
 const styles = StyleSheet.create({
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
     fontSize: 40, 
     height: 60,
     textAlign: 'center',
-
+    fontFamily: 'Nunito_400Regular'
 
   },
   text: {
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     height: 70,
     textAlign: 'center',
     marginTop: 0,
-
+    fontFamily: 'Nunito_400Regular'
   },
   button: {
     color: 'black',

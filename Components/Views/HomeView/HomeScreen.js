@@ -4,7 +4,7 @@ import ThemedButton from "../../Common/ThemedButton";
 const ThemeContext = React.createContext("light");
 import { useSelector, useDispatch } from 'react-redux'
 
-export default function HomeExampleScreen({ navigation }) {
+export default function HomeScreen({ navigation }) {
   const selectAccount = state => state.account
   const account = useSelector(selectAccount);
 
@@ -13,7 +13,7 @@ export default function HomeExampleScreen({ navigation }) {
       <ThemeContext.Provider value="dark">
         {
           
-          <Text h4 style={{ left: "-50" }}> Welcome {account.name}</Text>
+          <Text h4> Welcome {account.name}</Text>
         
         
         }

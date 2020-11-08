@@ -1,0 +1,9 @@
+I was mostly working on the server:
+-Added scrapping for subsidaries 
+-Adding scrapping for fair trade and sustainable companies 
+- created EthicalCompanies which is a singleton object that does the last two scraps this was done to reduce responds time of API calls
+-Made changes to scrapping parnet company name 
+
+For D2:
+- Worked on archtitectuer layout 
+- Worked on write up

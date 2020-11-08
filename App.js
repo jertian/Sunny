@@ -60,14 +60,17 @@ export default class App extends React.Component {
             
           />
           <Stack.Screen name="ScreenExample" component={ScreenExampleScreen} />
-          <Stack.Screen name="ListScreen" component={ListScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="HomeExampleScreen" component={HomeExampleScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="DataScreen" component={DataScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="ProductSingleScreen" component={ProductSingleScreen}/>
+          <Stack.Screen name="ListScreen" component={ListScreen} options={{ headerShown: true }} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: true }}/>
+          <Stack.Screen name="HomeExampleScreen" component={HomeExampleScreen} options={{ headerShown: true }}/>
+          <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: true }}/>
+          <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: true }} />
+          <Stack.Screen name="DataScreen" component={DataScreen} options={{ headerShown: true }}/>
+          <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} options={{ headerShown: true }} />
+          <Stack.Screen
+            name="ProductSingleScreen"
+            component={ProductSingleScreen}
+          />
           <Stack.Screen
             name="CompareScreen"
             component={CompareScreen}

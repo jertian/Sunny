@@ -45,6 +45,40 @@ const LoginScreen = ({ navigation }) => {
   const [loginResult, setLoginResult] = useState("");
 
   const dispatchAccount = useDispatch()
+  async function signInWithGoogleAsync() {
+    try {
+
+      const result = await Google.logInAsync({
+        androidClientId: "967944969087-bs2s7470jbft6scjau1fajhjcs5tkltb.apps.googleusercontent.com",
+        iosClientId: "967944969087-6b4do4v4ffsfb5qldjp462md0edasaej.apps.googleusercontent.com",
+        clientId: "967944969087-igc0ds2nch2bjkb375h3opot65pela5g.apps.googleusercontent.com",
+        scopes: ['profile', 'email'],
+      });
+  
+      if (result.type === 'success') {
+        console.log("Google Sign In Scuessful")
+        console.log(result);
+        dispatchAccount({ type: 'account/login', payload: true })
+        dispatchAccount({ type: 'account/fName', payload: result.user.givenName})
+        dispatchAccount({ type: 'account/lName', payload: result.user.familyName })
+        dispatchAccount({ type: 'account/email', payload: result.user.photoUrl })
+        navigation.navigate("HomeScreen")
+        return result.accessToken;
+      } else {
+        return { cancelled: true };
+      }
+    } catch (e) {
+      debugger;
+      setLoginResult("Error with google login, please sign in as guest");
+
+      console.error("Error logging in")
+      console.error(e)
+
+      return { error: true };
+    }
+  }
+
+  /*
   debugger;
   const initAsync = async () => {
     await GoogleSignIn.initAsync({
@@ -52,7 +86,7 @@ const LoginScreen = ({ navigation }) => {
     this._syncUserWithStateAsync();
   };
   initAsync();
-
+*/
   const facebookLoginClick = () => {
 /*
     firebase.auth().signInWithCredential(facebookCred)
@@ -97,6 +131,7 @@ const LoginScreen = ({ navigation }) => {
 */
   
   const googleLoginOnClick = () =>{
+    signInWithGoogleAsync();
     /*
     const { type, accessToken, user } = await Google.logInAsync({
       iosClientId: `967944969087-8l43mueeeg97trtt5aa5u42pe7on7qev.apps.googleusercontent.com`,
@@ -140,6 +175,8 @@ const LoginScreen = ({ navigation }) => {
   });
   */
 }
+googleLoginOnClick();
+
 
   function validateEmail(email) {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

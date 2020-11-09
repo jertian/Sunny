@@ -13,12 +13,10 @@ export default function HomeScreen({ navigation }) {
   const account = useSelector(selectAccount);
   return (
     <View style={ styles.container}>
-    {
-          
-          <Text h4> Welcome {account.name}</Text>
-        
-        
-        }
+     <Text h4> Welcome {account.fName}</Text>
+  
+
+
         <Image
           source={require('../../../assets/grocery2.png')}
           style={styles.bigGraph}

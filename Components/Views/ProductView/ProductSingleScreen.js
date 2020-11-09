@@ -36,6 +36,7 @@ export default function ProductSingleScreen({ route, navigation }) {
   async function getInfo () {
     try {
 
+        /*
       let res = await fetch(serverInfo.path + "/scannedCode", {
 
         method: "POST",
@@ -51,7 +52,40 @@ export default function ProductSingleScreen({ route, navigation }) {
         }),
       });
       let response = await res.json();
-      console.log(response);
+      */
+
+
+      
+     let response = {
+      "gHGEmissions": 3.1579166666666665,
+      "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
+      "ingredients": [
+          "whole grain oats",
+          "corn starch",
+          "sugar",
+          "salt",
+          "tripotassium phosphate. vitamin e (mixed tocopherols) added to preserve freshness.vitamins and minerals: calcium carbonate",
+          "iron and zinc (mineral nutrients)",
+          "vitamin c (sodium ascorbate)",
+          "a b vitamin (niacinamide)",
+          "vitamin b6 (pyridoxine hydrochloride)",
+          "vitamin a (palmitate)",
+          "vitamin b1 (thiamin mononitrate)",
+          "a b vitamin (folic acid)",
+          "vitamin b12",
+          "vitamin d3."
+      ],
+      "isFairTrade": false,
+      "isSustainableBrand": false,
+      "isVegan": false,
+      "isVegetarian": true,
+      "item": "Cheerios Cereal - 18.0 Oz",
+      "manufacturer": "Cheerios",
+      "parentCompany": "General Mills",
+      "subsidiaries": [],
+      "upc": "016000275287"
+  };
+     console.log(response);
       setInfo({
         scanned: true,
         Emissions: response.gHGEmissions,

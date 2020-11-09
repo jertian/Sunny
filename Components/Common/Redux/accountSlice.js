@@ -1,7 +1,10 @@
 const initialState = {
     login : false,
-    name : "Guest",
-    email : ""
+    fName : "Guest",
+    email : "",
+    lName : "",
+    photoURL : "https://lh3.googleusercontent.com/a-/AOh14Gh6RTH55oIjZjchedXuuDdCxd8EjFvRRAaCrdOmaZU=s96-c"
+
 }
 
 /*
@@ -29,10 +32,24 @@ export default function accountSlice(state = initialState, action) {
         }
          
       }
-      case 'account/name': {
+      case 'account/fName': {
         return {
             ...state,
-            name : action.payload
+            fName : action.payload
+            
+        }
+      }
+      case 'account/lName': {
+        return {
+            ...state,
+            lName : action.payload
+            
+        }
+      }
+      case 'account/photoURL': {
+        return {
+            ...state,
+            photoURL : action.payload
             
         }
       }

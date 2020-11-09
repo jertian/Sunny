@@ -114,6 +114,7 @@ export default function ProductSingleScreen({ route, navigation }) {
                         <Icon style={{ padding: 3 }} name="leaf" size={15} color="black" />
                     </TouchableOpacity>
 */}
+                  
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/vegan.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
@@ -150,19 +151,14 @@ export default function ProductSingleScreen({ route, navigation }) {
         */}
          
         
-        <AddItem addItem={"I"}/>
+
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => {addItem()}} >
+          <Text style={styles.buttonText}>add item</Text>
+        </TouchableOpacity>
         
         <TouchableOpacity style={styles.buttonContainer} onPress={() => {compare()}} >
           <Text style={styles.buttonText}>compare</Text>
         </TouchableOpacity>
-
-        <Button
-          title={"Add Item"}
-          onPress={() => {
-            addItem()
-          }}
-        />
-
         
         {products.length>0 && 
           

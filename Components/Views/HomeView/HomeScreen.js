@@ -15,6 +15,10 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
 
+        <Image
+          source={require('../../../assets/shopping_person.png')}
+          style={styles.bigGraph}
+        />
 
       <Image
         source={require('../../../assets/grocery2.png')}

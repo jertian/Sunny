@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: '100%',
     height: windowHeight / 15,
-    backgroundColor: '#fff3c5',
+    backgroundColor: '#fab919',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',

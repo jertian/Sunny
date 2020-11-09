@@ -1,0 +1,1 @@
+Finished google login and normal login for D2, created a custom header to work with navigation. Worked on getting apk to be published. Currently publishable on expo

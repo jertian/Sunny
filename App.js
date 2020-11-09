@@ -63,17 +63,67 @@ export default function App() {
   )
 /*
     return (
-        <Provider store={store}>
-        <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerTitle: props => <CustomHeader {...props} /> }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-      </Provider>
+      <NavigationContainer>
+
+        <Stack.Navigator initialRouteName="LandingScreen">
+          <Stack.Screen
+            name="LandingScreen"
+            component={LandingScreen}
+            options={{ title: "LandingScreen" }, {headerShown: false}}
+            
+          />
+          <Stack.Screen name="ScreenExample" component={ScreenExampleScreen} />
+
+          <Stack.Screen name="ListScreen" component={ListScreen}  options={{ title: '',
+          headerStyle: {
+            backgroundColor: 'white',shadowColor: 'transparent'},
+          headerTitleStyle: {
+            fontWeight: 'bold', color: "black"}, 
+            headerTintColor: 'black',  
+          
+          }} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="HomeExampleScreen" component={HomeExampleScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="DataScreen" component={DataScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} 
+          
+          options={{ title: '',
+          headerStyle: {
+            backgroundColor: '#fab919',shadowColor: 'transparent'},
+          headerTitleStyle: {
+            fontWeight: 'bold',}, 
+            headerTintColor: 'white',  
+          
+          }} />
+          <Stack.Screen name="ProductSingleScreen" component={ProductSingleScreen} options={{ title: '',
+          headerStyle: {
+            backgroundColor: 'white',shadowColor: 'transparent'},
+          headerTitleStyle: {
+            fontWeight: 'bold', color: "black"}, 
+            headerTintColor: 'black',  
+          
+          }}/>
+
+          <Stack.Screen
+            name="CompareScreen"
+            component={CompareScreen}
+            options={{ title: '',
+            headerStyle: {
+            backgroundColor: 'white',shadowColor: 'transparent'},
+            headerTitleStyle: {
+            fontWeight: 'bold', color: "black"}, 
+            headerTintColor: 'black',  
+          
+          }}
+          />
+          <Stack.Screen
+            name="DatabaseTesterScreen"
+            component={DatabaseTesterScreen}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
     */
   

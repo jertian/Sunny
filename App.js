@@ -11,7 +11,6 @@ import firebase from "firebase/app";
 import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
 import { AppLoading } from 'expo';
 import  AppWrapper from './Components/Common/AppWrapper';
-import { useDimensions } from '@react-native-community/hooks'
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./Components/Views/HomeView/HomeScreen"

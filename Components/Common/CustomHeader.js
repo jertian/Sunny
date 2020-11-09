@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 
 import { View, Button, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { useDimensions } from '@react-native-community/hooks'
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -10,16 +10,30 @@ import { useDimensions } from '@react-native-community/hooks'
 export default function CustomHeader(props) {
     const selectAccount = state => state.account;
     const account = useSelector(selectAccount);
+    const navigation = useNavigation();
+    function backButtonOnClick(){
+        navigation.goBack()
+      
+    }
     function TitleComponent(props) {
-        debugger;
         if (props) {
             if (props.title != null && props.title !== "") {
                 return <Text style={styles.text}>  {props.title} </Text>
             }
         }
 
-        return (<Text style={styles.text}>Welcome  {account.fName}</Text>)
+        return (<Text style={styles.text}>Welcome {account.fName}</Text>)
 
+    }
+    function BackButtonComponent(){
+        if(navigation.canGoBack()){
+        return (
+        <TouchableOpacity onPress = {backButtonOnClick}>
+            <Image style={styles.backButton} source={require('./../../assets/back-button.png')} />
+        </TouchableOpacity>
+        )
+        }
+        return <Fragment/>
     }
     function ReturnProfilePicture() {
         if (account.photoURL !== "") {
@@ -31,12 +45,12 @@ export default function CustomHeader(props) {
         }
     }
 
-    const { width, height } = useDimensions().window
     console.log(props);
     return (
 
         <View style={styles.container}>
-            <Image style={styles.backButton} source={require('./../../assets/back-button.png')} />
+            <BackButtonComponent></BackButtonComponent>
+        
             <TitleComponent title={props.title} />
             <ReturnProfilePicture></ReturnProfilePicture>
         </View>

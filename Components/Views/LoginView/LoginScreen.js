@@ -11,11 +11,18 @@ import firebase from "firebase/app";
 import {firebaseConfig} from "./../../Common/Firebase/firebase"
 //import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Google from 'expo-google-app-auth';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 if (!firebase.apps.length) {
 
 firebase.initializeApp(firebaseConfig);
 }
+
+//Set to false to stay on screen to do other things
+//Used for faster testing
+const fastGuestLogin = false;
+
+const fastGoogleLogin = false;
 
 
 /*
@@ -43,8 +50,15 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginResult, setLoginResult] = useState("");
-
+  
   const dispatchAccount = useDispatch()
+  function navigateToHome(){
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'HomeScreen' }],
+    });
+
+  }
   async function signInWithGoogleAsync() {
     try {
 
@@ -62,7 +76,9 @@ const LoginScreen = ({ navigation }) => {
         dispatchAccount({ type: 'account/fName', payload: result.user.givenName})
         dispatchAccount({ type: 'account/lName', payload: result.user.familyName })
         dispatchAccount({ type: 'account/email', payload: result.user.photoUrl })
-        navigation.navigate("HomeScreen")
+
+        navigateToHome()
+
         return result.accessToken;
       } else {
         return { cancelled: true };
@@ -175,8 +191,10 @@ const LoginScreen = ({ navigation }) => {
   });
   */
 }
-googleLoginOnClick();
+  if(fastGoogleLogin){
+    googleLoginOnClick();
 
+  }
 
   function validateEmail(email) {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -196,8 +214,14 @@ googleLoginOnClick();
   }
 
   const guestLoginOnClick = (event) => {
-    navigation.navigate("HomeScreen")
+    
+    navigateToHome()
+
   }
+  if (fastGuestLogin){
+    guestLoginOnClick();
+  }
+
   const signInOnClick = (event) => {
     console.log(email);
 
@@ -205,7 +229,8 @@ googleLoginOnClick();
     if (validateEmail(email)) {
       dispatchAccount({ type: "account/login", payload: true })
       dispatchAccount({ type: "account/name", payload: email })
-      navigation.navigate("HomeScreen")
+      navigateToHome()
+
     } else {
 
       setLoginResult("Not a real email");

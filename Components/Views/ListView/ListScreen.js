@@ -95,6 +95,8 @@ function ListScreen({ route, navigation }) {
   );
 }
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
     color: 'red',
     alignItems: "center", 
     justifyContent: "center",
-
+    },
    listItem:{
     padding: 15, 
     backgroundColor: '#ffffff', 

@@ -60,6 +60,7 @@ export default class App extends React.Component {
             
           />
           <Stack.Screen name="ScreenExample" component={ScreenExampleScreen} />
+
           <Stack.Screen name="ListScreen" component={ListScreen}  options={{ title: '',
           headerStyle: {
             backgroundColor: 'white',shadowColor: 'transparent'},
@@ -91,6 +92,7 @@ export default class App extends React.Component {
             headerTintColor: 'black',  
           
           }}/>
+
           <Stack.Screen
             name="CompareScreen"
             component={CompareScreen}

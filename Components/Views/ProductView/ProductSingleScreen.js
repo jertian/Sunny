@@ -88,6 +88,13 @@ export default function ProductSingleScreen({ route, navigation }) {
     navigation.navigate("CompareScreen", { products })
   }
 
+  function addItem(){
+    let item = info.item
+    let upc = info.upc
+    let image = info.image
+    navigation.navigate("ListScreen", { item, upc, image })
+  }
+
   if (!fontsLoaded) {
     return <AppLoading / >
   }
@@ -131,6 +138,7 @@ export default function ProductSingleScreen({ route, navigation }) {
         Bar code: {type} data {data} has been scanned!
         </Text>
         <Text>
+
           Data: {data} has been scanned!
         </Text>
         <Text>
@@ -147,6 +155,14 @@ export default function ProductSingleScreen({ route, navigation }) {
         <TouchableOpacity style={styles.buttonContainer} onPress={() => {compare()}} >
           <Text style={styles.buttonText}>compare</Text>
         </TouchableOpacity>
+
+        <Button
+          title={"Add Item"}
+          onPress={() => {
+            addItem()
+          }}
+        />
+
         
         {products.length>0 && 
           

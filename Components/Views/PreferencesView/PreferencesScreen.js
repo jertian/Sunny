@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { View, Button, TouchableOpacity,Image, Text, StyleSheet } from "react-native";
+import Header from "./Header"
 import LoginButton from "./LoginButton"
 
 const ThemeContext = React.createContext("light");
@@ -39,7 +40,7 @@ const PreferencesScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E9BF9F',
+    backgroundColor: '#fab919',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

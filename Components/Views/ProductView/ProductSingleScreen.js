@@ -1,10 +1,12 @@
 import React, {Fragment, useState, useEffect } from "react";
-import {Button, View, Text,StyleSheet,Image } from "react-native";
+import {Button, View, Text,StyleSheet,Image, TouchableOpacity } from "react-native";
 import { useFonts, Nunito_400Regular} from '@expo-google-fonts/nunito';
 import { AppLoading} from 'expo';
 import * as Font from 'expo-font'
 import AddItem from "./AddItem"
 import serverInfo from './../../Common/ServerInfo.js';
+import Header from "./Header"
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 var products = []
 
@@ -31,6 +33,7 @@ export default function ProductSingleScreen({ route, navigation }) {
 
   async function getInfo () {
     try {
+      //test replaces scannedCode
       let res = await fetch(serverInfo.path + "/test", {
 
         method: "POST",
@@ -98,38 +101,75 @@ export default function ProductSingleScreen({ route, navigation }) {
 
     return (
       <Fragment>
+      <Header></Header>
       <View style={styles.container}>
+      {/*
       <Text style={styles.textTitle}>Product Screen</Text>
-        <Image
-          source={require('../../../assets/sun_blob.png')}
-          style={styles.productImage}
-        />
+        */}
+        <Image source={{uri: info.image}} style={styles.productImage} />
+        
+        <View style={{ flexDirection: 'row', margin: 10, }}>
+        {/*
+                    <TouchableOpacity onPress={() => { }}>
+                        <Icon style={{ padding: 3 }} name="leaf" size={15} color="black" />
+                    </TouchableOpacity>
+*/}
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/vegan.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+            </View>
+
         <Text style={styles.text}>{data}</Text>
+        <Text style={styles.text}>{info.item}</Text>
+        
+        
+       
+        
+        {/*
+         <Text>
+        Bar code: {type} data {data} has been scanned!
+        </Text>
         <Text>
-        Bar code with type {type} and data {data} has been scanned!
-        Info: {info.Emissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
-        {info.manufacturer}, {info.parentCompany}, {info.upc}, 
-      </Text>
+
+          Data: {data} has been scanned!
+        </Text>
+        <Text>
+          Info: {info.Emissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
+          {info.manufacturer}, {info.parentCompany}, {info.upc}, 
+        </Text>
+        
+        
+        */}
+         
+        
+        <AddItem addItem={"I"}/>
+        
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => {compare()}} >
+          <Text style={styles.buttonText}>compare</Text>
+        </TouchableOpacity>
+
         <Button
           title={"Add Item"}
           onPress={() => {
             addItem()
           }}
         />
-        <Button
-          title={"Compare"}
-          onPress={() => {
-            compare()
-          }}
-        />
+
         
         {products.length>0 && 
-          <Button
-           title={"View Comparisons"}
-            onPress={() => {
-              viewComparison()
-            }}
-        />}
+          
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => {viewComparison()}} >
+          <Text style={styles.buttonText}>view comparison</Text>
+        </TouchableOpacity>
+        }
         
       </View>
       </Fragment>
@@ -140,27 +180,47 @@ export default function ProductSingleScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E9BF9F',
+    backgroundColor: 'white',
     flex: 1,
     alignItems: "center", 
     justifyContent: "center",
-    padding: 20,
+    padding: 10,
+    
+  },
+  buttonContainer: {
+    height: 40,
+    width: 150,
+    backgroundColor: "#f19820",
+    resizeMode: 'cover',
+    borderRadius:10,
+    padding:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    margin:7,
+  },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'black',
   },
   productImage: {
-    height: 350,
+    height: 300,
     width: 250,
-    resizeMode: 'cover',
-    borderRadius:10
+    //resizeMode: 'cover',
+    borderRadius:0,
+    marginTop: -100,
+    
   },
   textTitle: {
     fontSize: 38,
-    color: '#FFFFFF',
-    marginTop: -100,
+    color: 'black',
+    marginTop: -80,
     fontFamily: 'Nunito'
   },
   text: {
-    fontSize: 18,
-    color: '#FFFFFF',
+    fontSize: 25,
+    color: "black",
     textAlign: 'center'
   },
   navButton: {
@@ -173,5 +233,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     color: '#2e64e5',
+  },
+  susIcon: {
+    height: 60,
+    width: 60,
+    fontSize: 18,
+    color: '#2e64e5',
+    margin: 7
   },
 });

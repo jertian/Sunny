@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Button, View, Text,StyleSheet,Image } from "react-native";
+import {Button, View, Text,StyleSheet,Image, TouchableOpacity } from "react-native";
 import { useFonts, Nunito_400Regular} from '@expo-google-fonts/nunito';
 import { AppLoading} from 'expo';
 import * as Font from 'expo-font'
@@ -24,45 +24,98 @@ export default function CompareScreen({ route, navigation }) {
   }
     return (
       <View style={styles.container}>
-      <Text style={styles.textTitle}>Compare Screen</Text>
+      {/*
+      <Text style={styles.textTitle}>Compare Screen</Text> */}
         <Image
-          source={require('../../../assets/sun_blob.png')}
+          source={{uri: productInfo[0].image}}
           style={styles.productImage}
         />
-      <Text>
+        <Text style={styles.text}>
+       {productInfo[0].item} 
+      </Text>
+        <View style={{ flexDirection: 'row', margin: 10, }}>
+        {/*
+                    <TouchableOpacity onPress={() => { }}>
+                        <Icon style={{ padding: 3 }} name="leaf" size={15} color="black" />
+                    </TouchableOpacity>
+*/}
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/vegan.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+            </View>
+        
+        <Image
+          source={{uri: productInfo[0].image}}
+          style={styles.productImage}
+        />
+        {/*<Text>
         Number of products: {n} 
+      </Text> */}
+    
+      <Text style={styles.text}>
+       {productInfo[1].item} 
       </Text>
-      <Text>
-        Product 1: {productInfo[0].item} 
-        Product 2: {productInfo[1].item}
-      </Text>
+
+      <View style={{ flexDirection: 'row', margin: 10, }}>
+        {/*
+                    <TouchableOpacity onPress={() => { }}>
+                        <Icon style={{ padding: 3 }} name="leaf" size={15} color="black" />
+                    </TouchableOpacity>
+*/}
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/vegan.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+            </View>
+
+
+
       </View>
+      
+      
     );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E9BF9F',
+    backgroundColor: 'white',
     flex: 1,
     alignItems: "center", 
     justifyContent: "center",
     padding: 20,
+    
   },
   productImage: {
-    height: 350,
+    height: 200,
     width: 250,
     resizeMode: 'cover',
-    borderRadius:10
+    borderRadius:10,
+    marginVertical:7
   },
   textTitle: {
     fontSize: 38,
     color: '#FFFFFF',
-    marginTop: -100,
+    marginTop: -10,
     fontFamily: 'Nunito'
   },
   text: {
     fontSize: 18,
-    color: '#FFFFFF',
+    color: 'black',
     textAlign: 'center'
   },
   navButton: {
@@ -75,5 +128,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     color: '#2e64e5',
+  },
+  susIcon: {
+    height: 30,
+    width: 30,
+    fontSize: 18,
+    color: '#2e64e5',
+    margin: 7
   },
 });

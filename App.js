@@ -11,7 +11,13 @@ import firebase from "firebase/app";
 import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
 import { AppLoading } from 'expo';
 import  AppWrapper from './Components/Common/AppWrapper';
+import { useDimensions } from '@react-native-community/hooks'
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "./Components/Views/HomeView/HomeScreen"
+import CustomHeader from "./Components/Common/CustomHeader";
 
+const Stack = createStackNavigator();
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -25,6 +31,19 @@ const fetchFonts = () => {
 
 store.dispatch({type: 'preferences/update', preference: "PeanutAllergy", payload: true})
 
+function LogoTitle() {
+  return (
+    <View style={{
+      flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection:'row'
+      }}>
+    <Text
+      style={{ width: 50, height: 50, marginRight:'auto' }}
+    >Left</Text>
+    <Text style = {{flex: 1, textAlign: 'center' }}>Middle</Text>
+    <Text style={{marginLeft: 'auto'}}>Right</Text>
+    </View>
+  );
+}
 
 export default function App() {
 
@@ -37,15 +56,27 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+  return (
+    <Provider store={store}>
+      <AppWrapper></AppWrapper>
+      </Provider>
 
+  )
+/*
     return (
         <Provider store={store}>
-          <AppWrapper>
-     
-     </AppWrapper>
+        <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerTitle: props => <CustomHeader {...props} /> }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
       </Provider>
     );
-    
+    */
   
 }
 

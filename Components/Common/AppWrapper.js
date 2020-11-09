@@ -37,12 +37,11 @@ export default function AppWrapper() {
                 <Stack.Screen name="ScreenExample" component={ScreenExampleScreen} />
                 <Stack.Screen name="ListScreen" component={ListScreen} />
                 <Stack.Screen name="LoginScreen" component={LoginScreen} />
-                <Stack.Screen name="HomeScreen" component={HomeScreen} 
-                        options={{ 
-                            headerTitleAlign: "center",
-                            headerTitle:  <CustomHeader/> 
-                         }}
-                />
+                <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ headerTitle: props => <CustomHeader {...props} title = "" /> }}
+        />
                 <Stack.Screen name="Camera" component={CameraScreen} />
                 <Stack.Screen name="DataScreen" component={DataScreen} />
                 <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} />

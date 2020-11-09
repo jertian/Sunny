@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
     padding: 15, 
     backgroundColor: 'white',
     borderRadius: 3,
+    
   },
   text: {
     color: '#000000',
     fontSize: 23, 
-    textAlign: 'center',
 
   },
 });

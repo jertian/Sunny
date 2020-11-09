@@ -6,6 +6,7 @@ import * as Font from 'expo-font'
 import AddItem from "./AddItem"
 import serverInfo from './../../Common/ServerInfo.js';
 import Header from "./Header"
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 var products = []
 
@@ -32,7 +33,8 @@ export default function ProductSingleScreen({ route, navigation }) {
 
   async function getInfo () {
     try {
-      let res = await fetch(serverInfo.path + "/scannedCode", {
+      //test replaces scannedCode
+      let res = await fetch(serverInfo.path + "/test", {
 
         method: "POST",
         //mode: 'no-cors', // no-cors, *cors, same-origin, cors
@@ -94,28 +96,51 @@ export default function ProductSingleScreen({ route, navigation }) {
       <Fragment>
       <Header></Header>
       <View style={styles.container}>
-      
+      {/*
       <Text style={styles.textTitle}>Product Screen</Text>
-        <Image
-          source={require('../../../assets/sun_blob.png')}
-          style={styles.productImage}
-        />
+        */}
+        <Image source={{uri: info.image}} style={styles.productImage} />
+        
+        <View style={{ flexDirection: 'row', margin: 10, }}>
+        {/*
+                    <TouchableOpacity onPress={() => { }}>
+                        <Icon style={{ padding: 3 }} name="leaf" size={15} color="black" />
+                    </TouchableOpacity>
+*/}
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/vegan.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+            </View>
+
         <Text style={styles.text}>{data}</Text>
-        {/**
+        <Text style={styles.text}>{info.item}</Text>
         
-        <Text>
+        
+       
+        
+        {/*
+         <Text>
         Bar code: {type} data {data} has been scanned!
-      </Text>
-      <Text>
-        Data: {data} has been scanned!
-      </Text>
-      <Text>
-        Info: {info.Emissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
-        {info.manufacturer}, {info.parentCompany}, {info.upc}, 
-      </Text>
+        </Text>
+        <Text>
+          Data: {data} has been scanned!
+        </Text>
+        <Text>
+          Info: {info.Emissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
+          {info.manufacturer}, {info.parentCompany}, {info.upc}, 
+        </Text>
         
         
-         */}
+        */}
+         
         
         <AddItem addItem={"I"}/>
         
@@ -139,16 +164,16 @@ export default function ProductSingleScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'white',
     flex: 1,
     alignItems: "center", 
     justifyContent: "center",
-    padding: 20,
+    padding: 10,
     
   },
   buttonContainer: {
     height: 40,
-    width: 100,
+    width: 150,
     backgroundColor: "#f19820",
     resizeMode: 'cover',
     borderRadius:10,
@@ -156,17 +181,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
+    margin:7,
   },
   buttonText: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
   },
   productImage: {
-    height: 350,
+    height: 300,
     width: 250,
-    resizeMode: 'cover',
-    borderRadius:10,
+    //resizeMode: 'cover',
+    borderRadius:0,
+    marginTop: -100,
     
   },
   textTitle: {
@@ -176,7 +203,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito'
   },
   text: {
-    fontSize: 18,
+    fontSize: 25,
     color: "black",
     textAlign: 'center'
   },
@@ -190,5 +217,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     color: '#2e64e5',
+  },
+  susIcon: {
+    height: 60,
+    width: 60,
+    fontSize: 18,
+    color: '#2e64e5',
+    margin: 7
   },
 });

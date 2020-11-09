@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { View, Button, TouchableOpacity,Image, Text, StyleSheet } from "react-native";
+import Header from "./Header"
 import LoginButton from "./LoginButton"
 
 const ThemeContext = React.createContext("light");

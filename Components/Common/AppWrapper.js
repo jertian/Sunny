@@ -21,53 +21,59 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 
 const Stack = createStackNavigator();
-
+const initialScreen = "ListScreen"; //ProductSingleScreen 
 
 export default function AppWrapper() {
 
     return (
         <NavigationContainer>
 
-            <Stack.Navigator initialRouteName="HomeScreen"
-            screenOptions={{     headerLeft: null}}
+            <Stack.Navigator initialRouteName={initialScreen}
+                screenOptions={{ headerLeft: null }}
             >
                 <Stack.Screen
                     name="LandingScreen"
-                    component={LoginScreen}
+                    component={LandingScreen}
                     options={{ title: "LandingScreen" }, { headerShown: false }}
                 />
                 <Stack.Screen name="ScreenExample" component={ScreenExampleScreen} />
                 <Stack.Screen name="ListScreen" component={ListScreen}
-                                options={{    headerTitle: props => <CustomHeader {...props} 
-                title = "Scanned List" /> }}/>
+                    options={{
+                        headerTitle: props => <CustomHeader {...props}
+                            title="Scanned List" />
+                    }} />
 
-                <Stack.Screen name="LoginScreen" component={LoginScreen}           
-                options={{ headerTitle: props => <CustomHeader {...props} 
-                title = "Sign In" /> }}/>
+                <Stack.Screen name="LoginScreen" component={LoginScreen}
+                    options={{
+                        headerTitle: props => <CustomHeader {...props}
+                            title="Sign In" />
+                    }} />
 
                 <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options={{ headerTitle: props => <CustomHeader {...props} navigator = {Stack.Navigator} title = "" /> }}
-        />
+                    name="HomeScreen"
+                    component={HomeScreen}
+                    options={{ headerTitle: props => <CustomHeader {...props} navigator={Stack.Navigator} title="" /> }}
+                />
                 <Stack.Screen name="Camera" component={CameraScreen} />
-                <Stack.Screen name="DataScreen" component={DataScreen} 
-                    options={{ headerTitle: props => <CustomHeader {...props} title = "Statistics" /> }}
+                <Stack.Screen name="DataScreen" component={DataScreen}
+                    options={{ headerTitle: props => <CustomHeader {...props} title="Statistics" /> }}
 
                 />
-                <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} 
-                    options={{ headerTitle: props => <CustomHeader {...props} title = "Preferences" /> }}
+                <Stack.Screen name="PreferencesScreen" component={PreferencesScreen}
+                    options={{ headerTitle: props => <CustomHeader {...props} title="Preferences" /> }}
 
                 />
                 <Stack.Screen name="ServerScreen" component={ServerScreen} />
                 <Stack.Screen
                     name="ProductSingleScreen"
                     component={ProductSingleScreen}
+                    options={{ headerTitle: props => <CustomHeader {...props} title="Product Screen" /> }}
+
                 />
                 <Stack.Screen
                     name="CompareScreen"
                     component={CompareScreen}
-                    options={{ headerTitle: props => <CustomHeader {...props} title = "Comparison" /> }}
+                    options={{ headerTitle: props => <CustomHeader {...props} title="Comparison" /> }}
 
                 />
                 <Stack.Screen

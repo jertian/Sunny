@@ -20,11 +20,6 @@ export default function HomeScreen({ navigation }) {
           style={styles.bigGraph}
         />
 
-      <Image
-        source={require('../../../assets/grocery2.png')}
-        style={styles.bigGraph}
-      />
-
       <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
         <Image
           source={require('../../../assets/barcode.png')}

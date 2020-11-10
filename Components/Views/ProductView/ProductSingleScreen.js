@@ -5,18 +5,26 @@ import { AppLoading} from 'expo';
 import * as Font from 'expo-font'
 import AddItem from "./AddItem"
 import serverInfo from './../../Common/ServerInfo.js';
-import Header from "./Header"
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useSelector, useDispatch  } from 'react-redux'
 
 var products = []
 
 export default function ProductSingleScreen({ route, navigation }) {
-  let { data } = route.params;
-  let { type } = route.params;
-  let { name } = route.params;
+
+/*
+    let { data } = route.params;
+    let { type } = route.params;
+    let { name } = route.params;
+  */
+  //Redux global calls
+  const selectProduct = state => state.products;
+  let products = useSelector(selectProduct);
+  const dispatchProducts = useDispatch()
+
 
   //Testing purpose===============
-  data = "016000275287";
+  let data = "016000275287";
 
   //=============
   if (data === "" || data === undefined) {
@@ -26,19 +34,15 @@ export default function ProductSingleScreen({ route, navigation }) {
   }
 
 
-  const [fontsLoaded, setFontLoaded] = useState(false);
-  const [info, setInfo] = useState({scanned: false, Emissions:0, image: "", ingredients: [], 
+  const [info, setInfo] = useState({scanned: false, gHGEmissions:0, image: "", ingredients: [], 
                                       isVegan: false, isVegetarian: false, item: "", 
                                       manufacturer: "", parentCompany: "", upc: ""});
 
-  Font.loadAsync({
-    'Nunito': require('../../../assets/fonts/Nunito-Regular.ttf')
-  }).then(() => setFontLoaded(true));
 
   async function getInfo () {
     try {
 
-        
+        /*
       let res = await fetch(serverInfo.path + "/scannedCode", {
 
         method: "POST",
@@ -54,10 +58,14 @@ export default function ProductSingleScreen({ route, navigation }) {
         }),
       });
       let response = await res.json();
+    */
+  
       
 
 
-      /*
+      //Testing =======================================================
+      //-------------------------------------------------------------------
+
      let response = {
       "gHGEmissions": 3.1579166666666665,
       "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
@@ -87,26 +95,106 @@ export default function ProductSingleScreen({ route, navigation }) {
       "subsidiaries": [],
       "upc": "016000275287"
   };
+
+  let response1 = {
+      "gHGEmissions": 3.4,
+      "image": "https://images.barcodelookup.com/3215/32152522-1.jpg",
+      "ingredients": [
+          "whole grain rolled oats."
+      ],
+      "isFairTrade": false,
+      "isSustainableBrand": false,
+      "isVegan": true,
+      "isVegetarian": true,
+      "item": "Quaker Old Fashioned Oats 42 Oz",
+      "manufacturer": "Quaker",
+      "parentCompany": "PepsiCo",
+      "subsidiaries": [
+          "Aunt Jemima Mills Company",
+          "The Quaker Oats Company of Canada Limited",
+          "Quaker Brasil Ltda.",
+          "Grocery International Holdings, Inc."
+      ],
+      "upc": "030000010402"
+  }
+
+  let response2 = {
+    "gHGEmissions": 3.1164999999999994,
+    "image": "https://images.barcodelookup.com/2754/27543194-1.jpg",
+    "ingredients": [
+        "rice",
+        "wheat gluten",
+        "sugar",
+        "defatted wheat germ",
+        "contains 2% or less of salt",
+        "whey",
+        "malt flavor",
+        "calcium caseinate.vitamins and minerals: vitamin c (ascorbic acid)",
+        "reduced iron",
+        "niacinamide",
+        "vitamin b6 (pyridoxine hydrochloride)",
+        "vitamin b1 (thiamin hydrochloride)",
+        "vitamin b2 (riboflavin)",
+        "folic acid",
+        "vitamin a palmitate",
+        "vitamin b12",
+        "vitamin d3."
+    ],
+    "isFairTrade": false,
+    "isSustainableBrand": true,
+    "isVegan": false,
+    "isVegetarian": true,
+    "item": "Special K Original Breakfast Cereal - 12oz - Kellogg's",
+    "manufacturer": "Special K",
+    "parentCompany": "Kellogg's",
+    "subsidiaries": [],
+    "upc": "038000016110"
+}
+      products = useSelector(selectProduct);
+      let storageId = products.productListHistory.length;
+      //dispatchProducts({type: "product/productListCurrent", payload: {...response, storageId : storageId}});
+      dispatchProducts({type: "product/productListHistory", payload: {...response, storageId : storageId}});
+
+      products = useSelector(selectProduct);
+       storageId = products.productListHistory.length;
+      //dispatchProducts({type: "product/productListCurrent", payload: {...response1, storageId : storageId}});
+      dispatchProducts({type: "product/productListHistory", payload: {...response1, storageId : storageId}});
+
+      products = useSelector(selectProduct);
+       storageId = products.productListHistory.length;
+      //dispatchProducts({type: "product/productListCurrent", payload: {...response2, storageId : storageId}});
+      dispatchProducts({type: "product/productListHistory", payload: {...response2, storageId : storageId}});
+
+      products.productListCurrent;
+      products = useSelector(selectProduct);
+      debugger;
+      //-------------------------------------------------------------------
+      //Testing End =======================================================
+
+
+
      console.log(response);
       setInfo({
         scanned: true,
-        Emissions: response.gHGEmissions,
+        gHGEmissions: response.gHGEmissions,
         image: response.image,
         ingredients: response.ingredients,
         isVegan: response.isVegan,
         isVegetarian: response.isVegetarian,
-        item: response.item,
+        item: response.item, //name
         manufacturer: response.manufacturer,
         parentCompany: response.parentCompany,
-        upc: response.upc
+        upc: response.upc,
+        storageId : storageId
       })
     } catch (e) {
       console.error(e);
     }
   }
-  */
+  
+ 
 
-  if (!info.scanned && !fontsLoaded) {
+  if (!info.scanned) {
     getInfo()
   } else {
     console.log("waiting")
@@ -116,31 +204,24 @@ export default function ProductSingleScreen({ route, navigation }) {
     console.log("comparing")
     products.push(JSON.stringify(info))
     console.log(products)
-    navigation.pop()
     navigation.navigate("Camera")
   }
 
   function viewComparison(){
     products.push(JSON.stringify(info))
     console.log(products)
-    navigation.pop()
     navigation.navigate("CompareScreen", { products })
   }
 
   function addItem(){
-    let item = info.item
-    let upc = info.upc
-    let image = info.image
-    navigation.navigate("ListScreen", { item, upc, image })
+    dispatchProducts({type: "product/productListCurrent", payload: info});
+    navigation.navigate("ListScreen")
   }
 
-  if (!fontsLoaded) {
-    return <AppLoading / >
-  }
+
 
     return (
       <Fragment>
-      <Header></Header>
       <View style={styles.container}>
       {/*
       <Text style={styles.textTitle}>Product Screen</Text>
@@ -182,7 +263,7 @@ export default function ProductSingleScreen({ route, navigation }) {
           Data: {data} has been scanned!
         </Text>
         <Text>
-          Info: {info.Emissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
+          Info: {info.gHGEmissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
           {info.manufacturer}, {info.parentCompany}, {info.upc}, 
         </Text>
         
@@ -272,8 +353,6 @@ const styles = StyleSheet.create({
   susIcon: {
     height: 60,
     width: 60,
-    fontSize: 18,
-    color: '#2e64e5',
-    margin: 7
+    margin: 7 
   },
 });

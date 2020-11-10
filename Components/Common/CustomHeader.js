@@ -45,7 +45,6 @@ export default function CustomHeader(props) {
         }
     }
 
-    console.log(props);
     return (
 
         <View style={styles.container}>

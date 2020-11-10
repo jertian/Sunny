@@ -73,7 +73,14 @@ export default class App extends React.Component {
           <Stack.Screen name="HomeExampleScreen" component={HomeExampleScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="DataScreen" component={DataScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="DataScreen" component={DataScreen} options={{ title: '',
+          headerStyle: {
+            backgroundColor: '#fab919',shadowColor: 'transparent'},
+          headerTitleStyle: {
+            fontWeight: 'bold',}, 
+            headerTintColor: 'white',  
+          
+          }} />
           <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} 
           
           options={{ title: '',

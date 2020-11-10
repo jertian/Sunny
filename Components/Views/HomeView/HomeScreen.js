@@ -13,40 +13,41 @@ export default function HomeScreen({ navigation }) {
     <View style={ styles.container}>
 
         <Image
-          source={require('../../../assets/shopping_person.png')}
+          source={require('../../../assets/shoppers_icon.png')}
           style={styles.bigGraph}
         />
 
         <TouchableOpacity  onPress={() => navigation.navigate("Camera")}>
         <Image
-          source={require('../../../assets/barcode.png')}
-          style={styles.logo}/>
+          source={require('../../../assets/barcodefancy_icon.png')}
+          style={styles.bigLogo}/>
         </TouchableOpacity>
 
         <TouchableOpacity  onPress={() => navigation.navigate("PreferencesScreen")}>
         <Image
-          source={require('../../../assets/preferences.png')}
+          source={require('../../../assets/orange_preferences.png')}
           style={styles.logo}/>
         </TouchableOpacity>
 
         <TouchableOpacity  onPress={() => navigation.navigate("DataScreen")}>
         <Image
-          source={require('../../../assets/data.png')}
+          source={require('../../../assets/orange_data.png')}
           style={styles.logo}/>
         </TouchableOpacity>
 
         <TouchableOpacity  onPress={() => navigation.navigate("ListScreen")}>
         <Image
-          source={require('../../../assets/items.png')}
+          source={require('../../../assets/orange_item.png')}
           style={styles.logo}/>
         </TouchableOpacity>
 
+        {/*
         <TouchableOpacity  onPress={() => navigation.navigate("LoginScreen")}>
         <Image
           source={require('../../../assets/login.png')}
           style={styles.logo}/>
         </TouchableOpacity>
-
+        
         <TouchableOpacity  onPress={() => {
             const { type } = "";
             const { data } = "";
@@ -56,6 +57,7 @@ export default function HomeScreen({ navigation }) {
           source={require('../../../assets/login.png')}
           style={styles.logo}/>
         </TouchableOpacity>
+        */}
 
         
 
@@ -76,7 +78,14 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 90,
-    width: 90,
+    width: 100,
+    resizeMode: 'cover',
+    margin: 7,
+    borderRadius:10,
+  },
+  bigLogo: {
+    height: 90,
+    width: 300,
     resizeMode: 'cover',
     margin: 7,
     borderRadius:10,

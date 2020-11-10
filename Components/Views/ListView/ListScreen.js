@@ -13,9 +13,14 @@ function ListScreen({ route, navigation }) {
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
   const dispatchProducts = useDispatch()
-  const [itemList, setItemList] = useState(products.productListCurrent);
+  let [itemList, setItemList] = useState([]);
+  let [isItemListPopulated, setIsItemListPopulated] = useState(false);
 
-  const [fakeInfo, setFakeInfo] = useState(false)
+
+  let [fakeInfo, setFakeInfo] = useState(false)
+
+
+
 
         //Testing =======================================================
       //-------------------------------------------------------------------
@@ -106,21 +111,22 @@ function ListScreen({ route, navigation }) {
   }
         productsRedux = useSelector(selectProduct);
         let storageId = productsRedux.productListHistory.length;
-        //dispatchProducts({type: "product/productListCurrent", payload: {...response, storageId : storageId}});
+        dispatchProducts({type: "product/productListCurrent", payload: {...response, storageId : storageId}});
         dispatchProducts({type: "product/productListHistory", payload: {...response, storageId : storageId}});
   
         productsRedux = useSelector(selectProduct);
          storageId = productsRedux.productListHistory.length;
-        //dispatchProducts({type: "product/productListCurrent", payload: {...response1, storageId : storageId}});
+        dispatchProducts({type: "product/productListCurrent", payload: {...response1, storageId : storageId}});
         dispatchProducts({type: "product/productListHistory", payload: {...response1, storageId : storageId}});
   
         productsRedux = useSelector(selectProduct);
-         storageId = productsRedux.productListHistory.length;
+        storageId = productsRedux.productListHistory.length;
         dispatchProducts({type: "product/productListCurrent", payload: {...response2, storageId : storageId}});
         dispatchProducts({type: "product/productListHistory", payload: {...response2, storageId : storageId}});
   
-        productsRedux = useSelector(selectProduct);
-        setItemList(productsRedux);
+        //setItemList(productsRedux.productListCurrent);
+        setItemList([...itemList, response, response1]);
+
         setFakeInfo(true)
         //-------------------------------------------------------------------
         //Testing End =======================================================
@@ -128,8 +134,13 @@ function ListScreen({ route, navigation }) {
   }
   if(!fakeInfo){
     tryToFakeInfo()
-  }
+  }  
+   productsRedux.productListCurrent;
 
+    if(!isItemListPopulated){
+      productsRedux = useSelector(selectProduct);
+      setIsItemListPopulated(true);
+    }
   function onPress(press) {
     if (press.text == item) {
       console.log("going to prod")
@@ -139,13 +150,16 @@ function ListScreen({ route, navigation }) {
 
 
 
-  const deleteItem = (product) => {
-    debugger;
-    dispatchProducts({type: "product/productCurrentList/delete", payload: product.storageId});
-    productsRedux = useSelector(selectProduct);
-    setItemList(productsRedux);
-  }
+  function deleteItem (productStorageId) {
+    //dispatchProducts({type: "product/productCurrentList/delete", payload: productStorageId});
 
+    //productsRedux = useSelector(selectProduct);
+    let newCurrentList = productsRedux.productListCurrent.filter(item => item.storageId !== productStorageId)
+    //itemArray = newCurrentList;
+    debugger;
+    setItemList(newCurrentList);
+  }
+  
   const addItem = (text) => {
     if (!text) {
       Alert.alert('Error', 'Please enter an item ', [{ text: "Ok" }]);
@@ -158,9 +172,7 @@ function ListScreen({ route, navigation }) {
   }
 
   const ListItem = ({ item, deleteItem }) => {
-    debugger;
     function ProductImage(item){
-      debugger;
       if (item.item.image){
         return <Image source={{ uri: item.item.image }} style={styles.logo} />
       }else{
@@ -182,6 +194,11 @@ function ListScreen({ route, navigation }) {
       </TouchableOpacity>
     );
   };
+  
+
+  function RenderProducts () {
+    itemList.map((product, id) => (<ListItem item={product} deleteItem={deleteItem}> </ListItem>))
+  }
 
 
   return (
@@ -189,11 +206,13 @@ function ListScreen({ route, navigation }) {
       <Header></Header>
       {/* <Text style={styles.textTitle}>Product Screen</Text>*/}
       {/*<AddItem addItem={addItem} />*/}
-      <FlatList
-        data={itemList.productListCurrent}
+      {/*<RenderProducts></RenderProducts>*/}
+      {/*<FlatList
+        data={itemList}
         renderItem={({ item }) => (<ListItem item={item} deleteItem={deleteItem} />
         )} />
-
+*/}
+    {itemList.map((product, id) => (<ListItem key = {id} item={product} deleteItem={deleteItem}> </ListItem>))}
       {/* 
       <ThemeContext.Provider value="light">
         <Button title="Go back a page" onPress={() => navigation.goBack()} />

@@ -1,7 +1,6 @@
 const initialState = {
     productListCurrent : [],
     productListHistory : [],
-
 }
 
 /*
@@ -22,9 +21,10 @@ export default function productSlice(state = initialState, action) {
       }
       case 'product/productCurrentList/delete': {
         debugger;
+        let newProductList = state.productListCurrent.filter(product => product.storageId !== action.payload);
         return {
             ...state,
-            productListCurrent : [...state.productListCurrent.filter(product => product.storageId !== payload)]
+            productListCurrent : {newProductList}
             
         }
       }

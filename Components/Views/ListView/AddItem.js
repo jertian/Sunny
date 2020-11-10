@@ -11,7 +11,7 @@ const AddItem = ({title, addItem}) => {
           <TextInput placeholder = "Add Item..." style = {styles.input} onChangeText={onChange}/>
           <TouchableOpacity styles={styles.btn} onPress={() => 
           addItem(text)}>
-            <Text style = {styles.btnText}> <Icon name = "plus" size = {20}/> Add Item</Text>
+            <Text style = {styles.btnText}> <Icon name = "plus-circle" size = {20}/> Add Item</Text>
           </TouchableOpacity>
       </View>
   );
@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
         height: 60,
         padding: 8, 
         fontSize: 16,
+        borderWidth:5,
+        borderColor  : "#f19820",
+        borderRadius: 10,
+        margin: 7
       },
       btn: {
         color: '#c2bad8',

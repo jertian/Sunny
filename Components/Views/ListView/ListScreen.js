@@ -8,6 +8,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ThemeContext = React.createContext("light");
 
+
+var products = ["apple"]
+
 function ListScreen({ route, navigation }) {
   let {item} = ""
   let {upc} = ""
@@ -16,7 +19,9 @@ function ListScreen({ route, navigation }) {
     item = route.params.item;
     upc = route.params.upc;
     image = route.params.image;
+    
   }
+  
 
   function onPress(press){
     let type = ""
@@ -27,14 +32,14 @@ function ListScreen({ route, navigation }) {
   }
 
   const [items, setItems] = useState([
-      {id: uuidv4(), text: item},
-      {id: uuidv4(), text: 'Milk'},
-      {id: uuidv4(), text: 'Eggs'},
-      {id: uuidv4(), text: 'Bread'},
-      {id: uuidv4(), text: 'Juice'},
+      {id: uuidv4(), text: item, photo: image},
+      {id: uuidv4(), text: 'Eggs',photo: "https://images.barcodelookup.com/12519/125193904-1.jpg"},
+      {id: uuidv4(), text: 'Orange Juice',photo: "https://images.barcodelookup.com/6079/60791028-1.jpg"},
+      {id: uuidv4(), text: 'Sun Chips',photo: "https://images.barcodelookup.com/11685/116853285-1.jpg"},
+      {id: uuidv4(), text: 'Mini Oreos',photo: "https://images.barcodelookup.com/4412/44121363-1.jpg"},
     ])
 
-
+    
   const deleteItem = (id) => {
     setItems(prevItems =>{
       return prevItems.filter(item => item.id != id);
@@ -42,6 +47,7 @@ function ListScreen({ route, navigation }) {
   }
 
   const addItem = (text) => {
+
     if(!text){
       Alert.alert('Error', 'Please enter an item ', [{text:"Ok"}]);
     }
@@ -52,15 +58,19 @@ function ListScreen({ route, navigation }) {
     }   
   }
 
-  const ListItem = ({item, deleteItem}) => {
+  
+  const ListItem = ({image,item, deleteItem}) => {
+    
   return (
+    
     <TouchableOpacity 
+      
       style={styles.listItem}
       onPress={()=> onPress(item)}>
       
       <View style = {styles.listItemView}>
       <Image
-          source={require('../../../assets/preferences.png')}
+          source={{uri: item.photo}}
           style={styles.logo}/>
         <Text style = {styles.listItemText}>{item.text}</Text>
         <Icon name="remove" size={20} color="black"
@@ -73,9 +83,17 @@ function ListScreen({ route, navigation }) {
 
 
   return (
+   
     <View style={styles.container}>
+     <View style={styles.imageContainer}>
+        
+     </View>
+     <Image source={require('../../../assets/your_groceries.png')} style={styles.logoTop} />
+     {/*
+     <Image source={require('../../../assets/produce_icon.png')} style={styles.logoTop} />
        <Header></Header>
-     {/* <Text style={styles.textTitle}>Product Screen</Text>*/}
+      <Text style={styles.textTitle}>Product Screen</Text>*/}
+      
       <AddItem addItem={addItem}/>
       <FlatList 
         data = {items} 
@@ -100,8 +118,16 @@ function ListScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
+   
     backgroundColor: '#FFFFFF',
+
+  },
+  imageContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   textTitle: {
@@ -111,7 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     },
    listItem:{
-    padding: 15, 
+    padding: 0, 
     backgroundColor: '#ffffff', 
     borderBottomWidth: 1, 
     borderColor: '#eee',
@@ -128,10 +154,16 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 90,
-    width: 90,
+    width: 100,
     resizeMode: 'cover',
     margin: 7,
     borderRadius:10,
+  },
+  logoTop: {
+    height: 200,
+    width: 400,
+    resizeMode: 'cover',
+    borderRadius:0,
   },
 });
 

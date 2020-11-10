@@ -49,9 +49,14 @@ export default function CompareScreen({ route, navigation }) {
                     <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
                     }
-                    {false && 
+                    {productInfo[0].isFairTrade && 
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                    }
+                    {productInfo[0].isSustainableBrand && 
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
                     }
             </View>
@@ -84,9 +89,14 @@ export default function CompareScreen({ route, navigation }) {
                     <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
                     }
-                    {false &&  
+                    {productInfo[1].isFairTrade &&   
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                    }
+                    {productInfo[1].isSustainableBrand && 
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
                     }
             </View>

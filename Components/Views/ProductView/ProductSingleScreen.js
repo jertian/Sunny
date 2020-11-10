@@ -62,7 +62,9 @@ export default function ProductSingleScreen ({ route, navigation }){
         item: response.item,
         manufacturer: response.manufacturer,
         parentCompany: response.parentCompany,
-        upc: response.upc
+        upc: response.upc,
+        isFairTrade: response.isFairTrade,
+        isSustainableBrand: response.isSustainableBrand
       })
     } catch (e) {
       console.error(e);
@@ -127,11 +129,16 @@ export default function ProductSingleScreen ({ route, navigation }){
                     <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
                      }
-                    {false &&   
+                    {info.isFairTrade &&   
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
-                  }
+                    }  
+                    {info.isSustainableBrand &&   
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                    }  
             </View>
 
         <Text style={styles.text}>{data}</Text>

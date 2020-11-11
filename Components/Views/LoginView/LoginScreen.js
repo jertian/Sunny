@@ -53,11 +53,11 @@ const LoginScreen = ({ navigation }) => {
   
   const dispatchAccount = useDispatch()
   function navigateToHome(){
+
     navigation.reset({
       index: 0,
       routes: [{ name: 'HomeScreen' }],
     });
-
   }
   async function signInWithGoogleAsync() {
     try {
@@ -70,12 +70,14 @@ const LoginScreen = ({ navigation }) => {
       });
   
       if (result.type === 'success') {
+        debugger;
         console.log("Google Sign In Scuessful")
         console.log(result);
         dispatchAccount({ type: 'account/login', payload: true })
         dispatchAccount({ type: 'account/fName', payload: result.user.givenName})
         dispatchAccount({ type: 'account/lName', payload: result.user.familyName })
         dispatchAccount({ type: 'account/email', payload: result.user.photoUrl })
+        dispatchAccount({ type: 'account/photoURL', payload: result.user.photoUrl })
 
         navigateToHome()
 
@@ -215,7 +217,7 @@ const LoginScreen = ({ navigation }) => {
 
   const guestLoginOnClick = (event) => {
     
-    navigateToHome()
+    navigation.navigate("HomeScreen");
 
   }
   if (fastGuestLogin){
@@ -318,16 +320,16 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    marginBottom: 10,
+    marginBottom: 5,
     color: '#051d5f',
     fontFamily: 'Nunito_400Regular'
 
   },
   navButton: {
-    marginTop: 15,
+    marginTop: 10,
   },
   forgotButton: {
-    marginVertical: 20,
+    marginVertical: 10,
   },
   navButtonText: {
     fontSize: 15,

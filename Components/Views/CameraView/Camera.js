@@ -2,19 +2,9 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Button, StyleSheet } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
-function Camera({ scanned, setScanned, navigation }) {
+function Camera({ scanned, setScanned, onScan, navigation }) {
   const handleBarCodeScanned = ({ type, data }) => {
-    //workaround for camera scanning in background
-    //common issue: https://github.com/expo/expo/issues/345
-    if(scanned!=undefined){
-      navigation.pop()
-      setScanned(true);
-      console.log("navigating")
-      navigation.navigate("ProductSingleScreen", { type, data });
-    } else{
-      //camera scans a few times before navigating
-      //console.log("spam")
-    }
+    onScan(type, data);
   }
  
   return (

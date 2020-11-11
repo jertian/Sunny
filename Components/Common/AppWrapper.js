@@ -14,8 +14,9 @@ import HomeScreen from "./../Views/HomeView/HomeScreen";
 import CustomHeader from "./CustomHeader";
 
 import { useSelector, useDispatch } from 'react-redux'
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment,  } from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { View, Button, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -24,16 +25,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createStackNavigator();
-const initialScreen = "HomeScreen"; 
+const initialScreen = "LandingScreen"; 
 //ProductSingleScreen //LandingScreen //Camera //HomeScreen
 
 export default function AppWrapper() {
     let [fakeInfo, setFakeInfo] = useState(false);
 
-
+    let compareProducts
 //Testing =======================================================
 //-------------------------------------------------------------------
-/*
+
 function tryToFakeInfo() {
     let response = {
         "gHGEmissions": 3.1579166666666665,
@@ -122,6 +123,9 @@ function tryToFakeInfo() {
         "upc": "038000016110",
     }
 
+    compareProducts = [response1, response2];
+
+    /*
     let dataList = [response, response1, response2]
     const storeData = async (dataList) => {
         try {
@@ -133,12 +137,13 @@ function tryToFakeInfo() {
             // saving error
         }
     }
+    */
 }
 if(!fakeInfo){
 tryToFakeInfo();
 setFakeInfo(true);
 }
-*/
+
     //storeData(dataList)
     //-------------------------------------------------------------------
     //Testing End =======================================================
@@ -162,17 +167,19 @@ setFakeInfo(true);
                     }} />
 
                 <Stack.Screen name="LoginScreen" component={LoginScreen}
-                    options={{
-                        headerTitle: props => <CustomHeader {...props}
-                            title="Sign In" />
-                    }} />
+                    options={{ headerShown: false }} />
 
                 <Stack.Screen
                     name="HomeScreen"
                     component={HomeScreen}
-                    options={{ headerTitle: props => <CustomHeader {...props} navigator={Stack.Navigator} title="" /> }}
+                    options={{
+                        headerTitle: props => <CustomHeader {...props}
+                            />
+                    }} 
                 />
-                <Stack.Screen name="Camera" component={CameraScreen} />
+                <Stack.Screen name="Camera" component={CameraScreen} 
+                    options={{ headerShown: false }} 
+                />
                 <Stack.Screen name="DataScreen" component={DataScreen}
                     options={{ headerTitle: props => <CustomHeader {...props} title="Statistics" /> }}
 
@@ -201,3 +208,10 @@ setFakeInfo(true);
             </Stack.Navigator>
         </NavigationContainer>)
 }
+
+const styles = StyleSheet.create({
+    container: {
+        
+        backgroundColor: 'red'
+    }
+});

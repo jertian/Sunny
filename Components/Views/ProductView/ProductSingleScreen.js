@@ -14,13 +14,15 @@ var products = []
 
 export default function ProductSingleScreen({ route, navigation }) {
   const [isWaitingOnInfo, setIsWaitingOnInfo] = useState(true);
+  const [isWaitingOnCompareInfo, setIsWaitingOnCompareInfo] = useState(true);
+
   const [hasRetrievedCachedShoppingList, setHasRetrievedCachedShoppingList] = useState(false);
   const [currentShoppingList, setCurrentShoppingList] = useState([]);
 
   const [info, setInfo] = useState({
     scanned: false, gHGEmissions: 0, image: "", ingredients: [],
     isVegan: false, isVegetarian: false, item: "",
-    manufacturer: "", parentCompany: "", upc: ""
+    manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
   });
 
   console.log(route)
@@ -30,12 +32,14 @@ export default function ProductSingleScreen({ route, navigation }) {
   let { type } = route.params;
   let { name } = route.params;
   let { product } = route.params;
+  let { compareProducts } = route.params;
+
 
   //Change this once, it is called when either a product is loaded or data from server retrieved
   function setInfoFromResponse(response) {
     setInfo({
       scanned: true,
-      gHGEmissions: response.gHGEmissions,
+      gHGEmissions: Math.round(parseFloat(response.gHGEmissions)),
       image: response.image,
       ingredients: response.ingredients,
       isVegan: response.isVegan,
@@ -44,6 +48,8 @@ export default function ProductSingleScreen({ route, navigation }) {
       manufacturer: response.manufacturer,
       parentCompany: response.parentCompany,
       upc: response.upc,
+      isFairTrade: response.isFairTrade,
+      isSustainableBrand: response.isSustainableBrand
     })
   }
 
@@ -69,8 +75,8 @@ export default function ProductSingleScreen({ route, navigation }) {
     try {
 
       console.log("calling server at : " + serverInfo.path + "/scannedCode")
-      debugger;
-      let res = await fetch(serverInfo.path + "/scannedCode", {
+      //let res = await fetch(serverInfo.path + "/JamesTest", {
+        let res = await fetch(serverInfo.path + "/scannedCode", {
 
         method: "POST",
         //mode: 'no-cors', // no-cors, *cors, same-origin, cors
@@ -147,7 +153,7 @@ export default function ProductSingleScreen({ route, navigation }) {
       }
 
       let response2 = {
-        "gHGEmissions": 3.1164999999999994,
+        "gHGEmissions": 3.1,
         "image": "https://images.barcodelookup.com/2754/27543194-1.jpg",
         "ingredients": [
           "rice",
@@ -187,16 +193,29 @@ export default function ProductSingleScreen({ route, navigation }) {
 
       console.log(response);
       setInfoFromResponse(response); //defined at the beginning
-      setIsWaitingOnInfo(false);
 
     } catch (e) {
       console.error(e);
     }
   }
+  
+  
+debugger;
+  if (isWaitingOnCompareInfo && compareProducts && compareProducts.length > 0){
+    setIsWaitingOnCompareInfo(false);
+    setInfo({    scanned: false, gHGEmissions: 0, image: "", ingredients: [],
+    isVegan: false, isVegetarian: false, item: "",
+    manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
+  });
+    getInfo();
+
+
+  }
   if (isWaitingOnInfo) {
     //Check if I sent a product here from list screen
     //If i did send a product then just display it, no need to query
-    if (product) {
+    //Also make sure our products is not populated because if it is, were comparing something
+    if (product && compareProducts && compareProducts.length === 0) {
       setInfoFromResponse(product)
     }
     else {
@@ -219,17 +238,21 @@ export default function ProductSingleScreen({ route, navigation }) {
 
     }
   }
+  if(isWaitingOnInfo){
+    setIsWaitingOnInfo(false);
+  }
   function compare() {
-    console.log("comparing")
-    products.push(JSON.stringify(info))
-    console.log(products)
-    navigation.navigate("Camera")
+    let shouldCompare  = true;
+    compareProducts = [];
+    compareProducts.push(info);
+    navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }]}); 
+    navigation.navigate("Camera", {shouldCompare, compareProducts})
+
   }
 
   function viewComparison() {
-    products.push(JSON.stringify(info))
-    console.log(products)
-    navigation.navigate("CompareScreen", { products })
+    compareProducts.push(info);
+    navigation.navigate("CompareScreen", { compareProducts })
   }
 
   function addItem() {
@@ -237,7 +260,6 @@ export default function ProductSingleScreen({ route, navigation }) {
       console.log("SETTING DATA");
 
       try {
-        debugger;
         await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(data))
         await AsyncStorage.setItem('@currentShoppingListCount', JSON.stringify(data.length))
 
@@ -268,7 +290,7 @@ export default function ProductSingleScreen({ route, navigation }) {
     if(info.image != ""){
     return (<Image source={{ uri: info.image }} style={styles.productImage}/>)
     }else {
-      return (  (<Image source={{ uri: "../../../assets/loading_gif.gif" }} style={styles.productImage}/>))
+      return (  <Image source={{ uri: "../../../assets/loading_gif.gif" }} style={styles.productImage}/>)
   }
 }
   return (
@@ -286,29 +308,34 @@ export default function ProductSingleScreen({ route, navigation }) {
                     </TouchableOpacity>
 */}
 
-          {info.isVegan &&
-            <TouchableOpacity >
-              <Image source={require('../../../assets/vegan.png')} style={styles.susIcon} />
-            </TouchableOpacity>
-          }
-          {info.isVegetarian &&
-            <TouchableOpacity onPress={() => { }}>
-              <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon} />
-            </TouchableOpacity>
-          }
-          {info.isFairTrade &&
-            <TouchableOpacity onPress={() => { }}>
-              <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon} />
-            </TouchableOpacity>
-          }
-          {info.isSustainableBrand &&
-            <TouchableOpacity onPress={() => { }}>
-              <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon} />
-            </TouchableOpacity>
-          }
-        </View>
-
-        <Text style={styles.text}>{data}</Text>
+                    {info.isVegan &&                  
+                    <TouchableOpacity >
+                    <Image source={require('../../../assets/vegan.png')} style={styles.susIcon} />
+                    </TouchableOpacity>
+                    }
+                    {info.isVegetarian &&    
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                     }
+                    {info.isFairTrade &&   
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                    }  
+                    {info.isSustainableBrand &&   
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                    }  
+                    
+                    {true && 
+                    <TouchableOpacity style={styles.greenEmission}>
+                    <Text style={styles.textEmission}> {info.gHGEmissions} </Text>
+                    </TouchableOpacity>
+                    }
+            </View>
+            <Text style={styles.text}>{data}</Text>
         <Text style={styles.text}>{info.item}</Text>
 
         {/*
@@ -338,7 +365,7 @@ export default function ProductSingleScreen({ route, navigation }) {
             <Text style={styles.buttonText}>compare</Text>
           </TouchableOpacity>
 
-          {products.length > 0 &&
+          {compareProducts && compareProducts.length > 0 &&
 
             <TouchableOpacity style={styles.buttonContainer} onPress={() => { viewComparison() }} >
               <Text style={styles.buttonText}>view comparison</Text>
@@ -380,11 +407,11 @@ const styles = StyleSheet.create({
   },
   productImage: {
     height: 300,
-    width: 150,
-    //resizeMode: 'cover',
-    borderRadius: 10,
-    marginTop: -80,
+    width: 250,
+    resizeMode: 'contain',
+    borderRadius:10,
 
+    
   },
   textTitle: {
     fontSize: 38,
@@ -403,16 +430,28 @@ const styles = StyleSheet.create({
   forgotButton: {
     marginVertical: 35,
   },
-  navButtonText: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: '#2e64e5',
-  },
+
   susIcon: {
     height: 50,
     width: 50,
-    fontSize: 18,
-    color: '#2e64e5',
     margin: 7
+  },
+  greenEmission: {
+    height: 50,
+    width: 50,
+    color: '#2e64e5',
+    borderWidth:5,
+    borderColor  : "#f19820",
+    borderRadius: 50,
+    alignItems : "center" ,
+    margin: 7
+    
+  },
+  textEmission: {
+    fontSize: 17,
+    color: "black",
+    
+    textAlign: 'left',
+    paddingTop:10,
   },
 });

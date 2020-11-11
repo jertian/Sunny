@@ -3,10 +3,20 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { View, Button, Text, Fragment } from "react-native";
 import Camera from "./Camera";
 
-export default function CameraScreen({ navigation }) {
+export default function CameraScreen({ route, navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [scanned, setScanned] = useState(false);
+  
+  let { shouldCompare } = route.params;
+  let { compareProducts } = route.params;
+
+  if(shouldCompare === null){
+      shouldCompare = false;
+  }
+  if (compareProducts === null){
+    compareProducts = [];
+  }
 
   useEffect(() => {
     (async () => {
@@ -42,7 +52,20 @@ export default function CameraScreen({ navigation }) {
       return ErrorMessage();
     }
   }
+  function cameraOnScanHandler(type, data){
 
+    //workaround for camera scanning in background
+    //common issue: https://github.com/expo/expo/issues/345
+    if(scanned!=undefined){
+      navigation.pop()
+      setScanned(true);
+      console.log("navigating")
+      navigation.navigate("ProductSingleScreen", { type, data, shouldCompare, compareProducts });
+    } else{
+      //camera scans a few times before navigating
+      //console.log("spam")
+    }
+  }
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Camera
@@ -50,7 +73,8 @@ export default function CameraScreen({ navigation }) {
         setScanned={() => {
           setScanned();
         }}
-        navigation={navigation}
+        onScan = {cameraOnScanHandler}
+        
       />
       {DetermineDisplay()}
     </View>

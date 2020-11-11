@@ -5,7 +5,45 @@ import { View, Button, Text, TouchableOpacity, StyleSheet, Image } from "react-n
 import { useNavigation } from '@react-navigation/native';
 
 
+/*
+{
+    "gHGEmissions": 3.4,
+    "image": "https://images.barcodelookup.com/3493/34939175-1.jpg",
+    "ingredients": [],
+    "isFairTrade": false,
+    "isSustainableBrand": true,
+    "isVegan": false,
+    "isVegetarian": false,
+    "item": "Campbell S Campbell's Chunky Blazin' Roadhouse Chili-Style Soup",
+    "manufacturer": "Campbell's",
+    "manufacturerHeadquarters": "Camden, New Jersey, United States",
+    "parentCompany": "",
+    "subsidiaries": [
+        "Pepperidge Farm",
+        "Snyder's-Lance",
+        "Bolthouse Farms",
+        "Arnott's Biscuits",
+        "Campbell Co of Canada",
+        "CSC Brands LP",
+        "Campbell Soup Asia ltd",
+        "Late July Snacks LLC",
+        "Joseph Campbell Company",
+        "Campbell Japan Inc",
+        "Arnotts New Zealand ltd",
+        "Campbell Sales Company",
+        "Campbells de Mexico S.A. de C. V."
+    ],
+    "upc": "063211207958"
 
+    campbell
+    {"gHGEmissions": 3.4, "image": "https://images.barcodelookup.com/3493/34939175-1.jpg", "ingredients": [], "isFairTrade": false, "isSustainableBrand": true, "isVegan": false, "isVegetarian": false, "item": "Campbell S Campbell's Chunky Blazin' Roadhouse Chili-Style Soup", "manufacturer": "Campbell's", "manufacturerHeadquarters": "Camden, New Jersey, United States", "parentCompany": "", "subsidiaries": ["Pepperidge Farm", "Snyder's-Lance", "Bolthouse Farms", "Arnott's Biscuits", "Campbell Co of Canada", "CSC Brands LP", "Campbell Soup Asia ltd", "Late July Snacks LLC", "Joseph Campbell Company", "Campbell Japan Inc", "Arnotts New Zealand ltd", "Campbell Sales Company", "Campbells de Mexico S.A. de C. V."], "upc": "063211207958"}
+
+    heinz
+    {"gHGEmissions": 1.48475, "image": "https://images.barcodelookup.com/3494/34940587-1.jpg", "ingredients": ["tomato paste(made from ripe tomatoes", " good fresh) liquid sugar", " white vinegar ", " salt ", " onion powder ", " spices"], "isFairTrade": false, "isSustainableBrand": true, "isVegan": true, "isVegetarian": true, "item": "Heinz Tomato Ketchup Twin Pack", "manufacturer": "H.J. Heinz Company of Canada LP", "manufacturerHeadquarters": "", "parentCompany": "Kraft Heinz Company", "subsidiaries": [], "upc": "057000613280"}
+
+    pringles 
+    {"gHGEmissions": 3.1595, "image": "https://images.barcodelookup.com/2758/27582012-1.jpg", "ingredients": ["dried potato", " vegetable oil", " corn flour", " corn starch", " rice flour", " maltodextrin", " mono - and diglycerides", " salt", " citric acid", " wheat starch"], "isFairTrade": false, "isSustainableBrand": true, "isVegan": false, "isVegetarian": true, "item": "PringlesMD \u2013 Croustilles, Saveur Originale, 160 G", "manufacturer": "Pringles", "manufacturerHeadquarters": "", "parentCompany": "Kellogg's", "subsidiaries": [], "upc": "064100111332"}
+}*/
 
 export default function CustomHeader(props) {
     const selectAccount = state => state.account;

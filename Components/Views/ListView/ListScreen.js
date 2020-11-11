@@ -111,12 +111,14 @@ function ListScreen({ route, navigation }) {
   }
 
   return (
-   
+
     <View style={styles.container}>
+       {/*
      <View style={styles.imageContainer}>
              <Image source={require('../../../assets/your_groceries.png')} style={styles.logoTop} />
 
      </View>
+   */}
      {/*
      <Image source={require('../../../assets/produce_icon.png')} style={styles.logoTop} />
        <Header></Header>
@@ -129,7 +131,12 @@ function ListScreen({ route, navigation }) {
         keyExtractor={(item, index) => item.storageId.toString()}
 
       />
-      <Button title="Scan Another Item" onPress={() => { navigation.goBack(); navigation.navigate("Camera") }} />
+      <Button title="Scan Another Item" color = "black" onPress={() => {     
+        navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }]}); 
+        let shouldCompare = false;
+        let compareProducts = [];
+        navigation.navigate("Camera", {shouldCompare, compareProducts});
+         }} />
 
       {/* 
       <ThemeContext.Provider value="light">
@@ -193,7 +200,7 @@ const styles = StyleSheet.create({
   logo: {
     height: 90,
     width: 100,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
     borderRadius: 10,
   },
   logoTop: {

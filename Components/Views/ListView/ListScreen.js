@@ -129,7 +129,7 @@ function ListScreen({ route, navigation }) {
         keyExtractor={(item, index) => item.storageId.toString()}
 
       />
-      <Button title="Scan Another Item" onPress={() => { navigation.goBack(); navigation.navigate("Camera") }} />
+      <Button title="Scan Another Item" color = "black" onPress={() => { navigation.goBack(); navigation.navigate("Camera") }} />
 
       {/* 
       <ThemeContext.Provider value="light">

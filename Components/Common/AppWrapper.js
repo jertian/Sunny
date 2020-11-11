@@ -14,8 +14,9 @@ import HomeScreen from "./../Views/HomeView/HomeScreen";
 import CustomHeader from "./CustomHeader";
 
 import { useSelector, useDispatch } from 'react-redux'
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment,  } from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { View, Button, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -162,17 +163,16 @@ setFakeInfo(true);
                     }} />
 
                 <Stack.Screen name="LoginScreen" component={LoginScreen}
-                    options={{
-                        headerTitle: props => <CustomHeader {...props}
-                            title="Sign In" />
-                    }} />
+                    options={{ headerShown: false }} />
 
                 <Stack.Screen
                     name="HomeScreen"
                     component={HomeScreen}
-                    options={{ headerTitle: props => <CustomHeader {...props} navigator={Stack.Navigator} title="" /> }}
+                    options={{ headerShown: false }} 
                 />
-                <Stack.Screen name="Camera" component={CameraScreen} />
+                <Stack.Screen name="Camera" component={CameraScreen} 
+                    options={{ headerShown: false }} 
+                />
                 <Stack.Screen name="DataScreen" component={DataScreen}
                     options={{ headerTitle: props => <CustomHeader {...props} title="Statistics" /> }}
 
@@ -201,3 +201,10 @@ setFakeInfo(true);
             </Stack.Navigator>
         </NavigationContainer>)
 }
+
+const styles = StyleSheet.create({
+    container: {
+        
+        backgroundColor: 'red'
+    }
+});

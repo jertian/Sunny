@@ -90,7 +90,7 @@ export default function ProductSingleScreen({ route, navigation }) {
     async function getInfo() {
       try {
 
-        
+      //changed to test from scannedCode  
       let res = await fetch(serverInfo.path + "/scannedCode", {
 
         method: "POST",
@@ -305,7 +305,7 @@ export default function ProductSingleScreen({ route, navigation }) {
                     
                     {true && 
                     <TouchableOpacity style={styles.greenEmission}>
-                    <Text style={styles.textEmission}> {info.Emissions} </Text>
+                    <Text style={styles.textEmission}> {info.gHGEmissions} </Text>
                     </TouchableOpacity>
                     }
             </View>
@@ -385,10 +385,10 @@ const styles = StyleSheet.create({
   },
   productImage: {
     height: 300,
-    width: 150,
-    //resizeMode: 'cover',
+    width: 250,
+    resizeMode: 'contain',
     borderRadius:10,
-    marginTop: -80,
+
     
   },
   textTitle: {
@@ -429,6 +429,7 @@ const styles = StyleSheet.create({
     borderColor  : "#f19820",
     borderRadius: 50,
     alignItems : "center" ,
+    margin: 7
     
   },
   textEmission: {

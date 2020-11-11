@@ -24,7 +24,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createStackNavigator();
-const initialScreen = "HomeScreen"; //ProductSingleScreen 
+const initialScreen = "LandingScreen"; 
+//ProductSingleScreen //LandingScreen //Camera //HomeScreen
 
 export default function AppWrapper() {
     let [fakeInfo, setFakeInfo] = useState(false);
@@ -32,7 +33,7 @@ export default function AppWrapper() {
 
 //Testing =======================================================
 //-------------------------------------------------------------------
-
+/*
 function tryToFakeInfo() {
     let response = {
         "gHGEmissions": 3.1579166666666665,
@@ -137,6 +138,7 @@ if(!fakeInfo){
 tryToFakeInfo();
 setFakeInfo(true);
 }
+*/
     //storeData(dataList)
     //-------------------------------------------------------------------
     //Testing End =======================================================

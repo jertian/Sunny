@@ -75,9 +75,9 @@ export default function ProductSingleScreen({ route, navigation }) {
   }
   else {
     //Testing purpose===============
-    let data = "016000275287";
+    //let data = "016000275287";
+    //Testing end ==================
 
-    //=============
     if (data === "" || data === undefined) {
       data = "[data_info should be here]";
       name = "[data_info should be here]";
@@ -90,7 +90,7 @@ export default function ProductSingleScreen({ route, navigation }) {
     async function getInfo() {
       try {
 
-        /*
+        
       let res = await fetch(serverInfo.path + "/scannedCode", {
 
         method: "POST",
@@ -106,14 +106,14 @@ export default function ProductSingleScreen({ route, navigation }) {
         }),
       });
       let response = await res.json();
-      */
+      
 
 
 
 
         //Testing =======================================================
         //-------------------------------------------------------------------
-
+        /*
         let response0 = {
           "gHGEmissions": 3.1579166666666665,
           "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
@@ -200,12 +200,13 @@ export default function ProductSingleScreen({ route, navigation }) {
         }
         let responses = [response0, response1, response2]
         let response = responses[Math.floor(Math.random() * 3)];
+        */
         //-------------------------------------------------------------------
         //Testing End =======================================================
 
 
         console.log(response);
-        setInfoFromResponse(response);
+        setInfoFromResponse(response); //defined at the beginning
 
       } catch (e) {
         console.error(e);

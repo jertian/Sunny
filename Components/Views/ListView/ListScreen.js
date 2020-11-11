@@ -114,9 +114,9 @@ function ListScreen({ route, navigation }) {
    
     <View style={styles.container}>
      <View style={styles.imageContainer}>
-        
+             <Image source={require('../../../assets/your_groceries.png')} style={styles.logoTop} />
+
      </View>
-     <Image source={require('../../../assets/your_groceries.png')} style={styles.logoTop} />
      {/*
      <Image source={require('../../../assets/produce_icon.png')} style={styles.logoTop} />
        <Header></Header>

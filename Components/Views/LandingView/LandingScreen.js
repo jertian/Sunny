@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Button, Text,StyleSheet,TouchableOpacity,Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeExampleScreen from "../HomeExampleView/HomeExampleScreen";
+import HomeExampleScreen from "./../HomeView/HomeScreen";
 
 
 
@@ -20,7 +20,7 @@ function LandingScreen({ navigation }) {
       <Text style = {styles.text}>take the step to a more responsible shopping experience </Text>
       <ThemeContext.Provider value="light">
         
-      <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("HomeScreen")} >
+      <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("LoginScreen")} >
       <Text style={styles.buttonText}>get started</Text>
       </TouchableOpacity>
 
@@ -34,6 +34,7 @@ function LandingScreen({ navigation }) {
     
     
   );
+  
 }
 
 const styles = StyleSheet.create({
@@ -58,15 +59,15 @@ const styles = StyleSheet.create({
     fontSize: 40, 
     height: 60,
     textAlign: 'center',
-    fontFamily: 'nunito'
+    fontFamily: 'Nunito_400Regular'
+
   },
   text: {
     color: '#A3A3A3',
     fontSize: 13, 
     height: 50,
     textAlign: 'center',
-    fontFamily: 'nunito'
-
+    fontFamily: 'Nunito_400Regular'
   },
   orange: {
     height: 405,

@@ -2,7 +2,7 @@ import React, { useState, useEffect }  from 'react';
 import {Text, TouchableOpacity, StyleSheet, TouchableHighlight, Button, Alert} from 'react-native';
 import {windowHeight, windowWidth} from '../../../utils/Dimensions';
 
-const LoginButton = ({buttonTitle, ...rest}) => {
+const PreferenceButton = ({buttonTitle, initialToggle, onClickCallback, ...rest}) => {
 
   /*
   var touchProps = {
@@ -25,10 +25,12 @@ let y = foo.y;
 
 //x = 5
 //y = 2
-*/
-  const [color, setColor] = useState("#FFFFFF");
-  let foo = {initalColor:"#FFFFFF", second :"#98FB98"}
-  let {initalColor,second} = foo
+*/  
+  const [isToggled, setToggled] = useState(initialToggle);
+
+  const [color, setColor] = useState(initialToggle ? "#98FB98" : "#FFFFFF");
+  let foo = {inActiveColor:"#FFFFFF", activeColor :"#98FB98"}
+  let {inActiveColor, activeColor} = foo
 /*
   <Button
       title= {buttonTitle}
@@ -42,11 +44,11 @@ let y = foo.y;
           setColor("#000080")
         }
         
-        //console.log(initalColor)
+        //console.log(inActiveColor)
         console.log('HELLO')
         //setColor("#811111")
-        event.target.color = second
-        console.log(initalColor)
+        event.target.color = activeColor
+        console.log(inActiveColor)
       
       }}
       accessibilityLabel="Learn more about this purple button"
@@ -57,13 +59,19 @@ let y = foo.y;
     borderRadius: 10,}} {...rest}
     
      onPress={(event,style) => { 
-      if (color == "#e0ffdd"){
-          setColor("#FFFFFF")
+      
+
+
+      if (isToggled){
+          setToggled(false);
+          setColor("#FFFFFF");
         }
         else{
-          setColor("#e0ffdd")
+          setToggled(true);
+          setColor("#98FB98");
         }
 
+      onClickCallback(!isToggled); //isToggled not updated yet
      }}>
       <Text style={styles.buttonText}>{buttonTitle}</Text>
     </TouchableOpacity>
@@ -71,7 +79,7 @@ let y = foo.y;
   );
 };
 
-export default LoginButton;
+export default PreferenceButton;
 
 const styles = StyleSheet.create({
   buttonContainer: {

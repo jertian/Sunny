@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
   susIcon: {
     height: 30,
     width: 30,
-    fontSize: 18,
     color: '#2e64e5',
     margin: 7
   },

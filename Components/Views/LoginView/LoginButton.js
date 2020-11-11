@@ -2,9 +2,13 @@ import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {windowHeight, windowWidth} from '../../../utils/Dimensions';
 
-const LoginButton = ({buttonTitle, ...rest}) => {
+const LoginButton = ({buttonTitle, onClick, ...rest}) => {
   return (
-    <TouchableOpacity style={styles.buttonContainer} {...rest}>
+    <TouchableOpacity 
+    style={styles.buttonContainer} 
+    onPress={onClick}
+    {...rest}
+    >
       <Text style={styles.buttonText}>{buttonTitle}</Text>
     </TouchableOpacity>
   );

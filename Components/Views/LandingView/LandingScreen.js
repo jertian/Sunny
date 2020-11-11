@@ -16,7 +16,7 @@ function LandingScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1,flexDirection: 'column',justifyContent: "center",alignItems: 'center', backgroundColor: '#FFFFFF'}}>
-      <Text style = {styles.title}>sunny scanner</Text>
+      <Text style = {styles.title}>Sunny Scanner</Text>
       <Text style = {styles.text}>take the step to a more responsible shopping experience </Text>
       <ThemeContext.Provider value="light">
         
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#D0B580',
-    fontSize: 40, 
+    fontSize: 50, 
     height: 60,
     textAlign: 'center',
     fontFamily: 'Nunito_400Regular'

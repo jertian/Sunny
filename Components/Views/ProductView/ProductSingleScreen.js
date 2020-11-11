@@ -270,6 +270,7 @@ export default function ProductSingleScreen({ route, navigation }) {
     }else {
       return (  (<Image source={{ uri: "../../../assets/loading_gif.gif" }} style={styles.productImage}/>))
   }
+}
   return (
     <Fragment>
       <View style={styles.container}>

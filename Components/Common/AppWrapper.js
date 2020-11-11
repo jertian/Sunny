@@ -17,23 +17,24 @@ import { useSelector, useDispatch } from 'react-redux'
 import React, { useState, useEffect, Fragment } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 
 
 const Stack = createStackNavigator();
-const initialScreen = "ListScreen"; //ProductSingleScreen 
+const initialScreen = "HomeScreen"; //ProductSingleScreen 
 
 export default function AppWrapper() {
-    const selectProduct = state => state.products;
-    let productsRedux = useSelector(selectProduct);
-    const dispatchProducts = useDispatch()
+    let [fakeInfo, setFakeInfo] = useState(false);
 
-    let [fakeInfo, setFakeInfo] = useState(false)
 
-        //Testing =======================================================
-      //-------------------------------------------------------------------
-      function tryToFakeInfo(){
-      let response = {
+//Testing =======================================================
+//-------------------------------------------------------------------
+
+function tryToFakeInfo() {
+    let response = {
         "gHGEmissions": 3.1579166666666665,
         "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
         "ingredients": [
@@ -61,10 +62,9 @@ export default function AppWrapper() {
         "parentCompany": "General Mills",
         "subsidiaries": [],
         "upc": "016000275287",
-        "storageId" : 0
 
     };
-  
+
     let response1 = {
         "gHGEmissions": 3.4,
         "image": "https://images.barcodelookup.com/3215/32152522-1.jpg",
@@ -85,75 +85,62 @@ export default function AppWrapper() {
             "Grocery International Holdings, Inc."
         ],
         "upc": "030000010402",
-        "storageId" : 1
 
     }
-  
+
     let response2 = {
-      "gHGEmissions": 3.1164999999999994,
-      "image": "https://images.barcodelookup.com/2754/27543194-1.jpg",
-      "ingredients": [
-          "rice",
-          "wheat gluten",
-          "sugar",
-          "defatted wheat germ",
-          "contains 2% or less of salt",
-          "whey",
-          "malt flavor",
-          "calcium caseinate.vitamins and minerals: vitamin c (ascorbic acid)",
-          "reduced iron",
-          "niacinamide",
-          "vitamin b6 (pyridoxine hydrochloride)",
-          "vitamin b1 (thiamin hydrochloride)",
-          "vitamin b2 (riboflavin)",
-          "folic acid",
-          "vitamin a palmitate",
-          "vitamin b12",
-          "vitamin d3."
-      ],
-      "isFairTrade": false,
-      "isSustainableBrand": true,
-      "isVegan": false,
-      "isVegetarian": true,
-      "item": "Special K Original Breakfast Cereal - 12oz - Kellogg's",
-      "manufacturer": "Special K",
-      "parentCompany": "Kellogg's",
-      "subsidiaries": [],
-      "upc": "038000016110",
-      "storageId" : 3
-  }
-  
-        productsRedux = useSelector(selectProduct);
-        let storageId = productsRedux.productListHistory.length;
-        dispatchProducts({type: "product/productListCurrent", payload: {...response, storageId : storageId}});
-        dispatchProducts({type: "product/productListHistory", payload: {...response, storageId : storageId}});
+        "gHGEmissions": 3.1164999999999994,
+        "image": "https://images.barcodelookup.com/2754/27543194-1.jpg",
+        "ingredients": [
+            "rice",
+            "wheat gluten",
+            "sugar",
+            "defatted wheat germ",
+            "contains 2% or less of salt",
+            "whey",
+            "malt flavor",
+            "calcium caseinate.vitamins and minerals: vitamin c (ascorbic acid)",
+            "reduced iron",
+            "niacinamide",
+            "vitamin b6 (pyridoxine hydrochloride)",
+            "vitamin b1 (thiamin hydrochloride)",
+            "vitamin b2 (riboflavin)",
+            "folic acid",
+            "vitamin a palmitate",
+            "vitamin b12",
+            "vitamin d3."
+        ],
+        "isFairTrade": false,
+        "isSustainableBrand": true,
+        "isVegan": false,
+        "isVegetarian": true,
+        "item": "Special K Original Breakfast Cereal - 12oz - Kellogg's",
+        "manufacturer": "Special K",
+        "parentCompany": "Kellogg's",
+        "subsidiaries": [],
+        "upc": "038000016110",
+    }
 
-        productsRedux = useSelector(selectProduct);
-        storageId = productsRedux.productListHistory.length;
-        dispatchProducts({type: "product/productListCurrent", payload: {...response1, storageId : storageId}});
-        dispatchProducts({type: "product/productListHistory", payload: {...response1, storageId : storageId}});
+    let dataList = [response, response1, response2]
+    const storeData = async (dataList) => {
+        try {
+            await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(dataList))
+            await AsyncStorage.setItem('@currentShoppingListCount', JSON.stringify(dataList.length))
 
-        productsRedux = useSelector(selectProduct);
-        storageId = productsRedux.productListHistory.length;
-        dispatchProducts({type: "product/productListCurrent", payload: {...response2, storageId : storageId}});
-        dispatchProducts({type: "product/productListHistory", payload: {...response2, storageId : storageId}});
+        } catch (e) {
+            console.log("Stored data sucessful")
+            // saving error
+        }
+    }
+}
+if(!fakeInfo){
+tryToFakeInfo();
+setFakeInfo(true);
+}
+    //storeData(dataList)
+    //-------------------------------------------------------------------
+    //Testing End =======================================================
 
-
-
-        //setItemList(JSON.parse(JSON.stringify(productsRedux.productListCurrent)));
-        //setItemList([...itemList, ...productsRedux.productListCurrent]);
-        
-        //setItemList([...itemList, response, response1, response2]);
-
-
-        setFakeInfo(true)
-        //-------------------------------------------------------------------
-        //Testing End =======================================================
-
-  }
-  if(!fakeInfo){
-    tryToFakeInfo()
-  }  
     return (
         <NavigationContainer>
 

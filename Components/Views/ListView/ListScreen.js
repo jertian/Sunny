@@ -5,37 +5,69 @@ import Header from "./Header"
 import AddItem from "./AddItem"
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import ListItem from "./ListItem"
-import { useSelector, useDispatch  } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ThemeContext = React.createContext("light");
 
+
 function ListScreen({ route, navigation }) {
-  
+
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
-  let [itemList, setItemList] = useState([...productsRedux.productListCurrent]);
-  const dispatchProducts = useDispatch()
+  let [itemList, setItemList] = useState([]);
+  let [isItemListRetrieved, setIsItemListRetrieved] = useState(false);
 
 
+  if (!isItemListRetrieved) {
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('@currentShoppingList')
+        if (value !== null) {
+          setItemList(JSON.parse(value))
+          // value previously stored
+        }
+      } catch (e) {
+        console.error(e)
+        // error reading value
+      }
+    }
+    getData()
+    setIsItemListRetrieved(true);
+  }
+  const storeData = async (data) => {
+    try {
+      await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(data))
+      console.log("Stored data sucessful")
+
+    } catch (e) {
+      console.error(e)
+
+      // saving error
+    }
+  }
 
   function onPress(press) {
+    debugger;
+    /*
     if (press.text == item) {
       console.log("going to prod")
       //navigation.navigate("ProductSingleScreen", { product })
     }
+    */
+    let product = press;
+    navigation.navigate("ProductSingleScreen", { product });
+
   }
 
 
 
-  function deleteItem (productStorageId) {
-    //dispatchProducts({type: "product/productCurrentList/delete", payload: productStorageId});
-
+  function deleteItem(productStorageId) {
     let newCurrentList = itemList.filter(item => item.storageId !== productStorageId)
-    //itemArray = newCurrentList;
-    //debugger;
     setItemList(newCurrentList);
+    storeData(newCurrentList)
   }
-  
+
   const addItem = (text) => {
     if (!text) {
       Alert.alert('Error', 'Please enter an item ', [{ text: "Ok" }]);
@@ -48,10 +80,11 @@ function ListScreen({ route, navigation }) {
   }
 
   const ListItem = ({ item, deleteItem }) => {
-    function ProductImage(item){
-      if (item.item.image){
+    function ProductImage(item) {
+
+      if (item.item.image) {
         return <Image source={{ uri: item.item.image }} style={styles.logo} />
-      }else{
+      } else {
         return <Fragment></Fragment>
       }
 
@@ -62,20 +95,19 @@ function ListScreen({ route, navigation }) {
         onPress={() => onPress(item)}>
 
         <View style={styles.listItemView}>
-          <ProductImage item = {item}></ProductImage>
+          <ProductImage item={item}></ProductImage>
           <Text style={styles.listItemText}>{item.item}</Text>
-          <Icon name="remove" size={20} color="black"
+          <Icon name="remove" style={styles.removeIcon}
             onPress={() => deleteItem(item.storageId)} />
         </View>
       </TouchableOpacity>
     );
   };
-  
 
-  function RenderProducts () {
-    itemList.map((product, id) => (<ListItem item={product} deleteItem={deleteItem}> </ListItem>))
+
+  function RenderProducts() {
+    itemList.map((product, id) => (<ListItem key={id} item={product} deleteItem={deleteItem}> </ListItem>))
   }
-
 
   return (
     <View style={styles.container}>
@@ -83,15 +115,17 @@ function ListScreen({ route, navigation }) {
       {/* <Text style={styles.textTitle}>Product Screen</Text>*/}
       {/*<AddItem addItem={addItem} />*/}
       {/*<RenderProducts></RenderProducts>*/}
-      {/*<FlatList
+      <FlatList
         data={itemList}
-        renderItem={({ item }) => (<ListItem item={item} deleteItem={deleteItem} />
-        )} />
-*/}
-    {itemList.map((product, id) => (<ListItem key = {id} item={product} deleteItem={deleteItem}> </ListItem>))}
+        renderItem={({ item }) => (<ListItem id={item.storageId} item={item} deleteItem={deleteItem}> </ListItem>)}
+        keyExtractor={(item, index) => item.storageId.toString()}
+
+      />
+      <Button title="Scan Another Item" onPress={() => { navigation.goBack(); navigation.navigate("Camera") }} />
+
+      {/*itemList.map((product, id) => (<ListItem key = {id} item={product} deleteItem={deleteItem}> </ListItem>))*/}
       {/* 
       <ThemeContext.Provider value="light">
-        <Button title="Go back a page" onPress={() => navigation.goBack()} />
         <Button
           title="Go back to first screen in stack (Home)"
           onPress={() => navigation.popToTop()}
@@ -105,6 +139,11 @@ function ListScreen({ route, navigation }) {
 
 
 const styles = StyleSheet.create({
+  removeIcon: {
+    height: 20,
+    width: 20,
+    color: '#fab742',
+  },
   container: {
     flex: 1,
     paddingTop: 60,
@@ -118,26 +157,28 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   listItem: {
-    padding: 15,
+    padding: 10,
     backgroundColor: '#ffffff',
     borderBottomWidth: 1,
     borderColor: '#eee',
-    margin: 7,
+    flex: 1,
+
   },
   listItemView: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
+    flex: 1
   },
   listItemText: {
     fontSize: 18,
+    flex: 1
   },
   logo: {
     height: 90,
     width: 90,
     resizeMode: 'cover',
-    margin: 7,
     borderRadius: 10,
   },
 });

@@ -51,9 +51,7 @@ export default function HomeScreen({ navigation }) {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => {
-        const { type } = "";
-        const { data } = "";
-        navigation.navigate("ProductSingleScreen", { type, data });
+        navigation.navigate("ProductSingleScreen");
       }}>
         <Image
           source={require('../../../assets/login.png')}

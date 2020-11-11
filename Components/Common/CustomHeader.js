@@ -33,7 +33,7 @@ export default function CustomHeader(props) {
         </TouchableOpacity>
         )
         }
-        return <Fragment/>
+        return        (<Text style = {styles.backButtonPlaceholder}> </Text>)
     }
     function ReturnProfilePicture() {
         if (account.photoURL !== "") {
@@ -83,6 +83,13 @@ const styles = StyleSheet.create({
         marginRight: 'auto'
 
 
+    },
+    backButtonPlaceholder : {
+
+        height: 50,
+        width: 50,
+        borderRadius: 40 / 2,
+        marginRight: 'auto'
     },
     text: {
         fontSize: 18,

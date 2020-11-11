@@ -1,46 +1,94 @@
-import React, {Fragment, useState, useEffect } from "react";
-import {Button, View, Text,StyleSheet,Image, TouchableOpacity } from "react-native";
-import { useFonts, Nunito_400Regular} from '@expo-google-fonts/nunito';
-import { AppLoading} from 'expo';
+import React, { Fragment, useState, useEffect } from "react";
+import { Button, View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
+import { AppLoading } from 'expo';
 import * as Font from 'expo-font'
 import AddItem from "./AddItem"
 import serverInfo from './../../Common/ServerInfo.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useSelector, useDispatch  } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { set } from "react-native-reanimated";
 
 var products = []
 
 export default function ProductSingleScreen({ route, navigation }) {
+  const [isWaitingOnInfo, setIsWaitingOnInfo] = useState (true);
+  const [hasRetrievedCachedShoppingList, setHasRetrievedCachedShoppingList] = useState (false);
+  const [currentShoppingList, setCurrentShoppingList] = useState([]);
 
-/*
-    let { data } = route.params;
-    let { type } = route.params;
-    let { name } = route.params;
-  */
-  //Redux global calls
-  const selectProduct = state => state.products;
-  let products = useSelector(selectProduct);
-  const dispatchProducts = useDispatch()
+  const [info, setInfo] = useState({
+    scanned: false, gHGEmissions: 0, image: "", ingredients: [],
+    isVegan: false, isVegetarian: false, item: "",
+    manufacturer: "", parentCompany: "", upc: ""
+  });
+
+  console.log(route)
 
 
-  //Testing purpose===============
-  let data = "016000275287";
+  let { data } = route.params;
+  let { type } = route.params;
+  let { name } = route.params;
+  let { product } = route.params;
 
-  //=============
-  if (data === "" || data === undefined) {
-    data = "[data_info should be here]";
-    name = "[data_info should be here]";
-    type = "[type_info should be here]";
+  //Change this once, it is called when either a product is loaded or data from server retrieved
+  function setInfoFromResponse(response) {
+    setInfo({
+      scanned: true,
+      gHGEmissions: response.gHGEmissions,
+      image: response.image,
+      ingredients: response.ingredients,
+      isVegan: response.isVegan,
+      isVegetarian: response.isVegetarian,
+      item: response.item, //name
+      manufacturer: response.manufacturer,
+      parentCompany: response.parentCompany,
+      upc: response.upc,
+    })
   }
 
-
-  const [info, setInfo] = useState({scanned: false, gHGEmissions:0, image: "", ingredients: [], 
-                                      isVegan: false, isVegetarian: false, item: "", 
-                                      manufacturer: "", parentCompany: "", upc: ""});
-
-
-  async function getInfo () {
+  if(hasRetrievedCachedShoppingList){
+  const getData = async () => {
+    console.log("GETTING DATA");
     try {
+      const value = await AsyncStorage.getItem('@currentShoppingList')
+
+      if (value !== null) {
+        setCurrentShoppingList(JSON.parse(value));
+      }
+    } catch (e) {
+      // error reading value
+      console.error(e)
+
+    }
+  }
+  getData()
+  setHasRetrievedCachedShoppingList(true);
+}
+
+
+  if (isWaitingOnInfo){
+  //Check if I sent a product here from list screen
+  //If i did send a product then just display it, no need to query
+  if (product) {
+    setInfoFromResponse(product)
+  }
+  else {
+    //Testing purpose===============
+    let data = "016000275287";
+
+    //=============
+    if (data === "" || data === undefined) {
+      data = "[data_info should be here]";
+      name = "[data_info should be here]";
+      type = "[type_info should be here]";
+    }
+
+
+
+
+    async function getInfo() {
+      try {
 
         /*
       let res = await fetch(serverInfo.path + "/scannedCode", {
@@ -58,148 +106,120 @@ export default function ProductSingleScreen({ route, navigation }) {
         }),
       });
       let response = await res.json();
-    */
-  
-      
-
-
-      //Testing =======================================================
-      //-------------------------------------------------------------------
-
-     let response = {
-      "gHGEmissions": 3.1579166666666665,
-      "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
-      "ingredients": [
-          "whole grain oats",
-          "corn starch",
-          "sugar",
-          "salt",
-          "tripotassium phosphate. vitamin e (mixed tocopherols) added to preserve freshness.vitamins and minerals: calcium carbonate",
-          "iron and zinc (mineral nutrients)",
-          "vitamin c (sodium ascorbate)",
-          "a b vitamin (niacinamide)",
-          "vitamin b6 (pyridoxine hydrochloride)",
-          "vitamin a (palmitate)",
-          "vitamin b1 (thiamin mononitrate)",
-          "a b vitamin (folic acid)",
-          "vitamin b12",
-          "vitamin d3."
-      ],
-      "isFairTrade": false,
-      "isSustainableBrand": false,
-      "isVegan": false,
-      "isVegetarian": true,
-      "item": "Cheerios Cereal - 18.0 Oz",
-      "manufacturer": "Cheerios",
-      "parentCompany": "General Mills",
-      "subsidiaries": [],
-      "upc": "016000275287"
-  };
-
-  let response1 = {
-      "gHGEmissions": 3.4,
-      "image": "https://images.barcodelookup.com/3215/32152522-1.jpg",
-      "ingredients": [
-          "whole grain rolled oats."
-      ],
-      "isFairTrade": false,
-      "isSustainableBrand": false,
-      "isVegan": true,
-      "isVegetarian": true,
-      "item": "Quaker Old Fashioned Oats 42 Oz",
-      "manufacturer": "Quaker",
-      "parentCompany": "PepsiCo",
-      "subsidiaries": [
-          "Aunt Jemima Mills Company",
-          "The Quaker Oats Company of Canada Limited",
-          "Quaker Brasil Ltda.",
-          "Grocery International Holdings, Inc."
-      ],
-      "upc": "030000010402"
-  }
-
-  let response2 = {
-    "gHGEmissions": 3.1164999999999994,
-    "image": "https://images.barcodelookup.com/2754/27543194-1.jpg",
-    "ingredients": [
-        "rice",
-        "wheat gluten",
-        "sugar",
-        "defatted wheat germ",
-        "contains 2% or less of salt",
-        "whey",
-        "malt flavor",
-        "calcium caseinate.vitamins and minerals: vitamin c (ascorbic acid)",
-        "reduced iron",
-        "niacinamide",
-        "vitamin b6 (pyridoxine hydrochloride)",
-        "vitamin b1 (thiamin hydrochloride)",
-        "vitamin b2 (riboflavin)",
-        "folic acid",
-        "vitamin a palmitate",
-        "vitamin b12",
-        "vitamin d3."
-    ],
-    "isFairTrade": false,
-    "isSustainableBrand": true,
-    "isVegan": false,
-    "isVegetarian": true,
-    "item": "Special K Original Breakfast Cereal - 12oz - Kellogg's",
-    "manufacturer": "Special K",
-    "parentCompany": "Kellogg's",
-    "subsidiaries": [],
-    "upc": "038000016110"
-}
-      products = useSelector(selectProduct);
-      let storageId = products.productListHistory.length;
-      //dispatchProducts({type: "product/productListCurrent", payload: {...response, storageId : storageId}});
-      dispatchProducts({type: "product/productListHistory", payload: {...response, storageId : storageId}});
-
-      products = useSelector(selectProduct);
-       storageId = products.productListHistory.length;
-      //dispatchProducts({type: "product/productListCurrent", payload: {...response1, storageId : storageId}});
-      dispatchProducts({type: "product/productListHistory", payload: {...response1, storageId : storageId}});
-
-      products = useSelector(selectProduct);
-       storageId = products.productListHistory.length;
-      //dispatchProducts({type: "product/productListCurrent", payload: {...response2, storageId : storageId}});
-      dispatchProducts({type: "product/productListHistory", payload: {...response2, storageId : storageId}});
-
-      products.productListCurrent;
-      products = useSelector(selectProduct);
-      debugger;
-      //-------------------------------------------------------------------
-      //Testing End =======================================================
+      */
 
 
 
-     console.log(response);
-      setInfo({
-        scanned: true,
-        gHGEmissions: response.gHGEmissions,
-        image: response.image,
-        ingredients: response.ingredients,
-        isVegan: response.isVegan,
-        isVegetarian: response.isVegetarian,
-        item: response.item, //name
-        manufacturer: response.manufacturer,
-        parentCompany: response.parentCompany,
-        upc: response.upc,
-        storageId : storageId
-      })
-    } catch (e) {
-      console.error(e);
+
+        //Testing =======================================================
+        //-------------------------------------------------------------------
+
+        let response0 = {
+          "gHGEmissions": 3.1579166666666665,
+          "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
+          "ingredients": [
+            "whole grain oats",
+            "corn starch",
+            "sugar",
+            "salt",
+            "tripotassium phosphate. vitamin e (mixed tocopherols) added to preserve freshness.vitamins and minerals: calcium carbonate",
+            "iron and zinc (mineral nutrients)",
+            "vitamin c (sodium ascorbate)",
+            "a b vitamin (niacinamide)",
+            "vitamin b6 (pyridoxine hydrochloride)",
+            "vitamin a (palmitate)",
+            "vitamin b1 (thiamin mononitrate)",
+            "a b vitamin (folic acid)",
+            "vitamin b12",
+            "vitamin d3."
+          ],
+          "isFairTrade": false,
+          "isSustainableBrand": false,
+          "isVegan": false,
+          "isVegetarian": true,
+          "item": "Cheerios Cereal - 18.0 Oz",
+          "manufacturer": "Cheerios",
+          "parentCompany": "General Mills",
+          "subsidiaries": [],
+          "upc": "016000275287"
+        };
+
+        let response1 = {
+          "gHGEmissions": 3.4,
+          "image": "https://images.barcodelookup.com/3215/32152522-1.jpg",
+          "ingredients": [
+            "whole grain rolled oats."
+          ],
+          "isFairTrade": false,
+          "isSustainableBrand": false,
+          "isVegan": true,
+          "isVegetarian": true,
+          "item": "Quaker Old Fashioned Oats 42 Oz",
+          "manufacturer": "Quaker",
+          "parentCompany": "PepsiCo",
+          "subsidiaries": [
+            "Aunt Jemima Mills Company",
+            "The Quaker Oats Company of Canada Limited",
+            "Quaker Brasil Ltda.",
+            "Grocery International Holdings, Inc."
+          ],
+          "upc": "030000010402"
+        }
+
+        let response2 = {
+          "gHGEmissions": 3.1164999999999994,
+          "image": "https://images.barcodelookup.com/2754/27543194-1.jpg",
+          "ingredients": [
+            "rice",
+            "wheat gluten",
+            "sugar",
+            "defatted wheat germ",
+            "contains 2% or less of salt",
+            "whey",
+            "malt flavor",
+            "calcium caseinate.vitamins and minerals: vitamin c (ascorbic acid)",
+            "reduced iron",
+            "niacinamide",
+            "vitamin b6 (pyridoxine hydrochloride)",
+            "vitamin b1 (thiamin hydrochloride)",
+            "vitamin b2 (riboflavin)",
+            "folic acid",
+            "vitamin a palmitate",
+            "vitamin b12",
+            "vitamin d3."
+          ],
+          "isFairTrade": false,
+          "isSustainableBrand": true,
+          "isVegan": false,
+          "isVegetarian": true,
+          "item": "Special K Original Breakfast Cereal - 12oz - Kellogg's",
+          "manufacturer": "Special K",
+          "parentCompany": "Kellogg's",
+          "subsidiaries": [],
+          "upc": "038000016110"
+        }
+        let responses = [response0, response1, response2]
+        let response = responses[Math.floor(Math.random() * 3)];
+        //-------------------------------------------------------------------
+        //Testing End =======================================================
+
+
+        console.log(response);
+        setInfoFromResponse(response);
+
+      } catch (e) {
+        console.error(e);
+      }
     }
-  }
-  
- 
 
-  if (!info.scanned) {
-    getInfo()
-  } else {
-    console.log("waiting")
-  }
 
+
+
+      getInfo()
+
+  }
+  setIsWaitingOnInfo(false);
+}
   function compare() {
     console.log("comparing")
     products.push(JSON.stringify(info))
@@ -207,53 +227,79 @@ export default function ProductSingleScreen({ route, navigation }) {
     navigation.navigate("Camera")
   }
 
-  function viewComparison(){
+  function viewComparison() {
     products.push(JSON.stringify(info))
     console.log(products)
     navigation.navigate("CompareScreen", { products })
   }
 
-  function addItem(){
-    dispatchProducts({type: "product/productListCurrent", payload: info});
-    navigation.navigate("ListScreen")
+  function addItem() {
+    const storeData = async (data) => {
+      console.log("SETTING DATA");
+
+      try {
+        debugger;
+        await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(data))
+        await AsyncStorage.setItem('@currentShoppingListCount', JSON.stringify(data.length))
+
+      } catch (e) {
+         // saving error
+        console.error(e)
+      }
+    }
+
+
+
+    
+      info.storageId = currentShoppingList.length;
+      currentShoppingList.push(info)
+      storeData(currentShoppingList);
+      navigation.navigate("ListScreen")
+
+    
+
+
+
+
+
+
+
   }
 
-
-
-    return (
-      <Fragment>
+  return (
+    <Fragment>
       <View style={styles.container}>
-      {/*
+        {/*
       <Text style={styles.textTitle}>Product Screen</Text>
         */}
-        <Image source={{uri: info.image}} style={styles.productImage} />
-        
+        <Image source={{ uri: info.image }} style={styles.productImage} />
+
         <View style={{ flexDirection: 'row', margin: 10, }}>
-        {/*
+          {/*
                     <TouchableOpacity onPress={() => { }}>
                         <Icon style={{ padding: 3 }} name="leaf" size={15} color="black" />
                     </TouchableOpacity>
 */}
-                  
-                    <TouchableOpacity onPress={() => { }}>
-                    <Image source={require('../../../assets/vegan.png')} style={styles.susIcon}/>
-                    </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { }}>
-                    <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
-                    </TouchableOpacity>
+          <TouchableOpacity onPress={() => { }}>
+            <Image source={require('../../../assets/vegan.png')} style={styles.susIcon} />
+          </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { }}>
-                    <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
-                    </TouchableOpacity>
-            </View>
+          <TouchableOpacity onPress={() => { }}>
+            <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => { }}>
+            <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon} />
+          </TouchableOpacity>
+        </View>
 
         <Text style={styles.text}>{data}</Text>
         <Text style={styles.text}>{info.item}</Text>
-        
-        
-       
-        
+
+
+
+
         {/*
          <Text>
         Bar code: {type} data {data} has been scanned!
@@ -269,27 +315,27 @@ export default function ProductSingleScreen({ route, navigation }) {
         
         
         */}
-         
-        
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => {addItem()}} >
+
+
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => { addItem() }} >
           <Text style={styles.buttonText}>add item</Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => {compare()}} >
+
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => { compare() }} >
           <Text style={styles.buttonText}>compare</Text>
         </TouchableOpacity>
-        
-        {products.length>0 && 
-          
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => {viewComparison()}} >
-          <Text style={styles.buttonText}>view comparison</Text>
-        </TouchableOpacity>
+
+        {products.length > 0 &&
+
+          <TouchableOpacity style={styles.buttonContainer} onPress={() => { viewComparison() }} >
+            <Text style={styles.buttonText}>view comparison</Text>
+          </TouchableOpacity>
         }
-        
+
       </View>
-      </Fragment>
-    );
+    </Fragment>
+  );
 
 
 }
@@ -298,22 +344,22 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     flex: 1,
-    alignItems: "center", 
+    alignItems: "center",
     justifyContent: "center",
     padding: 10,
-    
+
   },
   buttonContainer: {
     height: 40,
     width: 150,
     backgroundColor: "#f19820",
     resizeMode: 'cover',
-    borderRadius:10,
-    padding:10,
+    borderRadius: 10,
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    margin:7,
+    margin: 7,
   },
   buttonText: {
     fontSize: 14,
@@ -324,9 +370,9 @@ const styles = StyleSheet.create({
     height: 300,
     width: 250,
     //resizeMode: 'cover',
-    borderRadius:0,
+    borderRadius: 0,
     marginTop: -100,
-    
+
   },
   textTitle: {
     fontSize: 38,
@@ -353,6 +399,6 @@ const styles = StyleSheet.create({
   susIcon: {
     height: 60,
     width: 60,
-    margin: 7 
+    margin: 7
   },
 });

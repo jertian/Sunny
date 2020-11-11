@@ -56,7 +56,7 @@ export default function CompareScreen({ route, navigation }) {
                     }
                     {productInfo[0].isSustainableBrand && 
                     <TouchableOpacity onPress={() => { }}>
-                    <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
+                    <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
                     }
             </View>

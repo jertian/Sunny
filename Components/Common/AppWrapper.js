@@ -24,7 +24,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createStackNavigator();
-const initialScreen = "LandingScreen"; 
+const initialScreen = "HomeScreen"; 
 //ProductSingleScreen //LandingScreen //Camera //HomeScreen
 
 export default function AppWrapper() {

@@ -3,7 +3,7 @@ const initialState = {
     fName : "Guest",
     email : "",
     lName : "",
-    photoURL : "https://lh3.googleusercontent.com/a-/AOh14Gh6RTH55oIjZjchedXuuDdCxd8EjFvRRAaCrdOmaZU=s96-c"
+    photoURL : ""
 
 }
 

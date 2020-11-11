@@ -103,6 +103,8 @@ export default function ProductSingleScreen ({ route, navigation }){
     return <AppLoading / >
   }
 
+  
+
     return (
       <Fragment>
       <Header></Header>
@@ -139,10 +141,16 @@ export default function ProductSingleScreen ({ route, navigation }){
                     <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
                     }  
+                    
+                    {true && 
+                    <TouchableOpacity style={styles.greenEmission}>
+                    <Text style={styles.textEmission}> {info.Emissions} </Text>
+                    </TouchableOpacity>
+                    }
             </View>
 
-        <Text style={styles.text}>{data}</Text>
-        <Text style={styles.text}>{info.item}</Text>
+        <Text style={styles.text}>{data} </Text>
+        <Text style={styles.text}>{info.item} - {info.parentCompany}</Text>
         
         
        
@@ -250,5 +258,23 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#2e64e5',
     margin: 7
+  },
+  greenEmission: {
+    height: 50,
+    width: 50,
+    fontSize: 12,
+    color: '#2e64e5',
+    borderWidth:5,
+    borderColor  : "#f19820",
+    borderRadius: 50,
+    alignItems : "center" ,
+    
+  },
+  textEmission: {
+    fontSize: 17,
+    color: "black",
+    
+    textAlign: 'left',
+    paddingTop:10,
   },
 });

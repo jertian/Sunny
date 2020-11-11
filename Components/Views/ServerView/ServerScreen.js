@@ -37,7 +37,7 @@ function ServerScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>Server Screen</Text>
-      <Text>data {data}</Text>
+      <Text>data, click button to see if I'm connected, it should update {data}</Text>
       <ThemeContext.Provider value="light">
         <ThemedButton
           title="Call server"

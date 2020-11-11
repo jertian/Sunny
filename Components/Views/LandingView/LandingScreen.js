@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   orange: {
     height: 405,
-    width: 370,
+    width: 400,
     justifyContent: 'flex-end',
     alignSelf: 'flex-end', 
     marginBottom: -210,

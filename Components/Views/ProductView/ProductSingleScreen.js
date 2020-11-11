@@ -281,18 +281,27 @@ export default function ProductSingleScreen({ route, navigation }) {
                     </TouchableOpacity>
 */}
 
-          <TouchableOpacity onPress={() => { }}>
-            <Image source={require('../../../assets/vegan.png')} style={styles.susIcon} />
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => { }}>
-            <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon} />
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => { }}>
-            <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon} />
-          </TouchableOpacity>
-        </View>
+                    {info.isVegan &&                  
+                    <TouchableOpacity >
+                    <Image source={require('../../../assets/vegan.png')} style={styles.susIcon} />
+                    </TouchableOpacity>
+                    }
+                    {info.isVegetarian &&    
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                     }
+                    {info.isFairTrade &&   
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                    }  
+                    {info.isSustainableBrand &&   
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                    }  
+            </View>
 
         <Text style={styles.text}>{data}</Text>
         <Text style={styles.text}>{info.item}</Text>
@@ -321,8 +330,9 @@ export default function ProductSingleScreen({ route, navigation }) {
         <TouchableOpacity style={styles.buttonContainer} onPress={() => { addItem() }} >
           <Text style={styles.buttonText}>add item</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => { compare() }} >
+        
+        <View style={{ flexDirection: 'row', margin: 10, }}>  
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => {compare()}} >
           <Text style={styles.buttonText}>compare</Text>
         </TouchableOpacity>
 
@@ -332,7 +342,7 @@ export default function ProductSingleScreen({ route, navigation }) {
             <Text style={styles.buttonText}>view comparison</Text>
           </TouchableOpacity>
         }
-
+        </View>
       </View>
     </Fragment>
   );
@@ -359,20 +369,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    margin: 7,
+    margin:5,
   },
   buttonText: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
   },
   productImage: {
     height: 300,
-    width: 250,
+    width: 150,
     //resizeMode: 'cover',
-    borderRadius: 0,
-    marginTop: -100,
-
+    borderRadius:10,
+    marginTop: -80,
+    
   },
   textTitle: {
     fontSize: 38,
@@ -397,8 +407,10 @@ const styles = StyleSheet.create({
     color: '#2e64e5',
   },
   susIcon: {
-    height: 60,
-    width: 60,
+    height: 50,
+    width: 50,
+    fontSize: 18,
+    color: '#2e64e5',
     margin: 7
   },
 });

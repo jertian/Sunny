@@ -46,6 +46,7 @@ function ListScreen({ route, navigation }) {
       // saving error
     }
   }
+  
 
   function onPress(press) {
     debugger;
@@ -110,11 +111,18 @@ function ListScreen({ route, navigation }) {
   }
 
   return (
+   
     <View style={styles.container}>
-      <Header></Header>
-      {/* <Text style={styles.textTitle}>Product Screen</Text>*/}
-      {/*<AddItem addItem={addItem} />*/}
-      {/*<RenderProducts></RenderProducts>*/}
+     <View style={styles.imageContainer}>
+        
+     </View>
+     <Image source={require('../../../assets/your_groceries.png')} style={styles.logoTop} />
+     {/*
+     <Image source={require('../../../assets/produce_icon.png')} style={styles.logoTop} />
+       <Header></Header>
+      <Text style={styles.textTitle}>Product Screen</Text>*/}
+      
+      <AddItem addItem={addItem}/>
       <FlatList
         data={itemList}
         renderItem={({ item }) => (<ListItem id={item.storageId} item={item} deleteItem={deleteItem}> </ListItem>)}
@@ -123,7 +131,6 @@ function ListScreen({ route, navigation }) {
       />
       <Button title="Scan Another Item" onPress={() => { navigation.goBack(); navigation.navigate("Camera") }} />
 
-      {/*itemList.map((product, id) => (<ListItem key = {id} item={product} deleteItem={deleteItem}> </ListItem>))*/}
       {/* 
       <ThemeContext.Provider value="light">
         <Button
@@ -146,8 +153,16 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: 60,
+   
     backgroundColor: '#FFFFFF',
+
+  },
+  imageContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   textTitle: {
@@ -155,11 +170,11 @@ const styles = StyleSheet.create({
     color: 'red',
     alignItems: "center",
     justifyContent: "center",
-  },
-  listItem: {
-    padding: 10,
-    backgroundColor: '#ffffff',
-    borderBottomWidth: 1,
+    },
+   listItem:{
+    padding: 0, 
+    backgroundColor: '#ffffff', 
+    borderBottomWidth: 1, 
     borderColor: '#eee',
     flex: 1,
 
@@ -177,9 +192,15 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 90,
-    width: 90,
+    width: 100,
     resizeMode: 'cover',
     borderRadius: 10,
+  },
+  logoTop: {
+    height: 200,
+    width: 400,
+    resizeMode: 'cover',
+    borderRadius:0,
   },
 });
 

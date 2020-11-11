@@ -39,17 +39,26 @@ export default function CompareScreen({ route, navigation }) {
                         <Icon style={{ padding: 3 }} name="leaf" size={15} color="black" />
                     </TouchableOpacity>
 */}
+                    {productInfo[0].isVegan &&  
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/vegan.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
-
+                    }
+                    {productInfo[0].isVegetarian && 
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
-
+                    }
+                    {productInfo[0].isFairTrade && 
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
+                    }
+                    {productInfo[0].isSustainableBrand && 
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                    }
             </View>
         
         <Image
@@ -70,17 +79,26 @@ export default function CompareScreen({ route, navigation }) {
                         <Icon style={{ padding: 3 }} name="leaf" size={15} color="black" />
                     </TouchableOpacity>
 */}
+                    {productInfo[1].isVegan &&  
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/vegan.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
-
+                    }
+                    {productInfo[1].isVegetarian &&  
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
-
+                    }
+                    {productInfo[1].isFairTrade &&   
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
+                    }
+                    {productInfo[1].isSustainableBrand && 
+                    <TouchableOpacity onPress={() => { }}>
+                    <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                    }
             </View>
 
 
@@ -102,7 +120,7 @@ const styles = StyleSheet.create({
   },
   productImage: {
     height: 200,
-    width: 250,
+    width: 200,
     resizeMode: 'cover',
     borderRadius:10,
     marginVertical:7

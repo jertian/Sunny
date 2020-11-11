@@ -59,10 +59,15 @@ export default function CompareScreen({ route, navigation }) {
                     <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
                     </TouchableOpacity>
                     }
+                    {true && 
+                    <TouchableOpacity style={styles.greenEmission}>
+                    <Text style={styles.textEmission}> {productInfo[0].gHGEmissions} </Text>
+                    </TouchableOpacity>
+                    }
             </View>
         
         <Image
-          source={{uri: productInfo[0].image}}
+          source={{uri: productInfo[1].image}}
           style={styles.productImage}
         />
         {/*<Text>
@@ -97,6 +102,11 @@ export default function CompareScreen({ route, navigation }) {
                     {productInfo[1].isSustainableBrand && 
                     <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
+                    </TouchableOpacity>
+                    }
+                    {true && 
+                    <TouchableOpacity style={styles.greenEmission}>
+                    <Text style={styles.textEmission}> {productInfo[1].gHGEmissions} </Text>
                     </TouchableOpacity>
                     }
             </View>
@@ -148,9 +158,28 @@ const styles = StyleSheet.create({
     color: '#2e64e5',
   },
   susIcon: {
-    height: 30,
-    width: 30,
+    height: 40,
+    width: 40,
     color: '#2e64e5',
     margin: 7
+  },
+  greenEmission: {
+    height: 40,
+    width: 40,
+    fontSize: 12,
+    color: '#2e64e5',
+    borderWidth:5,
+    borderColor  : "#f19820",
+    borderRadius: 50,
+    alignItems : "center" ,
+    margin: 7
+    
+  },
+  textEmission: {
+    fontSize: 17,
+    color: "black",
+    
+    textAlign: 'left',
+    paddingTop:5,
   },
 });

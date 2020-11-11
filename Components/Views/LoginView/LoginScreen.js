@@ -318,16 +318,16 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    marginBottom: 10,
+    marginBottom: 5,
     color: '#051d5f',
     fontFamily: 'Nunito_400Regular'
 
   },
   navButton: {
-    marginTop: 15,
+    marginTop: 10,
   },
   forgotButton: {
-    marginVertical: 20,
+    marginVertical: 10,
   },
   navButtonText: {
     fontSize: 15,

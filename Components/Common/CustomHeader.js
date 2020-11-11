@@ -35,13 +35,18 @@ export default function CustomHeader(props) {
         }
         return        (<Text style = {styles.backButtonPlaceholder}> </Text>)
     }
-    function ReturnProfilePicture() {
+    function ProfilePicture() {
         if (account.photoURL !== "") {
             return (
                 <View style={styles.profilePicture}>
                     <Image source={{ uri: account.photoURL }} style={styles.profilePicture} />
                 </View>
             )
+        }
+        else {
+            return (<View style={styles.profilePicture}>
+            <Image source={require('./../../assets/blank_profile.png')}  style={styles.profilePicture} />
+        </View>)
         }
     }
 
@@ -51,7 +56,7 @@ export default function CustomHeader(props) {
             <BackButtonComponent></BackButtonComponent>
         
             <TitleComponent title={props.title} />
-            <ReturnProfilePicture></ReturnProfilePicture>
+            <ProfilePicture></ProfilePicture>
         </View>
 /* In case the header doesn't divide properly this is a working example found at https://snack.expo.io/@jamesvachao/custom-header-title-component
       <View style={{

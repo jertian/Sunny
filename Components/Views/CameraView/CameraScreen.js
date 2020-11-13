@@ -60,7 +60,15 @@ export default function CameraScreen({ route, navigation }) {
       navigation.pop()
       setScanned(true);
       console.log("navigating")
-      navigation.navigate("ProductSingleScreen", { type, data, shouldCompare, compareProducts });
+      let action;
+      if (shouldCompare){
+        action = "DisplayCompareProduct"
+      }
+      else{ 
+        action = "DisplayScannedProduct";
+
+      }
+      navigation.navigate("ProductSingleScreen", { type, data, action, compareProducts });
     } else{
       //camera scans a few times before navigating
       //console.log("spam")

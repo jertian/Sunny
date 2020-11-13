@@ -12,6 +12,7 @@ const ThemeContext = React.createContext("light");
 
 
 function ListScreen({ route, navigation }) {
+  let {productToAdd} = route.params;
   const dispatchProducts = useDispatch()
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
@@ -19,7 +20,10 @@ function ListScreen({ route, navigation }) {
   let [isCacheLoaded, setIsCacheLoaded] = useState(false);
   const storeData = async (data) => {
     try {
+      debugger;
       await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(data))
+      await AsyncStorage.setItem('@availableProductId', productsRedux.availableProductId)
+
       console.log("Stored data in cache sucessful")
 
     } catch (e) {
@@ -38,10 +42,18 @@ function ListScreen({ route, navigation }) {
   //then we know we should be keeping itemList and redux in sync
   //we do this so that we give time for cache to load both on the app and on this list page
   if(!productsRedux.shouldRetrieveFromCache || productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache && isCacheLoaded){
-  if(itemList  != productsRedux.productListCurrent){
+    //Once cache is loaded we can deal with any products that have been passed in
+    if (productToAdd){
+      productToAdd.storageId = productsRedux.getAvailableProductId();
+
+      setItemList([...itemList, productToAdd]);
+      route.params.productToAdd = null;
+    }
+    if(itemList  != productsRedux.productListCurrent){
     
     dispatchProducts({ type: 'product/productListCurrent/replaceAll', payload: itemList })
     storeData(itemList);
+    
   }
 }
   
@@ -82,7 +94,8 @@ function ListScreen({ route, navigation }) {
     }
     */
     let product = press;
-    navigation.navigate("ProductSingleScreen", { product });
+    let action = "DisplayExistingProduct";
+    navigation.navigate("ProductSingleScreen", { action, product });
 
   }
 
@@ -129,7 +142,7 @@ function ListScreen({ route, navigation }) {
         "upc": "016000275287",
   
     };
-    response.storageId = itemList.length;
+    response.storageId = productsRedux.getAvailableProductId();
       setItemList([response, ...itemList]);
       
     }

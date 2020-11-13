@@ -153,17 +153,24 @@ setFakeInfo(true);
 if (shouldUseCache && !isUsingCache){
 const getCurrentShoppingListFromCache = async () => {
     try {
-      const value = await AsyncStorage.getItem('@currentShoppingList')
-      if (value !== null) {
+      const currentShoppingList = await AsyncStorage.getItem('@currentShoppingList')
+    
+      // value previously stored
+      if (currentShoppingList !== null) {
         //setItemList(JSON.parse(value))
-        dispatchProducts({ type: 'product/productListCurrent/replaceAll', payload: JSON.parse(value) })
+        dispatchProducts({ type: 'product/productListCurrent/replaceAll', payload: JSON.parse(currentShoppingList) })
         dispatchProducts({ type: 'product/hasRetrievedFromCache', payload: true })
-
-        console.log("I am using cache data")
-        debugger;
-
-        // value previously stored
       }
+
+      const availableProductId = await AsyncStorage.getItem('@availableProductId')
+      debugger;
+      if (availableProductId !== null) {
+        dispatchProducts({ type: 'product/availableProductId/update', payload: JSON.parse(availableProductId) })
+
+
+      }
+      console.log("I am using cache data")
+
     } catch (e) {
       console.error(e)
       // error reading value

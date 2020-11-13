@@ -2,7 +2,11 @@ const initialState = {
     productListCurrent : [],
     productListHistory : [],
     shouldRetrieveFromCache: true,
-    hasRetrievedFromCache : false
+    hasRetrievedFromCache : false,
+    availableProductId : 0,
+    getAvailableProductId : function () { 
+      return this.availableProductId++;
+    }
 }
 
 /*
@@ -36,13 +40,25 @@ export default function productSlice(state = initialState, action) {
             productListHistory : [action.payload]
         }
       }
+      case 'product/productListCurrent/add':{
+        return {
+          ...state,
+          productListCurrent : [...state.productListCurrent, action.payload]
+      }
+      }
       case 'product/hasRetrievedFromCache': {
         return {
           ...state,
           hasRetrievedFromCache: true
         }
       }
- 
+      case 'product/availableProductId/update': {
+        debugger;
+        return {
+          ...state,
+          availableProductId: action.payload
+        }
+      }
       default:
         return state
     }

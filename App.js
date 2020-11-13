@@ -18,13 +18,6 @@ import CustomHeader from "./Components/Common/CustomHeader";
 
 const Stack = createStackNavigator();
 
-const fetchFonts = () => {
-  return Font.loadAsync({
-    'nunito': require('./assets/fonts/Nunito-ExtraBold.ttf')
-
-  });
-  };
-
 
 
 

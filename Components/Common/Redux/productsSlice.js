@@ -1,6 +1,8 @@
 const initialState = {
     productListCurrent : [],
     productListHistory : [],
+    shouldRetrieveFromCache: true,
+    hasRetrievedFromCache : false
 }
 
 /*
@@ -11,10 +13,10 @@ const initialState = {
 
 export default function productSlice(state = initialState, action) {
   switch (action.type) {
-      case 'product/productListCurrent': {
+      case 'product/productListCurrent/replaceAll': {
         return {
             ...state,
-            productListCurrent : [...state.productListCurrent, action.payload]
+            productListCurrent :  action.payload
             
         }
          
@@ -28,13 +30,17 @@ export default function productSlice(state = initialState, action) {
             
         }
       }
-      case 'product/productListHistory': {
+      case 'product/productListHistory/replaceAll': {
         return {
             ...state,
-            productListHistory : [...state.productListHistory, action.payload]
-            
+            productListHistory : [action.payload]
         }
-         
+      }
+      case 'product/hasRetrievedFromCache': {
+        return {
+          ...state,
+          hasRetrievedFromCache: true
+        }
       }
  
       default:

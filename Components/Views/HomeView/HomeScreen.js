@@ -129,6 +129,8 @@ tryToFakeInfo();
 setFakeInfo(true);
 }
 */
+navigation.navigate("ListScreen") 
+
   return (
     <View style={styles.container}>
 

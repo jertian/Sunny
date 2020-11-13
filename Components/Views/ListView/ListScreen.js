@@ -12,29 +12,55 @@ const ThemeContext = React.createContext("light");
 
 
 function ListScreen({ route, navigation }) {
-
+  const dispatchProducts = useDispatch()
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
-  let [itemList, setItemList] = useState([]);
-  let [isItemListRetrieved, setIsItemListRetrieved] = useState(false);
+  let [itemList, setItemList] = useState(productsRedux.productListCurrent);
+  let [isCacheLoaded, setIsCacheLoaded] = useState(false);
+  const storeData = async (data) => {
+    try {
+      await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(data))
+      console.log("Stored data in cache sucessful")
 
+    } catch (e) {
+      console.error(e)
 
-  if (!isItemListRetrieved) {
-    const getData = async () => {
-      try {
-        const value = await AsyncStorage.getItem('@currentShoppingList')
-        if (value !== null) {
-          setItemList(JSON.parse(value))
-          // value previously stored
-        }
-      } catch (e) {
-        console.error(e)
-        // error reading value
-      }
+      // saving error
     }
-    getData()
-    setIsItemListRetrieved(true);
   }
+
+  if(!isCacheLoaded && productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache){
+    setItemList(productsRedux.productListCurrent)
+    setIsCacheLoaded(true)
+  }
+
+  //if we don't care about cache or we care and we've loaded from cache on the app and we've loaded cache on this page
+  //then we know we should be keeping itemList and redux in sync
+  //we do this so that we give time for cache to load both on the app and on this list page
+  if(!productsRedux.shouldRetrieveFromCache || productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache && isCacheLoaded){
+  if(itemList  != productsRedux.productListCurrent){
+    
+    dispatchProducts({ type: 'product/productListCurrent/replaceAll', payload: itemList })
+    storeData(itemList);
+  }
+}
+  
+/*
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@currentShoppingList')
+      if (value !== null) {
+        setItemList(JSON.parse(value))
+        // value previously stored
+      }
+    } catch (e) {
+      console.error(e)
+      // error reading value
+    }
+  }
+  getData()
+  setIsItemListRetrieved(true);
+  
   const storeData = async (data) => {
     try {
       await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(data))
@@ -46,10 +72,9 @@ function ListScreen({ route, navigation }) {
       // saving error
     }
   }
-  
+  */
 
   function onPress(press) {
-    debugger;
     /*
     if (press.text == item) {
       console.log("going to prod")
@@ -66,7 +91,7 @@ function ListScreen({ route, navigation }) {
   function deleteItem(productStorageId) {
     let newCurrentList = itemList.filter(item => item.storageId !== productStorageId)
     setItemList(newCurrentList);
-    storeData(newCurrentList)
+    //storeData(newCurrentList)
   }
 
   const addItem = (text) => {
@@ -74,9 +99,39 @@ function ListScreen({ route, navigation }) {
       Alert.alert('Error', 'Please enter an item ', [{ text: "Ok" }]);
     }
     else {
-      setItems(prevItems => {
-        return [{ id: uuidv4(), text }, ...prevItems];
-      });
+      let response = {
+        "gHGEmissions": 3.1579166666666665,
+        "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
+        "ingredients": [
+            "whole grain oats",
+            "corn starch",
+            "sugar",
+            "salt",
+            "tripotassium phosphate. vitamin e (mixed tocopherols) added to preserve freshness.vitamins and minerals: calcium carbonate",
+            "iron and zinc (mineral nutrients)",
+            "vitamin c (sodium ascorbate)",
+            "a b vitamin (niacinamide)",
+            "vitamin b6 (pyridoxine hydrochloride)",
+            "vitamin a (palmitate)",
+            "vitamin b1 (thiamin mononitrate)",
+            "a b vitamin (folic acid)",
+            "vitamin b12",
+            "vitamin d3."
+        ],
+        "isFairTrade": false,
+        "isSustainableBrand": false,
+        "isVegan": false,
+        "isVegetarian": true,
+        "item": "Cheerios Cereal - 18.0 Oz",
+        "manufacturer": "Cheerios",
+        "parentCompany": "General Mills",
+        "subsidiaries": [],
+        "upc": "016000275287",
+  
+    };
+    response.storageId = itemList.length;
+      setItemList([response, ...itemList]);
+      
     }
   }
 

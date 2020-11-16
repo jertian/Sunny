@@ -25,12 +25,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createStackNavigator();
-const initialScreen = "LandingScreen"; 
+const initialScreen = "HomeScreen";
+
 //ProductSingleScreen //LandingScreen //Camera //HomeScreen
+
+
 
 export default function AppWrapper() {
     let [fakeInfo, setFakeInfo] = useState(false);
-
+    const dispatchProducts = useDispatch()
+    let [isUsingCache, setIsUsingCache] = useState(false);
+    let shouldUseCache = true;
+    
     let compareProducts
 //Testing =======================================================
 //-------------------------------------------------------------------
@@ -144,6 +150,35 @@ tryToFakeInfo();
 setFakeInfo(true);
 }
 
+if (shouldUseCache && !isUsingCache){
+const getCurrentShoppingListFromCache = async () => {
+    try {
+      const currentShoppingList = await AsyncStorage.getItem('@currentShoppingList')
+    
+      // value previously stored
+      if (currentShoppingList !== null) {
+        //setItemList(JSON.parse(value))
+        dispatchProducts({ type: 'product/productListCurrent/replaceAll', payload: JSON.parse(currentShoppingList) })
+        dispatchProducts({ type: 'product/hasRetrievedFromCache', payload: true })
+      }
+
+      const availableProductId = await AsyncStorage.getItem('@availableProductId')
+      debugger;
+      if (availableProductId !== null) {
+        dispatchProducts({ type: 'product/availableProductId/update', payload: JSON.parse(availableProductId) })
+
+
+      }
+      console.log("I am using cache data")
+
+    } catch (e) {
+      console.error(e)
+      // error reading value
+    }
+  }
+  getCurrentShoppingListFromCache()
+  setIsUsingCache(true)
+}
     //storeData(dataList)
     //-------------------------------------------------------------------
     //Testing End =======================================================
@@ -178,7 +213,10 @@ setFakeInfo(true);
                     }} 
                 />
                 <Stack.Screen name="Camera" component={CameraScreen} 
-                    options={{ headerShown: false }} 
+                    options={{
+                        headerTitle: props => <CustomHeader {...props}
+                            />
+                    }} 
                 />
                 <Stack.Screen name="DataScreen" component={DataScreen}
                     options={{ headerTitle: props => <CustomHeader {...props} title="Statistics" /> }}

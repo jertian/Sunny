@@ -8,6 +8,41 @@ const ThemeContext = React.createContext("light");
 import { windowHeight, windowWidth } from '../../../utils/Dimensions';
 
 const Stack = createStackNavigator();
+
+/*
+Testing purposes
+================
+*/
+let shouldNavigateOnLoad = true;
+function navigateOnLoad(navigation){
+  let response1 = {
+      "gHGEmissions": 3.4,
+      "image": "https://images.barcodelookup.com/3215/32152522-1.jpg",
+      "ingredients": [
+          "whole grain rolled oats."
+      ],
+      "isFairTrade": false,
+      "isSustainableBrand": false,
+      "isVegan": true,
+      "isVegetarian": true,
+      "item": "Quaker Old Fashioned Oats 42 Oz",
+      "manufacturer": "Quaker",
+      "parentCompany": "PepsiCo",
+      "subsidiaries": [
+          "Aunt Jemima Mills Company",
+          "The Quaker Oats Company of Canada Limited",
+          "Quaker Brasil Ltda.",
+          "Grocery International Holdings, Inc."
+      ],
+      "upc": "030000010402",
+
+  }
+  let product = response1;
+  let action = "DisplayExistingProduct";
+  navigation.navigate("ProductSingleScreen", { action, product });
+}
+//===============
+//End testing code
 export default function HomeScreen({ navigation }) {
   const selectAccount = state => state.account;
   const account = useSelector(selectAccount);
@@ -129,6 +164,9 @@ tryToFakeInfo();
 setFakeInfo(true);
 }
 */
+if(shouldNavigateOnLoad){
+  navigateOnLoad(navigation)
+}
   return (
     <View style={styles.container}>
 
@@ -159,30 +197,15 @@ setFakeInfo(true);
           style={styles.logo}/>
         </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("ListScreen")}>
+      <TouchableOpacity onPress={() => {
+        let productToAdd = null;
+        navigation.navigate("ListScreen", {})
+      }
+      }>
         <Image
           source={require('../../../assets/orange_item.png')}
           style={styles.logo}/>
         </TouchableOpacity>
-
-        {/*
-        <TouchableOpacity  onPress={() => navigation.navigate("LoginScreen")}>
-        <Image
-          source={require('../../../assets/login.png')}
-          style={styles.logo}/>
-        </TouchableOpacity>
-        
-        <TouchableOpacity  onPress={() => {
-            const { type } = "";
-            const { data } = "";
-            navigation.navigate("ProductSingleScreen", { type, data });
-          }}>
-        <Image
-          source={require('../../../assets/login.png')}
-          style={styles.logo}/>
-        </TouchableOpacity>
-        */}
-
 
 
     </View>

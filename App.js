@@ -18,13 +18,6 @@ import CustomHeader from "./Components/Common/CustomHeader";
 
 const Stack = createStackNavigator();
 
-const fetchFonts = () => {
-  return Font.loadAsync({
-    'nunito': require('./assets/fonts/Nunito-ExtraBold.ttf')
-
-  });
-  };
-
 
 
 
@@ -61,78 +54,6 @@ export default function App() {
       </Provider>
 
   )
-/*
-    return (
-      <NavigationContainer>
-
-        <Stack.Navigator initialRouteName="LandingScreen">
-          <Stack.Screen
-            name="LandingScreen"
-            component={LandingScreen}
-            options={{ title: "LandingScreen" }, {headerShown: false}}
-            
-          />
-          <Stack.Screen name="ScreenExample" component={ScreenExampleScreen} />
-
-          <Stack.Screen name="ListScreen" component={ListScreen}  options={{ title: '',
-          headerStyle: {
-            backgroundColor: 'white',shadowColor: 'transparent'},
-          headerTitleStyle: {
-            fontWeight: 'bold', color: "black"}, 
-            headerTintColor: 'black',  
-          
-          }} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="HomeExampleScreen" component={HomeExampleScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="DataScreen" component={DataScreen} options={{ title: '',
-          headerStyle: {
-            backgroundColor: '#fab919',shadowColor: 'transparent'},
-          headerTitleStyle: {
-            fontWeight: 'bold',}, 
-            headerTintColor: 'white',  
-          
-          }} />
-          <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} 
-          
-          options={{ title: '',
-          headerStyle: {
-            backgroundColor: '#fab919',shadowColor: 'transparent'},
-          headerTitleStyle: {
-            fontWeight: 'bold',}, 
-            headerTintColor: 'white',  
-          
-          }} />
-          <Stack.Screen name="ProductSingleScreen" component={ProductSingleScreen} options={{ title: '',
-          headerStyle: {
-            backgroundColor: 'white',shadowColor: 'transparent'},
-          headerTitleStyle: {
-            fontWeight: 'bold', color: "black"}, 
-            headerTintColor: 'black',  
-          
-          }}/>
-
-          <Stack.Screen
-            name="CompareScreen"
-            component={CompareScreen}
-            options={{ title: '',
-            headerStyle: {
-            backgroundColor: 'white',shadowColor: 'transparent'},
-            headerTitleStyle: {
-            fontWeight: 'bold', color: "black"}, 
-            headerTintColor: 'black',  
-          
-          }}
-          />
-          <Stack.Screen
-            name="DatabaseTesterScreen"
-            component={DatabaseTesterScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-    */
   
 }
 

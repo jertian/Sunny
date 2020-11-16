@@ -4,7 +4,6 @@ import { View, Button, TouchableOpacity, Image, Text, StyleSheet } from "react-n
 import LoginInput from "./LoginInput"
 import LoginButton from "./LoginButton"
 import LoginSocialButton from "./LoginSocialButton"
-import { useFonts } from '@expo-google-fonts/nunito';
 import { useSelector, useDispatch } from 'react-redux'
 import "firebase/firestore";
 import firebase from "firebase/app";
@@ -322,7 +321,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 5,
     color: '#051d5f',
-    fontFamily: 'Nunito_400Regular'
 
   },
   navButton: {

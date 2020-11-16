@@ -1,0 +1,3 @@
+Nov 15
+
+Demo'd in class this week. Worked on updating server side communication, and final touches before demoing. Working on D3.

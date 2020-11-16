@@ -1,0 +1,7 @@
+Meet with James to discus approch to warnings about companies and how to make scarapping and db storage the most efficent 
+
+Added a user object the the backed that will interact with the user database and wrote the code (without the db update for black listing comapnies)
+
+Added scrapping to find the "root" parent company 
+
+changed layout of the backend

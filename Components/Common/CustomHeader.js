@@ -56,10 +56,11 @@ export default function CustomHeader(props) {
     function TitleComponent(props) {
         if (props) {
             if (props.title != null && props.title !== "") {
+                console.log(props.title + "equals to props.title" )
                 return <Text style={styles.text}>  {props.title} </Text>
             }
         }
-
+        console.log("prev statement failed")
         return (<Text style={styles.text}>Welcome {account.fName}</Text>)
 
     }
@@ -92,7 +93,6 @@ export default function CustomHeader(props) {
 
         <View style={styles.container}>
             <BackButtonComponent></BackButtonComponent>
-        
             <TitleComponent title={props.title} />
             <ProfilePicture></ProfilePicture>
         </View>
@@ -113,8 +113,10 @@ export default function CustomHeader(props) {
 
 const styles = StyleSheet.create({
     container: {
+
+        width: 350,
         display: 'flex',
-        flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row',
+        flex: 1, alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row',
 
         //backgroundColor: 'red'
     },
@@ -131,8 +133,8 @@ const styles = StyleSheet.create({
 
         height: 50,
         width: 50,
+        marginRight: 'auto',
         borderRadius: 40 / 2,
-        marginRight: 'auto'
     },
     text: {
         fontSize: 18,
@@ -144,6 +146,7 @@ const styles = StyleSheet.create({
         height: 40,
         width: 40,
         borderRadius: 40 / 2,
+        //marginRight: "auto",
         marginLeft: 'auto'
     },
 });

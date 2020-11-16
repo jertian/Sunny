@@ -9,11 +9,19 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useSelector, useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { set } from "react-native-reanimated";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
+import firebaseConfig from "./../../Common/Firebase/firebase";
 
 var products = []
 const DISPLAY_EXISTING_PRODUCT = "DisplayExistingProduct" 
 const DISPLAY_SCANNED_PRODUCT = "DisplayScannedProduct" 
 const DISPLAY_COMPARE_PRODUCT = "DisplayCompareProduct" 
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+this.db = firebase.firestore();
 
 export default function ProductSingleScreen({ route, navigation }) {
   const [isWaitingOnInfo, setIsWaitingOnInfo] = useState(true);

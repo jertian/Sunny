@@ -9,34 +9,15 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useSelector, useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { set } from "react-native-reanimated";
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
-import firebaseConfig from "./../../Common/Firebase/firebase";
 
 var products = []
-const DISPLAY_EXISTING_PRODUCT = "DisplayExistingProduct" 
-const DISPLAY_SCANNED_PRODUCT = "DisplayScannedProduct" 
-const DISPLAY_COMPARE_PRODUCT = "DisplayCompareProduct" 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-this.db = firebase.firestore();
 
 export default function ProductSingleScreen({ route, navigation }) {
   const [isWaitingOnInfo, setIsWaitingOnInfo] = useState(true);
   const [isWaitingOnCompareInfo, setIsWaitingOnCompareInfo] = useState(true);
-  const selectProduct = state => state.products;
-  let productsRedux = useSelector(selectProduct);
-  let [isCacheLoaded, setIsCacheLoaded] = useState(false);
-  //let [hasActionBeenTaken, setHasActionBeenTaken] = useState(false);
-  
-  const [currentShoppingList, setCurrentShoppingList] = useState([]);
 
-  if(!isCacheLoaded && productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache){
-    setCurrentShoppingList(productsRedux.productListCurrent)
-    setIsCacheLoaded(true)
-  }
+  const [hasRetrievedCachedShoppingList, setHasRetrievedCachedShoppingList] = useState(false);
+  const [currentShoppingList, setCurrentShoppingList] = useState([]);
 
   const [info, setInfo] = useState({
     scanned: false, gHGEmissions: 0, image: "", ingredients: [],
@@ -44,27 +25,18 @@ export default function ProductSingleScreen({ route, navigation }) {
     manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
   });
 
+  console.log(route)
 
-  /*
-  action must not be null when navigating to product screen
-  possible string results are: 
-    "DisplayExistingProduct" : sent a product in params to just display
-    "DisplayScannedProduct" : sent a upc to process to display
-    "DisplayCompareProduct" : sent a upc to process to display with option to compare
-  */
 
-  let { action } = route.params; 
-  
   let { data } = route.params;
   let { type } = route.params;
   let { name } = route.params;
   let { product } = route.params;
   let { compareProducts } = route.params;
 
-  let response;
+
   //Change this once, it is called when either a product is loaded or data from server retrieved
   function setInfoFromResponse(response) {
-
     setInfo({
       scanned: true,
       gHGEmissions: Math.round(parseFloat(response.gHGEmissions)),
@@ -81,10 +53,27 @@ export default function ProductSingleScreen({ route, navigation }) {
     })
   }
 
-  
+  if (hasRetrievedCachedShoppingList) {
+    const getData = async () => {
+      console.log("GETTING DATA");
+      try {
+        const value = await AsyncStorage.getItem('@currentShoppingList')
+
+        if (value !== null) {
+          setCurrentShoppingList(JSON.parse(value));
+        }
+      } catch (e) {
+        // error reading value
+        console.error(e)
+
+      }
+    }
+    getData()
+    setHasRetrievedCachedShoppingList(true);
+  }
   async function getInfo() {
     try {
-      /*
+
       console.log("calling server at : " + serverInfo.path + "/scannedCode")
       //let res = await fetch(serverInfo.path + "/JamesTest", {
         let res = await fetch(serverInfo.path + "/scannedCode", {
@@ -103,14 +92,14 @@ export default function ProductSingleScreen({ route, navigation }) {
       });
       let response = await res.json();
       debugger;
-        */
+
 
 
 
 
       //Testing =======================================================
       //-------------------------------------------------------------------
-      
+      /*
       let response0 = {
         "gHGEmissions": 3.1579166666666665,
         "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
@@ -195,10 +184,9 @@ export default function ProductSingleScreen({ route, navigation }) {
         "subsidiaries": [],
         "upc": "038000016110"
       }
-      
       let responses = [response0, response1, response2]
-      //let response = responses[Math.floor(Math.random() * 3)];
-      response = response2;
+      let response = responses[Math.floor(Math.random() * 3)];
+      */
       //-------------------------------------------------------------------
       //Testing End =======================================================
 
@@ -211,32 +199,26 @@ export default function ProductSingleScreen({ route, navigation }) {
     }
   }
   
-  if(action !== ""){
-
-  if (action === DISPLAY_COMPARE_PRODUCT && compareProducts && compareProducts.length > 0){
+  
+debugger;
+  if (isWaitingOnCompareInfo && compareProducts && compareProducts.length > 0){
+    setIsWaitingOnCompareInfo(false);
     setInfo({    scanned: false, gHGEmissions: 0, image: "", ingredients: [],
     isVegan: false, isVegetarian: false, item: "",
     manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
-    });
-    getInfo().then(()=> {
-      compareProducts.push(response);
-
-    });
+  });
+    getInfo();
 
 
   }
+  if (isWaitingOnInfo) {
     //Check if I sent a product here from list screen
     //If i did send a product then just display it, no need to query
     //Also make sure our products is not populated because if it is, were comparing something
-    if ( action === DISPLAY_EXISTING_PRODUCT) {
-      
+    if (product && compareProducts && compareProducts.length === 0) {
       setInfoFromResponse(product)
     }
-    if (action === DISPLAY_SCANNED_PRODUCT) {
-      setInfo({    scanned: false, gHGEmissions: 0, image: "", ingredients: [],
-      isVegan: false, isVegetarian: false, item: "",
-      manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
-      });
+    else {
       //Testing purpose===============
       //let data = "016000275287";
       //Testing end ==================
@@ -246,13 +228,19 @@ export default function ProductSingleScreen({ route, navigation }) {
         name = "[data_info should be here]";
         type = "[type_info should be here]";
       }
+
+
+
+
+
       getInfo()
       //console.log("Calling get info");
+
+    }
   }
-  route.params.action = "";
-
-}
-
+  if(isWaitingOnInfo){
+    setIsWaitingOnInfo(false);
+  }
   function compare() {
     let shouldCompare  = true;
     compareProducts = [];
@@ -268,9 +256,34 @@ export default function ProductSingleScreen({ route, navigation }) {
   }
 
   function addItem() {
-    //dispatchProducts({ type: 'product/productListCurrent/add', payload: info })
-    let productToAdd = info;
-    navigation.navigate("ListScreen", {productToAdd})
+    const storeData = async (data) => {
+      console.log("SETTING DATA");
+
+      try {
+        await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(data))
+        await AsyncStorage.setItem('@currentShoppingListCount', JSON.stringify(data.length))
+
+      } catch (e) {
+        // saving error
+        console.error(e)
+      }
+    }
+
+
+
+
+    info.storageId = currentShoppingList.length;
+    currentShoppingList.push(info)
+    storeData(currentShoppingList);
+    navigation.navigate("ListScreen")
+
+
+
+
+
+
+
+
 
   }
   function ProductImage(){
@@ -343,10 +356,9 @@ export default function ProductSingleScreen({ route, navigation }) {
 
 
 
-       { isCacheLoaded && <TouchableOpacity style={styles.buttonContainer} onPress={() => { addItem() }} >
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => { addItem() }} >
           <Text style={styles.buttonText}>add item</Text>
         </TouchableOpacity>
-       }
 
         <View style={{ flexDirection: 'row', margin: 10, }}>
           <TouchableOpacity style={styles.buttonContainer} onPress={() => { compare() }} >

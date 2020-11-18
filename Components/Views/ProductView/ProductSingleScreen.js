@@ -28,6 +28,7 @@ export default function ProductSingleScreen({ route, navigation }) {
   console.log(route)
 
 
+  let { action } = route.params; 
   let { data } = route.params;
   let { type } = route.params;
   let { name } = route.params;
@@ -73,7 +74,7 @@ export default function ProductSingleScreen({ route, navigation }) {
   }
   async function getInfo() {
     try {
-
+      
       console.log("calling server at : " + serverInfo.path + "/scannedCode")
       //let res = await fetch(serverInfo.path + "/JamesTest", {
         let res = await fetch(serverInfo.path + "/scannedCode", {
@@ -92,7 +93,7 @@ export default function ProductSingleScreen({ route, navigation }) {
       });
       let response = await res.json();
       debugger;
-
+        
 
 
 
@@ -187,6 +188,8 @@ export default function ProductSingleScreen({ route, navigation }) {
       let responses = [response0, response1, response2]
       let response = responses[Math.floor(Math.random() * 3)];
       */
+      //let response = responses[Math.floor(Math.random() * 3)];
+      //response = response2;
       //-------------------------------------------------------------------
       //Testing End =======================================================
 

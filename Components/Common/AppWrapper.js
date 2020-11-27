@@ -9,6 +9,8 @@ import ListScreen from "./../Views/ListView/ListScreen";
 import LandingScreen from "./../Views/LandingView/LandingScreen";
 import LoginScreen from "./../Views/LoginView/LoginScreen";
 import PreferencesScreen from "./../Views/PreferenceView/PreferencesScreen";
+
+import SignUpScreen from "./../Views/SignUpView/SignUpScreen";
 import ServerScreen from "./../Views/ServerView/ServerScreen";
 import HomeScreen from "./../Views/HomeView/HomeScreen";
 import CustomHeader from "./CustomHeader";
@@ -20,12 +22,8 @@ import { View, Button, Text, TouchableOpacity, StyleSheet, Image } from "react-n
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-
-
-
 const Stack = createStackNavigator();
-const initialScreen = "HomeScreen";
+const initialScreen = "LandingScreen";
 
 //ProductSingleScreen //LandingScreen //Camera //HomeScreen
 
@@ -237,8 +235,14 @@ const getCurrentShoppingListFromCache = async () => {
                     name="CompareScreen"
                     component={CompareScreen}
                     options={{ headerTitle: props => <CustomHeader {...props} title="Comparison" /> }}
-
                 />
+                <Stack.Screen
+                    name="SignUpScreen"
+                    component={SignUpScreen}
+                    options={{ title: "Sign Up Screen" }, { headerShown: false }}
+                />              
+                
+                 
                 <Stack.Screen
                     name="DatabaseTesterScreen"
                     component={DatabaseTesterScreen}

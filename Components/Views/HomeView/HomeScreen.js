@@ -13,7 +13,7 @@ const Stack = createStackNavigator();
 Testing purposes
 ================
 */
-let shouldNavigateOnLoad = true;
+let shouldNavigateOnLoad = false;
 function navigateOnLoad(navigation){
   let response1 = {
       "gHGEmissions": 3.4,

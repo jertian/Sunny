@@ -19,10 +19,7 @@ var products = []
 const DISPLAY_EXISTING_PRODUCT = "DisplayExistingProduct" 
 const DISPLAY_SCANNED_PRODUCT = "DisplayScannedProduct" 
 const DISPLAY_COMPARE_PRODUCT = "DisplayCompareProduct" 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-this.db = firebase.firestore();
+
 
 export default function ProductSingleScreen({ route, navigation }) {
   const [isWaitingOnInfo, setIsWaitingOnInfo] = useState(true);

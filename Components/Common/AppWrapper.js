@@ -11,6 +11,8 @@ import LoginScreen from "./../Views/LoginView/LoginScreen";
 import PreferencesScreen from "./../Views/PreferenceView/PreferencesScreen";
 import ServerScreen from "./../Views/ServerView/ServerScreen";
 import HomeScreen from "./../Views/HomeView/HomeScreen";
+import SignUpScreen from "./../Views/SignUpView/SignUpScreen";
+import BlackListScreen from "./../Views/BlackListView/BlackListScreen";
 import CustomHeader from "./CustomHeader";
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -25,7 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createStackNavigator();
-const initialScreen = "HomeScreen";
+const initialScreen = "LoginScreen";
 
 //ProductSingleScreen //LandingScreen //Camera //HomeScreen
 
@@ -243,6 +245,16 @@ const getCurrentShoppingListFromCache = async () => {
                     name="DatabaseTesterScreen"
                     component={DatabaseTesterScreen}
                 />
+                 <Stack.Screen
+                    name="SignUpScreen"
+                    component={SignUpScreen}
+                    options={{ title: "Sign Up Screen" }, { headerShown: false }}
+                />
+                <Stack.Screen
+                    name="BlackListScreen"
+                    component={BlackListScreen}
+                    options={{ title: "Black List Screen" }, { headerShown: false }}
+                />        
             </Stack.Navigator>
         </NavigationContainer>)
 }

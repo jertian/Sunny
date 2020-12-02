@@ -9,9 +9,6 @@ import { constants } from "redux-firestore";
 const ThemeContext = React.createContext("light");
 const selectPreferences = state => state.preferences
 
-
-
-
 const PreferencesScreen = ({navigation}) => {
   const dispatchPreferences = useDispatch()
 
@@ -36,17 +33,39 @@ const PreferencesScreen = ({navigation}) => {
     <View style={styles.container}>
 
       <Text style={styles.text}>Set Your Preferences</Text>
+      <Text style={styles.textSmall}>select the items you would like to track</Text>
 
 
+      <View style={{ flexDirection: 'row', margin: 10, }}>
       <PreferenceButton
         buttonTitle="Vegetarian" initialToggle={preferences.isTrackingVegetarian} onClickCallback={(isTracking) => updatePreference("Vegetarian", isTracking)}
       />
        <PreferenceButton
         buttonTitle="Vegan" initialToggle= {preferences.isTrackingVegan} onClickCallback={(isTracking) => updatePreference("Vegan", isTracking)}
       />
+      </View>
+      {/*
        <PreferenceButton
         buttonTitle="Peanut Allergy" initialToggle= {preferences.isTrackingPeanutAllergy} onClickCallback={(isTracking) => updatePreference("PeanutAllergy", isTracking)}
       />
+      */}
+      <View style={{ flexDirection: 'row', margin: 10, }}>
+      <PreferenceButton
+        buttonTitle="Fair Trade" initialToggle= {preferences.isTrackingFairTrade} onClickCallback={(isTracking) => updatePreference("FairTrade", isTracking)}
+      />
+      <PreferenceButton
+        buttonTitle="Sustainability" initialToggle= {preferences.isTrackingSustainability} onClickCallback={(isTracking) => updatePreference("Sustainable", isTracking)}
+      />
+      </View>
+      <View style={{ flexDirection: 'row', margin: 10, }}>
+      <PreferenceButton
+        buttonTitle="Emissions" initialToggle= {preferences.isTrackingGreenHouseEmisssions} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
+      />
+      <PreferenceButton
+        buttonTitle="Emissions" initialToggle= {preferences.isTrackingGreenHouseEmisssions} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
+      />
+      </View>
+      <Text style={styles.textSmall} onPress={() => navigation.navigate('BlackListScreen')}>Black list a company </Text>
 
     </View>
   );
@@ -54,7 +73,7 @@ const PreferencesScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E9BF9F',
+    backgroundColor: '#fab919',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

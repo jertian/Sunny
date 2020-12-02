@@ -30,13 +30,11 @@ const selectAccount = state => state.account
 const providerGoogle = new firebase.auth.GoogleAuthProvider();
 providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.profile');
 providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.email');
-
 const providerFacebook = new firebase.auth.FacebookAuthProvider();
 providerFacebook.addScope('user_photos');
 providerFacebook.setCustomParameters({
   'display': 'popup'
 });
-
 firebase.auth().languageCode = 'en';
 providerGoogle.setCustomParameters({
   'login_hint': 'user@example.com'
@@ -46,8 +44,10 @@ providerGoogle.setCustomParameters({
 
 
 const LoginScreen = ({ navigation }) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loginResult, setLoginResult] = useState("");
   
   const dispatchAccount = useDispatch()
@@ -153,8 +153,6 @@ const LoginScreen = ({ navigation }) => {
     const { type, accessToken, user } = await Google.logInAsync({
       iosClientId: `967944969087-8l43mueeeg97trtt5aa5u42pe7on7qev.apps.googleusercontent.com`,
       androidClientId: `<YOUR_ANDROID_CLIENT_ID_FOR_EXPO>`,
-
-
     });
     if (type === 'success') {
       // Then you can use the Google REST API
@@ -167,7 +165,6 @@ const LoginScreen = ({ navigation }) => {
 
     /*
     console.log("google button cluck")
-
     firebase.auth().signInWithCredential(googleCred)
       .then(function(result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
@@ -240,11 +237,19 @@ const LoginScreen = ({ navigation }) => {
   return (
 
     <View style={styles.container}>
-      <Image
-        source={require('../../../assets/login_person.png')}
-        style={styles.logo}
+      <Text style={styles.text}>Let's get you signed up</Text>
+      <Text style={styles.smallText}>The first step to making a change is deciding to start</Text>
+
+      <LoginInput
+        labelValue={name}
+        onChangeText={(userName) => setName(userName)}
+        placeholderText="Name"
+        iconType="user"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        autoCorrect={false}
       />
-      <Text style={styles.text}>Sign in to Continue</Text>
+
       <LoginInput
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
@@ -262,17 +267,20 @@ const LoginScreen = ({ navigation }) => {
         iconType="lock"
         secureTextEntry={true}
       />
+       <LoginInput
+        labelValue={confirmPassword}
+        onChangeText={(userPassword) => setPassword(userPassword)}
+        placeholderText="Confirm Password"
+        iconType="lock"
+        secureTextEntry={true}
+      />
       <Text style={{ color: "red" }}>
       {loginResult}
       </Text>
 
       <LoginButton
-        buttonTitle="Sign In"
+        buttonTitle="Sign Up"
         onClick={signInOnClick}
-      />
-      <LoginButton
-        buttonTitle="Guest Login"
-        onClick={guestLoginOnClick}
       />
       <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
         <Text style={styles.navButtonText}>Forgot Password?</Text>
@@ -286,7 +294,7 @@ const LoginScreen = ({ navigation }) => {
         onPress={() => {facebookLoginClick() }}
       />
       <LoginSocialButton
-        buttonTitle="Sign In with Google"
+        buttonTitle="Sign Up with Google"
         btnType="google"
         color="#de4d41"
         backgroundColor="#f5e7ea"
@@ -295,9 +303,9 @@ const LoginScreen = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={() => navigation.navigate('SignUpScreen')}>
-        <Text style={styles.navButtonText}>
-          Don't have an acount? Create here
+        onPress={() => navigation.navigate('LoginScreen')}>
+        <Text style={styles.navButtonText} >
+          Already have an acount? Sign In Here
         </Text>
       </TouchableOpacity>
     </View>
@@ -321,7 +329,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 5,
     color: '#051d5f',
-
+  },
+  smallText: {
+    fontSize: 13,
+    marginBottom: 30,
+    color: '#051d5f',
   },
   navButton: {
     marginTop: 10,

@@ -12,10 +12,6 @@ import {firebaseConfig} from "./../../Common/Firebase/firebase"
 import * as Google from 'expo-google-app-auth';
 import { StackActions, NavigationActions } from 'react-navigation';
 
-if (!firebase.apps.length) {
-
-firebase.initializeApp(firebaseConfig);
-}
 
 //Set to false to stay on screen to do other things
 //Used for faster testing

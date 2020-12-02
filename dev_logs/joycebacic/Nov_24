@@ -1,0 +1,3 @@
+Refactor backend to be more object oriented and use facade design pattern for handling scanned code requests.
+
+Helped with D3 write up on the backend side and with making diagrams

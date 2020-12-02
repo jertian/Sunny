@@ -10,8 +10,9 @@ import { windowHeight, windowWidth } from '../../../utils/Dimensions';
 const Stack = createStackNavigator();
 
 /*
+//======================================================
 Testing purposes
-================
+//======================================================
 */
 let shouldNavigateOnLoad = false;
 function navigateOnLoad(navigation){
@@ -41,8 +42,10 @@ function navigateOnLoad(navigation){
   let action = "DisplayExistingProduct";
   navigation.navigate("ProductSingleScreen", { action, product });
 }
-//===============
+//======================================================
 //End testing code
+//======================================================
+
 export default function HomeScreen({ navigation }) {
   const selectAccount = state => state.account;
   const account = useSelector(selectAccount);

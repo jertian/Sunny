@@ -26,7 +26,6 @@ export default function productSlice(state = initialState, action) {
          
       }
       case 'product/productCurrentList/delete': {
-        debugger;
         let newProductList = state.productListCurrent.filter(product => product.storageId !== action.payload);
         return {
             ...state,
@@ -53,7 +52,6 @@ export default function productSlice(state = initialState, action) {
         }
       }
       case 'product/availableProductId/update': {
-        debugger;
         return {
           ...state,
           availableProductId: action.payload

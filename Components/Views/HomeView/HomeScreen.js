@@ -10,10 +10,11 @@ import { windowHeight, windowWidth } from '../../../utils/Dimensions';
 const Stack = createStackNavigator();
 
 /*
+//======================================================
 Testing purposes
-================
+//======================================================
 */
-let shouldNavigateOnLoad = true;
+let shouldNavigateOnLoad = false;
 function navigateOnLoad(navigation){
   let response1 = {
       "gHGEmissions": 3.4,
@@ -41,8 +42,10 @@ function navigateOnLoad(navigation){
   let action = "DisplayExistingProduct";
   navigation.navigate("ProductSingleScreen", { action, product });
 }
-//===============
+//======================================================
 //End testing code
+//======================================================
+
 export default function HomeScreen({ navigation }) {
   const selectAccount = state => state.account;
   const account = useSelector(selectAccount);

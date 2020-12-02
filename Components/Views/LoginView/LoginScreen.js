@@ -10,6 +10,8 @@ import firebase from "firebase/app";
 import {firebaseConfig} from "./../../Common/Firebase/firebase"
 //import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Google from 'expo-google-app-auth';
+import * as Facebook from 'expo-facebook';
+
 import { StackActions, NavigationActions } from 'react-navigation';
 
 if (!firebase.apps.length) {
@@ -104,10 +106,13 @@ const LoginScreen = ({ navigation }) => {
   };
   initAsync();
 */
-  const facebookLoginClick = () => {
-/*
-    firebase.auth().signInWithCredential(facebookCred)
-       .then(function(result) {
+async function facebookLoginClick() {
+    debugger;
+    try{
+    await Facebook.logInWithReadPermissionsAsync('358619188541535', {
+      permissions: ['public_profile'],
+    })
+    
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       var token = result.credential.accessToken;
       console.log("facebook button click")
@@ -118,7 +123,8 @@ const LoginScreen = ({ navigation }) => {
       dispatchAccount({ type: 'account/name', payload: user.displayName })
       dispatchAccount({ type: 'account/email', payload: user.email })
       navigation.navigate("HomeScreen")
-    }).catch(function(error) {
+    }
+    catch(error) {
       debugger;
       // Handle Errors here.
       var errorCode = error.code;
@@ -129,8 +135,8 @@ const LoginScreen = ({ navigation }) => {
       var credential = error.credential;
       console.error(error)
       // ...
-    });
-    */
+    }
+    
   }
   /*
   const signInGoogleAsync = async () => {
@@ -277,7 +283,7 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
         <Text style={styles.navButtonText}>Forgot Password?</Text>
       </TouchableOpacity>
-
+{/*
       <LoginSocialButton
         buttonTitle="Sign In with Facebook"
         btnType="facebook"
@@ -285,6 +291,7 @@ const LoginScreen = ({ navigation }) => {
         backgroundColor="#e6eaf4"
         onPress={() => {facebookLoginClick() }}
       />
+      */}
       <LoginSocialButton
         buttonTitle="Sign In with Google"
         btnType="google"

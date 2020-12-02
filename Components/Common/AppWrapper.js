@@ -25,9 +25,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createStackNavigator();
-const initialScreen = "HomeScreen";
+const initialScreen = "LoginScreen";
 
-//ProductSingleScreen //LandingScreen //Camera //HomeScreen
+//ProductSingleScreen //LandingScreen //Camera //HomeScreen //LoginScreen
 
 
 
@@ -163,7 +163,6 @@ const getCurrentShoppingListFromCache = async () => {
       }
 
       const availableProductId = await AsyncStorage.getItem('@availableProductId')
-      debugger;
       if (availableProductId !== null) {
         dispatchProducts({ type: 'product/availableProductId/update', payload: JSON.parse(availableProductId) })
 

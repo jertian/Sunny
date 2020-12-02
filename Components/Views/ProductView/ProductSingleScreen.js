@@ -1,3 +1,4 @@
+  
 import React, { Fragment, useState, useEffect } from "react";
 import { Button, View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
@@ -326,7 +327,6 @@ export default function ProductSingleScreen({ route, navigation }) {
         Bar code: {type} data {data} has been scanned!
         </Text>
         <Text>
-
           Data: {data} has been scanned!
         </Text>
         <Text>

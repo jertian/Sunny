@@ -14,10 +14,6 @@ import * as Facebook from 'expo-facebook';
 
 import { StackActions, NavigationActions } from 'react-navigation';
 
-if (!firebase.apps.length) {
-
-firebase.initializeApp(firebaseConfig);
-}
 
 //Set to false to stay on screen to do other things
 //Used for faster testing

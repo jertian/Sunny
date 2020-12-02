@@ -99,7 +99,6 @@ export default function ProductSingleScreen({ route, navigation }) {
         }),
       });
       let response = await res.json();
-      debugger;
         
 
 

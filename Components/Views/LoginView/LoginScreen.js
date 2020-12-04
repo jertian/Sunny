@@ -298,7 +298,7 @@ async function facebookLoginClick() {
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={() => navigation.navigate('SignUpScreen')}>
+        onPress={() => navigation.navigate('Signup')}>
         <Text style={styles.navButtonText}>
           Don't have an acount? Create here
         </Text>

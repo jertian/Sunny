@@ -1,8 +1,8 @@
 import React, { useState, useEffect }  from 'react';
-import {Text, TouchableOpacity, StyleSheet, TouchableHighlight, Button, Alert,Image} from 'react-native';
+import {Text, TouchableOpacity, StyleSheet, TouchableHighlight, Button, Alert} from 'react-native';
 import {windowHeight, windowWidth} from '../../../utils/Dimensions';
 
-const PreferenceButton = ({buttonTitle,buttonImage, initialToggle, onClickCallback, ...rest}) => {
+const PreferenceButton = ({buttonTitle, initialToggle, onClickCallback, ...rest}) => {
 
   /*
   var touchProps = {
@@ -17,9 +17,12 @@ const PreferenceButton = ({buttonTitle,buttonImage, initialToggle, onClickCallba
  /*
 foo = {x:5,y:2}
 let {x, y} = foo;
+
 //Is the equivalent to:
+
 let x = foo.x;
 let y = foo.y;
+
 //x = 5
 //y = 2
 */  
@@ -52,13 +55,13 @@ let y = foo.y;
     />
 */
   return (
-    
-    <TouchableOpacity style={{backgroundColor: color, margin: 10, width: '50%',height: windowHeight / 7,padding: 10,alignItems: 'center',justifyContent: 'center',
+    <TouchableOpacity style={{backgroundColor: color, marginTop: 20, width: '100%',height: windowHeight / 12,padding: 10,alignItems: 'center',justifyContent: 'center',
     borderRadius: 10,}} {...rest}
     
-     
-
      onPress={(event,style) => { 
+      
+
+
       if (isToggled){
           setToggled(false);
           setColor("#FFFFFF");
@@ -70,10 +73,6 @@ let y = foo.y;
 
       onClickCallback(!isToggled); //isToggled not updated yet
      }}>
-      <Image
-        source={require('../../../assets/login_person.png')}
-        style={styles.logo}
-      />
       <Text style={styles.buttonText}>{buttonTitle}</Text>
     </TouchableOpacity>
     
@@ -98,10 +97,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#A3A3A3',
-  },
-  logo: {
-    height: 50,
-    width: 50,
-    resizeMode: 'cover',
   },
 });

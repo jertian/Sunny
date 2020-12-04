@@ -119,7 +119,6 @@ const PreferencesScreen = ({navigation}) => {
       />
       </View>
       <Text style={styles.textSmall} onPress={() => navigation.navigate('BlackListScreen')}>Black list a company </Text>
-      <Text style={styles.textSmall} onPress={() => navigation.navigate('BlackListScreen')}>Black list a company </Text>
     </View>
   );
 };

@@ -202,7 +202,7 @@ function ListScreen({ route, navigation }) {
       <FlatList
         data={itemList}
         renderItem={({ item }) => (<ListItem id={item.storageId} item={item} deleteItem={deleteItem}> </ListItem>)}
-        keyExtractor={(item, index) => item.storageId.toString()}
+        keyExtractor={(item, index) => {debugger; item.storageId.toString()}}
 
       />
       <Button title="Scan Another Item" color = "black" onPress={() => {     

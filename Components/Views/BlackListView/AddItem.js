@@ -8,10 +8,10 @@ const AddItem = ({title, addItem}) => {
   const onChange = (textValue) => setText(textValue);
   return (
       <View>
-          <TextInput placeholder = "Add Item..." style = {styles.input} onChangeText={onChange}/>
+          <TextInput placeholder = "Enter a company to blacklist..." style = {styles.input} onChangeText={onChange}/>
           <TouchableOpacity styles={styles.btn} onPress={() => 
           addItem(text)}>
-            <Text style = {styles.btnText}> <Icon name = "plus-circle" size = {20}/> Add Item</Text>
+            <Text style = {styles.btnText}> <Icon name = "plus-circle" size = {20}/> Add to blacklist</Text>
           </TouchableOpacity>
       </View>
   );
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         padding: 8, 
         fontSize: 16,
         borderWidth:5,
-        borderColor  : "#f19820",
+        borderColor  : "black",
         borderRadius: 10,
         margin: 7
       },

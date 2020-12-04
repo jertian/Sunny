@@ -27,7 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createStackNavigator();
-const initialScreen = "LoginScreen";
+const initialScreen = "PreferencesScreen";
 
 //ProductSingleScreen //LandingScreen //Camera //HomeScreen //LoginScreen
 
@@ -252,7 +252,10 @@ const getCurrentShoppingListFromCache = async () => {
                 <Stack.Screen
                     name="BlackListScreen"
                     component={BlackListScreen}
-                    options={{ title: "Black List Screen" }, { headerShown: false }}
+                    options={{
+                        headerTitle: props => <CustomHeader {...props}
+                            />
+                    }} 
                 />        
             </Stack.Navigator>
         </NavigationContainer>)

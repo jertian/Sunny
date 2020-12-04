@@ -1,6 +1,8 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { View, Button, Text, StyleSheet, TouchableOpacity, FlatList, Alert, Image } from "react-native";
 import { v4 as uuidv4 } from 'uuid';
+import Header from "./Header"
+import AddItem from "./AddItem"
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import ListItem from "./ListItem"
 import { useSelector, useDispatch } from 'react-redux'
@@ -14,13 +16,20 @@ function BlackListScreen({ route, navigation }) {
   const dispatchProducts = useDispatch()
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
-  let [itemList, setItemList] = useState(productsRedux.productListCurrent);
+  let [itemList, setItemList] = useState([]);
+  console.log(itemList)
   let [isCacheLoaded, setIsCacheLoaded] = useState(false);
+  useEffect(() => {
+    if(itemList  != productsRedux.productListCurrent){
+      storeData(itemList);
+      dispatchProducts({ type: 'product/productListCurrent/replaceAll', payload: itemList })
+    }
+  });
   const storeData = async (data) => {
     try {
       debugger;
       await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(data))
-      await AsyncStorage.setItem('@availableProductId', productsRedux.availableProductId)
+      await AsyncStorage.setItem('@availableProductId', JSON.stringify(productsRedux.availableProductId))
 
       console.log("Stored data in cache sucessful")
 
@@ -31,29 +40,23 @@ function BlackListScreen({ route, navigation }) {
     }
   }
 
-  if(!isCacheLoaded && productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache){
-    setItemList(productsRedux.productListCurrent)
-    setIsCacheLoaded(true)
-  }
-
-  /*
   //if we don't care about cache or we care and we've loaded from cache on the app and we've loaded cache on this page
   //then we know we should be keeping itemList and redux in sync
   //we do this so that we give time for cache to load both on the app and on this list page
+  /*
   if(!productsRedux.shouldRetrieveFromCache || productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache && isCacheLoaded){
     //Once cache is loaded we can deal with any products that have been passed in
+    debugger
     if (productToAdd){
-      productToAdd.storageId = productsRedux.getAvailableProductId();
-
-      setItemList([...itemList, productToAdd]);
+      productCopy = Object.assign({}, productToAdd)
+      productCopy.storageId = Number(productsRedux.getAvailableProductId())
+      setItemList([...itemList, productCopy]);
       route.params.productToAdd = null;
     }
     if(itemList  != productsRedux.productListCurrent){
     
-    dispatchProducts({ type: 'product/productListCurrent/replaceAll', payload: itemList })
-    storeData(itemList);
-    
   }
+  
 }
 */
   
@@ -95,7 +98,6 @@ function BlackListScreen({ route, navigation }) {
     */
     let product = press;
     let action = "DisplayExistingProduct";
-    navigation.navigate("ProductSingleScreen", { action, product });
 
   }
 
@@ -112,60 +114,22 @@ function BlackListScreen({ route, navigation }) {
       Alert.alert('Error', 'Please enter an item ', [{ text: "Ok" }]);
     }
     else {
-      let response = {
-        "gHGEmissions": 3.1579166666666665,
-        "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
-        "ingredients": [
-            "whole grain oats",
-            "corn starch",
-            "sugar",
-            "salt",
-            "tripotassium phosphate. vitamin e (mixed tocopherols) added to preserve freshness.vitamins and minerals: calcium carbonate",
-            "iron and zinc (mineral nutrients)",
-            "vitamin c (sodium ascorbate)",
-            "a b vitamin (niacinamide)",
-            "vitamin b6 (pyridoxine hydrochloride)",
-            "vitamin a (palmitate)",
-            "vitamin b1 (thiamin mononitrate)",
-            "a b vitamin (folic acid)",
-            "vitamin b12",
-            "vitamin d3."
-        ],
-        "isFairTrade": false,
-        "isSustainableBrand": false,
-        "isVegan": false,
-        "isVegetarian": true,
-        "item": "Cheerios Cereal - 18.0 Oz",
-        "manufacturer": "Cheerios",
-        "parentCompany": "General Mills",
-        "subsidiaries": [],
-        "upc": "016000275287",
-  
-    };
-    response.storageId = productsRedux.getAvailableProductId();
-      setItemList([response, ...itemList]);
+      
+    //response.storageId = productsRedux.getAvailableProductId();
+      setItemList([text, ...itemList]);
       
     }
   }
 
   const ListItem = ({ item, deleteItem }) => {
-    function ProductImage(item) {
-
-      if (item.item.image) {
-        return <Image source={{ uri: item.item.image }} style={styles.logo} />
-      } else {
-        return <Fragment></Fragment>
-      }
-
-    }
+    debugger
     return (
       <TouchableOpacity
         style={styles.listItem}
         onPress={() => onPress(item)}>
 
         <View style={styles.listItemView}>
-          <ProductImage item={item}></ProductImage>
-          <Text style={styles.listItemText}>{item.item}</Text>
+          <Text style={styles.listItemText}>{item}</Text>
           <Icon name="remove" style={styles.removeIcon}
             onPress={() => deleteItem(item.storageId)} />
         </View>
@@ -192,19 +156,13 @@ function BlackListScreen({ route, navigation }) {
        <Header></Header>
       <Text style={styles.textTitle}>Product Screen</Text>*/}
       
-      {/*<AddItem addItem={addItem}/>*/}
+      <AddItem addItem={addItem}/>
       <FlatList
         data={itemList}
-        renderItem={({ item }) => (<ListItem id={item.storageId} item={item} deleteItem={deleteItem}> </ListItem>)}
-        keyExtractor={(item, index) => item.storageId.toString()}
+        renderItem={({ item }) => (<ListItem  item={item} deleteItem={deleteItem}> </ListItem>)}
+     //keyExtractor={(item, index) => item.storageId.toString()}
 
       />
-      <Button title="Scan Another Item" color = "black" onPress={() => {     
-        navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }]}); 
-        let shouldCompare = false;
-        let compareProducts = [];
-        navigation.navigate("Camera", {shouldCompare, compareProducts});
-         }} />
 
       {/* 
       <ThemeContext.Provider value="light">
@@ -224,7 +182,7 @@ const styles = StyleSheet.create({
   removeIcon: {
     height: 20,
     width: 20,
-    color: '#fab742',
+    color: 'black',
   },
   container: {
     flex: 1,

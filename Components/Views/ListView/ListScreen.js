@@ -16,19 +16,13 @@ function ListScreen({ route, navigation }) {
   const dispatchProducts = useDispatch()
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
-  let [itemList, setItemList] = useState([]);
+  let [itemList, setItemList] = useState(productsRedux.productListCurrent);
   let [isCacheLoaded, setIsCacheLoaded] = useState(false);
-  useEffect(() => {
-    if(itemList  != productsRedux.productListCurrent){
-      storeData(itemList);
-      dispatchProducts({ type: 'product/productListCurrent/replaceAll', payload: itemList })
-    }
-  });
   const storeData = async (data) => {
     try {
       debugger;
       await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(data))
-      await AsyncStorage.setItem('@availableProductId', JSON.stringify(productsRedux.availableProductId))
+      await AsyncStorage.setItem('@availableProductId', productsRedux.availableProductId)
 
       console.log("Stored data in cache sucessful")
 
@@ -49,16 +43,16 @@ function ListScreen({ route, navigation }) {
   //we do this so that we give time for cache to load both on the app and on this list page
   if(!productsRedux.shouldRetrieveFromCache || productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache && isCacheLoaded){
     //Once cache is loaded we can deal with any products that have been passed in
-    debugger
     if (productToAdd){
-      productCopy = Object.assign({}, productToAdd)
-      productCopy.storageId = Number(productsRedux.getAvailableProductId())
-      setItemList([...itemList, productCopy]);
+      productToAdd.storageId = productsRedux.getAvailableProductId();
+
+      setItemList([...itemList, productToAdd]);
       route.params.productToAdd = null;
     }
     if(itemList  != productsRedux.productListCurrent){
     
-
+    dispatchProducts({ type: 'product/productListCurrent/replaceAll', payload: itemList })
+    storeData(itemList);
     
   }
 }

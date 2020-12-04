@@ -1,0 +1,3 @@
+final finishes for coding before submission
+worked on finishing login linkage between database, server and front end
+worked on publishing to google play store

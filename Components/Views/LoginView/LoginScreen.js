@@ -67,9 +67,11 @@ const LoginScreen = ({ navigation }) => {
       });
   
       if (result.type === 'success') {
-        debugger;
         console.log("Google Sign In Scuessful")
         console.log(result);
+        
+        debugger;
+
         dispatchAccount({ type: 'account/login', payload: true })
         dispatchAccount({ type: 'account/fName', payload: result.user.givenName})
         dispatchAccount({ type: 'account/lName', payload: result.user.familyName })

@@ -26,7 +26,6 @@ function ListScreen({ route, navigation }) {
   });
   const storeData = async (data) => {
     try {
-      debugger;
       await AsyncStorage.setItem('@currentShoppingList', JSON.stringify(data))
       await AsyncStorage.setItem('@availableProductId', JSON.stringify(productsRedux.availableProductId))
       console.log("Stored data in cache sucessful")
@@ -47,7 +46,6 @@ function ListScreen({ route, navigation }) {
   //we do this so that we give time for cache to load both on the app and on this list page
   if (!productsRedux.shouldRetrieveFromCache || productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache && isCacheLoaded) {
     //Once cache is loaded we can deal with any products that have been passed in
-    debugger
     if (productToAdd) {
       productCopy = Object.assign({}, productToAdd)
       productCopy.storageId = Number(productsRedux.getAvailableProductId())
@@ -146,7 +144,7 @@ function ListScreen({ route, navigation }) {
       <FlatList
         data={itemList}
         renderItem={({ item }) => (<ListItem id={item.storageId} item={item} deleteItem={deleteItem}> </ListItem>)}
-        keyExtractor={(item, index) => {debugger; item.storageId.toString()}}
+        keyExtractor={(item, index) => {item.storageId.toString()}}
 
       />
       <Button title="Scan Another Item" color="black" onPress={() => {

@@ -27,7 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createStackNavigator();
-const initialScreen = "PreferencesScreen";
+const initialScreen = "LoginScreen";
 
 //ProductSingleScreen //LandingScreen //Camera //HomeScreen //LoginScreen
 //PreferencesScreen

@@ -61,7 +61,7 @@ export default function CustomHeader(props) {
             }
         }
         console.log("prev statement failed")
-        return (<Text style={styles.text}>Welcome {account.fName}</Text>)
+        return (<Text style={styles.text}>Welcome {account.firstName}</Text>)
 
     }
     function BackButtonComponent(){

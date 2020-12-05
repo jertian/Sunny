@@ -12,35 +12,13 @@ import {firebaseConfig} from "./../../Common/Firebase/firebase"
 import * as Google from 'expo-google-app-auth';
 import { StackActions, NavigationActions } from 'react-navigation';
 
-if (!firebase.apps.length) {
 
-firebase.initializeApp(firebaseConfig);
-}
 
 //Set to false to stay on screen to do other things
 //Used for faster testing
 const fastGuestLogin = false;
 
 const fastGoogleLogin = false;
-
-
-/*
-const ThemeContext = React.createContext("light");
-const selectAccount = state => state.account
-const providerGoogle = new firebase.auth.GoogleAuthProvider();
-providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.profile');
-providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.email');
-const providerFacebook = new firebase.auth.FacebookAuthProvider();
-providerFacebook.addScope('user_photos');
-providerFacebook.setCustomParameters({
-  'display': 'popup'
-});
-firebase.auth().languageCode = 'en';
-providerGoogle.setCustomParameters({
-  'login_hint': 'user@example.com'
-});
-*/
-
 
 
 const LoginScreen = ({ navigation }) => {
@@ -72,12 +50,7 @@ const LoginScreen = ({ navigation }) => {
         debugger;
         console.log("Google Sign In Scuessful")
         console.log(result);
-        dispatchAccount({ type: 'account/login', payload: true })
-        dispatchAccount({ type: 'account/fName', payload: result.user.givenName})
-        dispatchAccount({ type: 'account/lName', payload: result.user.familyName })
-        dispatchAccount({ type: 'account/email', payload: result.user.photoUrl })
-        dispatchAccount({ type: 'account/photoURL', payload: result.user.photoUrl })
-
+        
         navigateToHome()
 
         return result.accessToken;

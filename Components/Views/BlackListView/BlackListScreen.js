@@ -3,6 +3,8 @@ import { View, Button, Text, StyleSheet, TouchableOpacity, FlatList, Alert, Imag
 import AddItem from "./AddItem"
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useSelector, useDispatch } from 'react-redux'
+import serverInfo from './../../Common/ServerInfo.js';
+import commonFunctions from './../../Common/commonFunctions.js';
 
 const ThemeContext = React.createContext("light");
 
@@ -12,57 +14,90 @@ function BlackListScreen({ route, navigation }) {
   const dispatchPreferences = useDispatch()
   const selectPreferences = state => state.preferences;
   const preferencesRedux = useSelector(selectPreferences);
+
+  const selectAccount = state => state.account;
+  const accountRedux = useSelector(selectAccount);
+  let [isItemListSynced, setIsItemListSynced] = useState(false);
+  let [lastAction, setLastAction] = useState("");
+
   let [itemList, setItemList] = useState([]);
+  let [syncWarning, setSyncWarning] = useState("");
 
   useEffect(() => {
-    if(itemList  != preferencesRedux.blackList){
+    if(isItemListSynced){
+    if(!commonFunctions.arraysEqual(itemList, preferencesRedux.blackList)){
+      debugger;
       dispatchPreferences({ type: 'preferences/blacklist/update', payload: itemList })
+      let response;
+      if(lastAction === "add"){
+        response = serverInfo.callServer("POST", "addToUserBlackList", {userID:  accountRedux.userID, company:itemList[0]}, setItemList)
+        lastAction = ""
+      }
+      else if (lastAction === "remove"){
+        response = serverInfo.callServer("POST", "updateUserBlackList", {userID:  accountRedux.userID, blackList :itemList})
+        lastAction = ""
+
+      }
+      else{
+        response.type = "failure"
+      }
+      if(response.type == "failure"){
+        console.error("Sync warning in blacklist");
+        setSyncWarning("Unable to sync last operation into database, please check your connection or restart the app to be in full sync")
+      }
+
+      }
+    }
+    else{
+      setIsItemListSynced(true)
+      setItemList(preferencesRedux.blackList)
     }
   });
   
-
-  function deleteItem(preferenceStorageId) {
-    let newCurrentList = itemList.filter(item => item.storageId !== preferenceStorageId)
+  
+  function deleteItem(preferencestorageID) {
+    let newCurrentList = itemList.filter(item => item.storageID !== preferencestorageID)
     setItemList(newCurrentList);
+    setLastAction("remove")
   }
 
-  const addItem = (text) => {
-    if (!text) {
+  const addItem = (companyName) => {
+    if (!companyName) {
       Alert.alert('Error', 'Please enter an item ', [{ text: "Ok" }]);
     }
     else {
       //text = "apple"
-      //text.storageId = productsRedux.getAvailableProductId();
+      //text.storageID = productsRedux.getAvailableProductId();
       //setItemList([text, ...itemList]);
       /*
       let obj = {
-        "storageId": 0,
+        "storageID": 0,
         "text": "apple",
       }
-      obj.storageId = productsRedux.getAvailableProductId();
+      obj.storageID = productsRedux.getAvailableProductId();
       setItemList([text, ...itemList]);
       */
       let obj = {
-        "storageId": 0,
-        "text": text,
+        storageID: 0,
+        companyName: companyName,
       }
-      obj.storageId = preferencesRedux.getAvailablePreferenceId();
+      obj.storageID = commonFunctions.getMaxIdOfList(itemList) + 1
       setItemList([obj, ...itemList]);
+      setLastAction("add")
       
     }
   }
 
   const ListItem = ({ item, deleteItem }) => {
-    debugger
     return (
       <TouchableOpacity
         style={styles.listItem}
        >
 
         <View style={styles.listItemView}>
-          <Text style={styles.listItemText}>{item.text}</Text>
+          <Text style={styles.listItemText}>{item.companyName}</Text>
           <Icon name="remove" style={styles.removeIcon}
-            onPress={() => deleteItem(item.storageId)} />
+            onPress={() => deleteItem(item.storageID)} />
         </View>
       </TouchableOpacity>
     );
@@ -72,10 +107,11 @@ function BlackListScreen({ route, navigation }) {
 
     <View style={styles.container}>
       <AddItem addItem={addItem}/>
+      {syncWarning != "" && (<Text style={{color: 'red', fontSize: 30}}>{syncWarning}</Text>)}
       <FlatList
         data={itemList}
         renderItem={({ item }) => (<ListItem  item={item} deleteItem={deleteItem}> </ListItem>)}
-     //keyExtractor={(item, index) => item.storageId.toString()}
+        keyExtractor={(item, index) => item.storageID.toString()}
 
       />
     </View>

@@ -27,6 +27,17 @@ export default function todosReducer(state = initialState, action) {
             }return newState
 
         }
+        case 'preferences/availablePreferenceId/update': {
+            
+            let newState = Object.assign({}, state);
+            if (newState["availablePreferenceId"] != null) {
+                newState["availablePreferenceId"] = action.payload;
+            }else{
+                console.error("Issue with action");   
+                console.error(action);
+            }return newState
+
+        }
         case 'preferences/blacklist/update': {
             
             let newState = Object.assign({}, state);

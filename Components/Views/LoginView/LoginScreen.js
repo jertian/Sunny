@@ -18,10 +18,10 @@ import { StackActions, NavigationActions } from 'react-navigation';
 
 //Set to false to stay on screen to do other things
 //Used for faster testing
-const fastGuestLogin = false;
+const fastGuestLogin = true;
 
 const fastGoogleLogin = false;
-
+const GUESTLOGINSCREEN = "BlackListScreen"
 
 /*
 const ThemeContext = React.createContext("light");
@@ -48,20 +48,28 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginResult, setLoginResult] = useState("");
-  CLIENT_ID = "967944969087-igc0ds2nch2bjkb375h3opot65pela5g.apps.googleusercontent.com"
-  ANDROID_CLIENT_ID = "967944969087-bs2s7470jbft6scjau1fajhjcs5tkltb.apps.googleusercontent.com"
-  IOS_CLIENT_ID = "967944969087-6b4do4v4ffsfb5qldjp462md0edasaej.apps.googleusercontent.com"
+  const CLIENT_ID = "967944969087-igc0ds2nch2bjkb375h3opot65pela5g.apps.googleusercontent.com"
+  const ANDROID_CLIENT_ID = "967944969087-bs2s7470jbft6scjau1fajhjcs5tkltb.apps.googleusercontent.com"
+  const IOS_CLIENT_ID = "967944969087-6b4do4v4ffsfb5qldjp462md0edasaej.apps.googleusercontent.com"
   const dispatchAccount = useDispatch()
   const dispatchPreferences = useDispatch()
   const dispatchProducts = useDispatch()
 
-  function navigateToHome() {
+  function dispatchBasedOnServerResponse(response){
+    dispatchAccount({ type: 'account/login', payload: true })
+    dispatchAccount({ type: 'account/firstName', payload: response.user.firstName })
+    dispatchAccount({ type: 'account/lastName', payload: response.user.lastName })
+    dispatchAccount({ type: 'account/email', payload: response.user.userID })
+    dispatchAccount({ type: 'account/userID', payload: response.user.userID })
 
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'HomeScreen' }],
-    });
+    dispatchAccount({ type: 'account/photoURL', payload: response.user.photoUrl })
+    dispatchPreferences({ type: 'preferences/update', preference: "Vegan", payload: response.user.isAVegan })
+    dispatchPreferences({ type: 'preferences/update', preference: "Vegetarian", payload: response.user.isAVegetarian })
+    dispatchPreferences({ type: 'preferences/blacklist/update',  payload: response.user.blackList })
+    dispatchProducts({ type: 'product/productListHistory/replaceAll', payload: response.user.scannedHistory })
+    dispatchPreferences({ type: 'preferences/chemicalsToAvoid/update',  payload: response.user.chemicalsToAvoid })
   }
+  
   async function signInWithGoogleAsync() {
     try {
 
@@ -84,8 +92,8 @@ const LoginScreen = ({ navigation }) => {
         } else {
           result.CLIENT_ID = CLIENT_ID
         }
-        debugger;
-        let res = await fetch(serverInfo.path + "/verifyGoogleLogin", {
+        //let res = await fetch(serverInfo.path + "/verifyGoogleLogin", {
+        let res = await fetch(serverInfo.path + "/getUser", {
 
           method: "POST",
           //mode: 'no-cors', // no-cors, *cors, same-origin, cors
@@ -94,24 +102,18 @@ const LoginScreen = ({ navigation }) => {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(result),
+          //body: JSON.stringify(result),
+          body: {
+            "userID" : "tobiaswheaton@gmail.com"
+          
+          }
+
         });
         let response = await res.json();
-        debugger;
 
-        if (response.result && response.result === "success") {
-          dispatchAccount({ type: 'account/login', payload: true })
-          dispatchAccount({ type: 'account/fName', payload: result.user.givenName })
-          dispatchAccount({ type: 'account/lName', payload: result.user.familyName })
-          dispatchAccount({ type: 'account/email', payload: result.user.photoUrl })
-          dispatchAccount({ type: 'account/photoURL', payload: result.user.photoUrl })
-          dispatchPreferences({ type: 'preferences/update', preference: "Vegan", payload: response.user.isAVegan })
-          dispatchPreferences({ type: 'preferences/update', preference: "Vegetarian", payload: response.user.isAVegetarian })
-          dispatchPreferences({ type: 'preferences/blacklist/update',  payload: response.user.blackList })
-          //REMOVE IN FINAL VERSION
-          if(response.user.chemicalsToAvoid){
-            dispatchPreferences({ type: 'preferences/chemicalsToAvoid/update',  payload: response.user.chemicalsToAvoid })
-          }
+        if (response.type && response.type === "success") {
+          dispatchBasedOnServerResponse(response)
+
           navigateToHome()
         }
         return result.accessToken;
@@ -129,17 +131,8 @@ const LoginScreen = ({ navigation }) => {
     }
   }
 
-  /*
-  debugger;
-  const initAsync = async () => {
-    await GoogleSignIn.initAsync({
-    });
-    this._syncUserWithStateAsync();
-  };
-  initAsync();
-*/
+
   async function facebookLoginClick() {
-    debugger;
     try {
       await Facebook.logInWithReadPermissionsAsync('358619188541535', {
         permissions: ['public_profile'],
@@ -149,7 +142,6 @@ const LoginScreen = ({ navigation }) => {
       var token = result.credential.accessToken;
       console.log("facebook button click")
       // The signed-in user info.
-      debugger;
       var user = result.user;
       dispatchAccount({ type: 'account/login', payload: true })
       dispatchAccount({ type: 'account/name', payload: user.displayName })
@@ -196,15 +188,51 @@ const LoginScreen = ({ navigation }) => {
     return false;
   }
 
-  const guestLoginOnClick = (event) => {
+  async function guestLoginOnClick (event) {
+    try{
+        //let res = await fetch(serverInfo.path + "/verifyGoogleLogin", {
+        let res = await fetch(serverInfo.path + "/getUser", {
 
-    navigation.navigate("HomeScreen");
+          method: "POST",
+          //mode: 'no-cors', // no-cors, *cors, same-origin, cors
+
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          //body: JSON.stringify(result),
+          body: JSON.stringify({
+          userID : "tobiaswheaton@gmail.com"
+          
+          })
+
+        });
+        let response = await res.json();
+        dispatchBasedOnServerResponse(response)
+        
+        navigation.reset({
+          index: 0,
+          routes: [{ name: GUESTLOGINSCREEN }],
+        });
+      }
+      catch(e){
+        console.error("Error with guest login");
+        console.error(e);
+      }
 
   }
   if (fastGuestLogin) {
     guestLoginOnClick();
   }
 
+
+  function navigateToHome() {
+
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'HomeScreen' }],
+    });
+  }
   const signInOnClick = (event) => {
     console.log(email);
 

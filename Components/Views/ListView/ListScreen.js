@@ -58,8 +58,6 @@ function ListScreen({ route, navigation }) {
     }
     if(itemList  != productsRedux.productListCurrent){
     
-
-    
   }
 }
   
@@ -105,8 +103,6 @@ function ListScreen({ route, navigation }) {
 
   }
 
-
-
   function deleteItem(productStorageId) {
     let newCurrentList = itemList.filter(item => item.storageId !== productStorageId)
     setItemList(newCurrentList);
@@ -150,7 +146,6 @@ function ListScreen({ route, navigation }) {
     };
     response.storageId = productsRedux.getAvailableProductId();
       setItemList([response, ...itemList]);
-      
     }
   }
 
@@ -211,6 +206,17 @@ function ListScreen({ route, navigation }) {
         let compareProducts = [];
         navigation.navigate("Camera", {shouldCompare, compareProducts});
          }} />
+         <Button title="Checkout" color = "blue" onPress={() => {
+            let ghG = 0
+            for (var x of itemList){
+              ghG+=x.gHGEmissions
+            }
+            console.log(ghG)
+            dispatchProducts({ type: 'product/productListHistory/add', payload: ghG })
+            navigation.navigate("DataScreen")
+          }} />
+         <Button title="Idk how to move buttons further up" color = "red" onPress={() => {}} />
+         <Button title="padding button" color = "red" onPress={() => {}} />
 
       {/* 
       <ThemeContext.Provider value="light">

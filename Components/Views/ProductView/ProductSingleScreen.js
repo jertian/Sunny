@@ -82,23 +82,23 @@ export default function ProductSingleScreen({ route, navigation }) {
   async function getInfo() {
     try {
       
-      console.log("calling server at : " + serverInfo.path + "/scannedCode")
-      //let res = await fetch(serverInfo.path + "/JamesTest", {
-        let res = await fetch(serverInfo.path + "/scannedCode", {
+      // console.log("calling server at : " + serverInfo.path + "/scannedCode")
+      // //let res = await fetch(serverInfo.path + "/JamesTest", {
+      //   let res = await fetch(serverInfo.path + "/scannedCode", {
 
-        method: "POST",
-        //mode: 'no-cors', // no-cors, *cors, same-origin, cors
+      //   method: "POST",
+      //   //mode: 'no-cors', // no-cors, *cors, same-origin, cors
 
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          codeType: "",
-          code: data,
-        }),
-      });
-      let response = await res.json();
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     codeType: "",
+      //     code: data,
+      //   }),
+      // });
+      //let response = await res.json();
         
 
 
@@ -193,8 +193,8 @@ export default function ProductSingleScreen({ route, navigation }) {
       }
       
       let responses = [response0, response1, response2]
-      //let response = responses[Math.floor(Math.random() * 3)];
-      //response = response2;
+      let response = responses[Math.floor(Math.random() * 3)];
+      //let response = response2;
       //-------------------------------------------------------------------
       //Testing End =======================================================
 

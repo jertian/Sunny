@@ -53,7 +53,7 @@ function ListScreen({ route, navigation }) {
       productCopy.storageId = Number(productsRedux.getAvailableProductId())
       setItemList([...itemList, productCopy]);
       route.params.productToAdd = null;
-    }
+    }    
   }
 
 
@@ -63,8 +63,6 @@ function ListScreen({ route, navigation }) {
     navigation.navigate("ProductSingleScreen", { action, product });
 
   }
-
-
 
   function deleteItem(productStorageId) {
     let newCurrentList = itemList.filter(item => item.storageId !== productStorageId)
@@ -108,7 +106,6 @@ function ListScreen({ route, navigation }) {
       };
       response.storageId = productsRedux.getAvailableProductId();
       setItemList([response, ...itemList]);
-
     }
   }
 
@@ -156,9 +153,28 @@ function ListScreen({ route, navigation }) {
         navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] });
         let shouldCompare = false;
         let compareProducts = [];
-        navigation.navigate("Camera", { shouldCompare, compareProducts });
-      }} />
+        navigation.navigate("Camera", {shouldCompare, compareProducts});
+         }} />
+         <Button title="Checkout" color = "blue" onPress={() => {
+            let ghG = 0
+            for (var x of itemList){
+              ghG+=x.gHGEmissions
+            }
+            console.log(ghG)
+            dispatchProducts({ type: 'product/productListHistory/add', payload: ghG })
+            navigation.navigate("DataScreen")
+          }} />
+         <Button title="Idk how to move buttons further up" color = "red" onPress={() => {}} />
+         <Button title="padding button" color = "red" onPress={() => {}} />
 
+      {/* 
+      <ThemeContext.Provider value="light">
+        <Button
+          title="Go back to first screen in stack (Home)"
+          onPress={() => navigation.popToTop()}
+        />
+      </ThemeContext.Provider>
+      */}
     </View>
   );
 }

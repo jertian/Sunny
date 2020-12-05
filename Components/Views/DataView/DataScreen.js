@@ -1,16 +1,31 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { View, Button, TouchableOpacity,Image, Text, StyleSheet, Dimensions } from "react-native";
-import { LineChart } from 'react-native-chart-kit'
+import { LineChart } from 'react-native-chart-kit';
+import { useSelector, useDispatch } from 'react-redux'
 
 
 const ThemeContext = React.createContext("light");
 
 const DataScreen = ({navigation}) => {
+  const dispatchProducts = useDispatch()
+  const selectProduct = state => state.products;
+  let productsRedux = useSelector(selectProduct);
+  let l = []
+  let d = []
+  console.log(productsRedux.productListHistory.length)
+  if (productsRedux.productListHistory.length>0){
+    for (var i = 0; i<productsRedux.productListHistory.length; i++){
+      l.push("Trip " + (i+1))
+      d.push(productsRedux.productListHistory[i])
+    }
+  }
+  console.log(l)
+  console.log(d)
   const data = {
-    labels: ['Trip 1', 'Trip 2', 'Trip 3', 'Trip 4', 'Trip 5', 'Trip 6'],
+    labels: l,
     datasets: [{
-      data: [ 20, 45, 28, 80, 99, 43 ],
+      data: d,
     }],
     legend: ["Green House Gas Emissions"] // optional
   }
@@ -43,6 +58,10 @@ const DataScreen = ({navigation}) => {
           borderRadius: 16
         }}
       />
+      <Button title="Clear History" color = "red" onPress={() => {
+        dispatchProducts({ type: 'product/productListHistory/replaceAll', payload: []})
+        console.log(productsRedux.productListHistory)
+      }} />
     </View>
   );
 };

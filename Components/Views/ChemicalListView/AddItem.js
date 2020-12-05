@@ -8,10 +8,10 @@ const AddItem = ({title, addItem}) => {
   const onChange = (textValue) => setText(textValue);
   return (
       <View>
-          <TextInput placeholder = "Enter a company to blacklist..." style = {styles.input} onChangeText={onChange}/>
+          <TextInput placeholder = "Enter a an ingredient you want to avoid" style = {styles.input} onChangeText={onChange}/>
           <TouchableOpacity styles={styles.btn} onPress={() => 
           addItem(text)}>
-            <Text style = {styles.btnText}> <Icon name = "plus-circle" size = {20}/> Add to blacklist</Text>
+            <Text style = {styles.btnText}> <Icon name = "plus-circle" size = {20}/> Add</Text>
           </TouchableOpacity>
       </View>
   );

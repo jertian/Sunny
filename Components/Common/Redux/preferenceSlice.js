@@ -3,10 +3,16 @@ const initialState = {
     isTrackingVegan: false,
     isTrackingPeanutAllergy: false,
     blackList:[],
+    chemicalList:[],
     availablePreferenceId : 0,
     getAvailablePreferenceId : function () { 
         return this.availablePreferenceId++;
-      }
+    },
+    
+    availableChemPreferenceId : 0,
+    getAvailableChemPreferenceId : function () { 
+        return this.availableChemPreferenceId++;
+    }
 }
 
 /*
@@ -45,6 +51,19 @@ export default function todosReducer(state = initialState, action) {
             //if not null update blacklist with new data
             if (newState["blackList"] != null) {
                 newState["blackList"] = action.payload;
+            }else{
+                console.error("Issue with action");   
+                console.error(action);
+            }return newState
+
+        }
+        case 'preferences/chemicallist/update': {
+            
+            let newState = Object.assign({}, state);
+            //we want to access the blacklist and check if null
+            //if not null update blacklist with new data
+            if (newState["chemicalList"] != null) {
+                newState["chemicalList"] = action.payload;
             }else{
                 console.error("Issue with action");   
                 console.error(action);

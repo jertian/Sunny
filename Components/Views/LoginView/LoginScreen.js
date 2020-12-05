@@ -52,6 +52,9 @@ const LoginScreen = ({ navigation }) => {
   ANDROID_CLIENT_ID = "967944969087-bs2s7470jbft6scjau1fajhjcs5tkltb.apps.googleusercontent.com"
   IOS_CLIENT_ID = "967944969087-6b4do4v4ffsfb5qldjp462md0edasaej.apps.googleusercontent.com"
   const dispatchAccount = useDispatch()
+  const dispatchPreferences = useDispatch()
+  const dispatchProducts = useDispatch()
+
   function navigateToHome() {
 
     navigation.reset({
@@ -102,7 +105,13 @@ const LoginScreen = ({ navigation }) => {
           dispatchAccount({ type: 'account/lName', payload: result.user.familyName })
           dispatchAccount({ type: 'account/email', payload: result.user.photoUrl })
           dispatchAccount({ type: 'account/photoURL', payload: result.user.photoUrl })
-
+          dispatchPreferences({ type: 'preferences/update', preference: "Vegan", payload: response.user.isAVegan })
+          dispatchPreferences({ type: 'preferences/update', preference: "Vegetarian", payload: response.user.isAVegetarian })
+          dispatchPreferences({ type: 'preferences/blacklist/update',  payload: response.user.blackList })
+          //REMOVE IN FINAL VERSION
+          if(response.user.chemicalsToAvoid){
+            dispatchPreferences({ type: 'preferences/chemicalsToAvoid/update',  payload: response.user.chemicalsToAvoid })
+          }
           navigateToHome()
         }
         return result.accessToken;
@@ -270,7 +279,7 @@ const LoginScreen = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={() => navigation.navigate('SignUpScreen')}>
+        onPress={() => navigation.navigate('Signup')}>
         <Text style={styles.navButtonText}>
           Don't have an acount? Create here
         </Text>

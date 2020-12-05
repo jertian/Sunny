@@ -14,8 +14,6 @@ function BlackListScreen({ route, navigation }) {
   const preferencesRedux = useSelector(selectPreferences);
   let [itemList, setItemList] = useState([]);
 
-  let [isCacheLoaded, setIsCacheLoaded] = useState(false);
-
   useEffect(() => {
     if(itemList  != preferencesRedux.blackList){
       dispatchPreferences({ type: 'preferences/blacklist/update', payload: itemList })

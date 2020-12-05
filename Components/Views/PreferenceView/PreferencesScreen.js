@@ -68,10 +68,12 @@ const PreferencesScreen = ({navigation}) => {
                </View>
             </View>
             <View style={{ flexDirection: 'row', margin: 10, }}>
-              <Image source={require('../../../assets/vegan.png')} style={styles.susIcon} />
+                    <TouchableOpacity style={styles.greenEmission}>
+                    <Text style={styles.textEmission}> 3.4 </Text>
+                    </TouchableOpacity>
               <View style={{ flexDirection: 'column', margin: 10, }}>
                 <Text style={styles.modalTextTitle}>GHG Emission</Text>
-                <Text style={styles.modalText}>Represents the amount of green house gase per kg (average is 3.4)</Text>
+                <Text style={styles.modalText}>Represents the amount of green house gas per kg (average is 3.4)</Text>
                </View>
             </View>
                
@@ -119,6 +121,7 @@ const PreferencesScreen = ({navigation}) => {
       />
       </View>
       <Text style={styles.textSmall} onPress={() => navigation.navigate('BlackListScreen')}>Black list a company </Text>
+      <Text style={styles.textSmall} onPress={() => navigation.navigate('ChemicalListScreen')}>Add a chemical you want to avoid </Text>
     </View>
   );
 };
@@ -197,6 +200,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: 'black',
     fontFamily: 'Nunito_400Regular'
+  },
+  greenEmission: {
+    height: 50,
+    width: 50,
+    color: '#2e64e5',
+    borderWidth:5,
+    borderColor  : "#f19820",
+    borderRadius: 50,
+    alignItems : "center" ,
+    
+  },
+  textEmission: {
+    fontSize: 17,
+    color: "black",
+    
+    textAlign: 'left',
+    paddingTop:10,
   },
 });
 

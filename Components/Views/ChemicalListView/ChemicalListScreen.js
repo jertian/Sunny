@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 const ThemeContext = React.createContext("light");
 
-function BlackListScreen({ route, navigation }) {
+function ChemicalListScreen({ route, navigation }) {
 
   const dispatchPreferences = useDispatch()
   const selectPreferences = state => state.preferences;
@@ -14,8 +14,8 @@ function BlackListScreen({ route, navigation }) {
   let [itemList, setItemList] = useState([]);
 
   useEffect(() => {
-    if(itemList  != preferencesRedux.blackList){
-      dispatchPreferences({ type: 'preferences/blacklist/update', payload: itemList })
+    if(itemList  != preferencesRedux.chemicalList){
+      dispatchPreferences({ type: 'preferences/chemicallist/update', payload: itemList })
     }
   });
   
@@ -45,7 +45,7 @@ function BlackListScreen({ route, navigation }) {
         "storageId": 0,
         "text": text,
       }
-      obj.storageId = preferencesRedux.getAvailablePreferenceId();
+      obj.storageId = preferencesRedux.getAvailableChemPreferenceId();
       setItemList([obj, ...itemList]);
       
     }
@@ -140,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BlackListScreen;
+export default ChemicalListScreen;

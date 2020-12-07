@@ -19,11 +19,12 @@ const PreferencesScreen = ({navigation}) => {
   const accountRedux = useSelector(selectAccount);
   const updatePreferenceFromServerResponse = (response) => {
     debugger;
-    dispatchPreferences({ type: 'preferences/update', preference: preference, payload: isTracking })
+    dispatchPreferences({ type: 'preferences/update', preference: "Vegetarian", payload: response.isAVegetarian })
+    dispatchPreferences({ type: 'preferences/update', preference: "Vegan", payload: response.isAVegan })
 
   }
   const updatePreference = (preference, isTracking) => {
-    serverInfo.callServer("POST", "toggleUserIsA" + preference, {userID:  accountRedux.userID, blackList :itemList}, updatePreferenceFromServerResponse)
+    serverInfo.callServer("POST", "toggleUserIsA" + preference, {userID:  accountRedux.userID}, (response)=>updatePreferenceFromServerResponse(response))
 
   }
 
@@ -36,7 +37,6 @@ const PreferencesScreen = ({navigation}) => {
   });
 
   const preferences = useSelector(selectPreferences);
-  console.log(preferences);
 
 
   return (
@@ -101,10 +101,10 @@ const PreferencesScreen = ({navigation}) => {
 
       <View style={{ flexDirection: 'row', margin: 10, }}>
       <PreferenceButton
-        buttonTitle="Vegetarian" initialToggle={preferences.isTrackingVegetarian} onClickCallback={(isTracking) => updatePreference("Vegetarian", isTracking)}
+        buttonTitle="Vegetarian" isToggled={()=>preferences.isTrackingVegetarian} onClickCallback={(isTracking) => updatePreference("Vegetarian", isTracking)}
       />
        <PreferenceButton
-        buttonTitle="Vegan" initialToggle= {preferences.isTrackingVegan} onClickCallback={(isTracking) => updatePreference("Vegan", isTracking)}
+        buttonTitle="Vegan" isToggled= {()=>preferences.isTrackingVegan} onClickCallback={(isTracking) => updatePreference("Vegan", isTracking)}
       />
       </View>
       {/*
@@ -112,22 +112,24 @@ const PreferencesScreen = ({navigation}) => {
         buttonTitle="Peanut Allergy" initialToggle= {preferences.isTrackingPeanutAllergy} onClickCallback={(isTracking) => updatePreference("PeanutAllergy", isTracking)}
       />
       */}
+
+      {/*
       <View style={{ flexDirection: 'row', margin: 10, }}>
       <PreferenceButton
-        buttonTitle="Fair Trade" initialToggle= {preferences.isTrackingFairTrade} onClickCallback={(isTracking) => updatePreference("FairTrade", isTracking)}
+        buttonTitle="Fair Trade" isToggled= {()=>preferences.isTrackingFairTrade} onClickCallback={(isTracking) => updatePreference("FairTrade", isTracking)}
       />
       <PreferenceButton
-        buttonTitle="Sustainability" initialToggle= {preferences.isTrackingSustainability} onClickCallback={(isTracking) => updatePreference("Sustainable", isTracking)}
+        buttonTitle="Sustainability" isToggled= {()=>preferences.isTrackingSustainability} onClickCallback={(isTracking) => updatePreference("Sustainable", isTracking)}
       />
       </View>
       <View style={{ flexDirection: 'row', margin: 10, }}>
       <PreferenceButton
-        buttonTitle="Emissions" initialToggle= {preferences.isTrackingGreenHouseEmisssions} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
+        buttonTitle="Emissions" isToggled= {()=>preferences.isTrackingGreenHouseEmisssions} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
       />
       <PreferenceButton
-        buttonTitle="Emissions" initialToggle= {preferences.isTrackingGreenHouseEmisssions} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
+        buttonTitle="Emissions" isToggled= {()=>preferences.isTrackingGreenHouseEmisssions} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
       />
-      </View>
+      </View>*/}
       <Text style={styles.textSmall} onPress={() => navigation.navigate('BlackListScreen')}>Black list a company </Text>
       <Text style={styles.textSmall} onPress={() => navigation.navigate('IngredientListScreen')}>Add a ingredient you want to avoid </Text>
     </View>

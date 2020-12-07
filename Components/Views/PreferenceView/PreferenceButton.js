@@ -2,7 +2,7 @@ import React, { useState, useEffect }  from 'react';
 import {Text, TouchableOpacity, StyleSheet, TouchableHighlight, Button, Alert,Image} from 'react-native';
 import {windowHeight, windowWidth} from '../../../utils/Dimensions';
 
-const PreferenceButton = ({buttonTitle,buttonImage, initialToggle, onClickCallback, ...rest}) => {
+const PreferenceButton = ({buttonTitle,buttonImage, isToggled, onClickCallback, ...rest}) => {
 
   /*
   var touchProps = {
@@ -23,11 +23,13 @@ let y = foo.y;
 //x = 5
 //y = 2
 */  
-  const [isToggled, setToggled] = useState(initialToggle);
-
-  const [color, setColor] = useState(initialToggle ? "#98FB98" : "#FFFFFF");
+  console.log(buttonTitle)
+  let shouldToggle = isToggled()
+  let color = shouldToggle? "#98FB98" : "#FFFFFF";
   let foo = {inActiveColor:"#FFFFFF", activeColor :"#98FB98"}
   let {inActiveColor, activeColor} = foo
+  debugger;
+
 /*
   <Button
       title= {buttonTitle}
@@ -59,16 +61,7 @@ let y = foo.y;
      
 
      onPress={(event,style) => { 
-      if (isToggled){
-          setToggled(false);
-          setColor("#FFFFFF");
-        }
-        else{
-          setToggled(true);
-          setColor("#98FB98");
-        }
-
-      onClickCallback(!isToggled); //isToggled not updated yet
+      onClickCallback(); 
      }}>
       <Image
         source={require('../../../assets/login_person.png')}

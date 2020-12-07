@@ -7,16 +7,24 @@ import { useSelector, useDispatch  } from 'react-redux'
 import { constants } from "redux-firestore";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {MaterialIcons} from "@expo/vector-icons"
+import serverInfo from '../../Common/ServerInfo.js';
+import commonFunctions from '../../Common/commonFunctions.js';
 
 const ThemeContext = React.createContext("light");
 const selectPreferences = state => state.preferences
 
 const PreferencesScreen = ({navigation}) => {
   const dispatchPreferences = useDispatch()
-
-  const updatePreference = (preference, isTracking) => {
+  const selectAccount = state => state.account;
+  const accountRedux = useSelector(selectAccount);
+  const updatePreferenceFromServerResponse = (response) => {
     debugger;
     dispatchPreferences({ type: 'preferences/update', preference: preference, payload: isTracking })
+
+  }
+  const updatePreference = (preference, isTracking) => {
+    serverInfo.callServer("POST", "toggleUserIsA" + preference, {userID:  accountRedux.userID, blackList :itemList}, updatePreferenceFromServerResponse)
+
   }
 
   const [email, setEmail] = useState();
@@ -121,7 +129,7 @@ const PreferencesScreen = ({navigation}) => {
       />
       </View>
       <Text style={styles.textSmall} onPress={() => navigation.navigate('BlackListScreen')}>Black list a company </Text>
-      <Text style={styles.textSmall} onPress={() => navigation.navigate('ChemicalListScreen')}>Add a chemical you want to avoid </Text>
+      <Text style={styles.textSmall} onPress={() => navigation.navigate('IngredientListScreen')}>Add a ingredient you want to avoid </Text>
     </View>
   );
 };

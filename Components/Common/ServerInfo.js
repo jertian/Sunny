@@ -5,6 +5,8 @@ var path = "http://" + ip + ":5000"; //Create path with port number
 
 async function callServer(method, route, body, onResponse) {
   console.log("Calling server at " + path + " with route " + route)
+  console.log("RESPONSE TO SERVER========================");
+  console.log(JSON.stringify(body));
   let res = await fetch(path + "/" + route, {
 
     method: method,
@@ -19,9 +21,13 @@ async function callServer(method, route, body, onResponse) {
 
   });
   let response = await res.json();
+  console.log("RESPONSE FROM SERVER ========================");
+
+  console.log(JSON.stringify(response));
   debugger;
+
   if(onResponse){
-    (onResponse(response.blackList))
+    (onResponse(response))
   }
 }
 

@@ -21,28 +21,8 @@ import { StackActions, NavigationActions } from 'react-navigation';
 const fastGuestLogin = true;
 
 const fastGoogleLogin = false;
-const GUESTLOGINSCREEN = "BlackListScreen"
-
-/*
-const ThemeContext = React.createContext("light");
-const selectAccount = state => state.account
-const providerGoogle = new firebase.auth.GoogleAuthProvider();
-providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.profile');
-providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.email');
-
-const providerFacebook = new firebase.auth.FacebookAuthProvider();
-providerFacebook.addScope('user_photos');
-providerFacebook.setCustomParameters({
-  'display': 'popup'
-});
-
-firebase.auth().languageCode = 'en';
-providerGoogle.setCustomParameters({
-  'login_hint': 'user@example.com'
-});
-*/
-
-
+const GUESTLOGINSCREEN = "PreferencesScreen"
+//BlackListScreen //IngredientListScreen //PreferencesScreen
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -67,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
     dispatchPreferences({ type: 'preferences/update', preference: "Vegetarian", payload: response.user.isAVegetarian })
     dispatchPreferences({ type: 'preferences/blacklist/update',  payload: response.user.blackList })
     dispatchProducts({ type: 'product/productListHistory/replaceAll', payload: response.user.scannedHistory })
-    dispatchPreferences({ type: 'preferences/chemicalsToAvoid/update',  payload: response.user.chemicalsToAvoid })
+    dispatchPreferences({ type: 'preferences/ingredientsToAvoid/update',  payload: response.user.ingredientsToAvoid })
   }
   
   async function signInWithGoogleAsync() {

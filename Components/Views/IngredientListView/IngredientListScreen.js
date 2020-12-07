@@ -3,13 +3,12 @@ import { View, Button, Text, StyleSheet, TouchableOpacity, FlatList, Alert, Imag
 import AddItem from "./AddItem"
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useSelector, useDispatch } from 'react-redux'
-import serverInfo from './../../Common/ServerInfo.js';
-import commonFunctions from './../../Common/commonFunctions.js';
+import serverInfo from '../../Common/ServerInfo.js';
+import commonFunctions from '../../Common/commonFunctions.js';
 
 const ThemeContext = React.createContext("light");
 
-
-function BlackListScreen({ route, navigation }) {
+function IngredientListScreen({ route, navigation }) {
 
   const dispatchPreferences = useDispatch()
   const selectPreferences = state => state.preferences;
@@ -23,52 +22,55 @@ function BlackListScreen({ route, navigation }) {
   let [itemList, setItemList] = useState([]);
   let [syncWarning, setSyncWarning] = useState("");
 
-    function updateItemListFromServer(response){
-      debugger;
-      if(response.type == "failure"){
-        console.error("Sync warning in blacklist");
-        setSyncWarning("Unable to sync last operation into database, please check your connection or restart the app to be in full sync")
-      }
-      if(response.blackList){
-      setItemList(response.blackList);
-      }
-    }
-  useEffect(() => {
-    if(isItemListSynced){
-    if(!commonFunctions.arraysEqual(itemList, preferencesRedux.blackList)){
-      debugger;
-      dispatchPreferences({ type: 'preferences/blacklist/update', payload: itemList })
-      let response;
-      if(lastAction === "add"){
-        serverInfo.callServer("POST", "addToUserBlackList", {userID:  accountRedux.userID, company:itemList[0]}, updateItemListFromServer)
-        setLastAction("")
-      }
-      else if (lastAction === "remove"){
-        serverInfo.callServer("POST", "updateUserBlackList", {userID:  accountRedux.userID, blackList :itemList}, updateItemListFromServer)
-        setLastAction("")
- 
-      }
-
-
-
-      }
-    }
-    else{
-      setIsItemListSynced(true)
-      setItemList(preferencesRedux.blackList)
-    }
-  });
-  
-  
-  function deleteItem(preferencestorageID) {
+  function updateItemListFromServer(response){
     debugger;
-    let newCurrentList = itemList.filter(item => item.storageID !== preferencestorageID)
-    setItemList(newCurrentList);
-    setLastAction("remove")
+    if(response.type == "failure"){
+      console.error("Sync warning in IngredientListScreen");
+      setSyncWarning("Unable to sync last operation into database, please check your connection or restart the app to be in full sync")
+    }
+    if(response.ingredientsToAvoid){
+    setItemList(response.ingredientsToAvoid);
+    }
   }
 
-  const addItem = (companyName) => {
-    if (!companyName) {
+  useEffect(() => {
+    debugger;
+    if(isItemListSynced){
+      if(!commonFunctions.arraysEqual(itemList, preferencesRedux.ingredientsToAvoid)){
+        debugger;
+        dispatchPreferences({ type: 'preferences/ingredientsToAvoid/update', payload: itemList })
+        let response;
+        if(lastAction === "add"){
+          debugger;
+          serverInfo.callServer("POST", "addToUserIngredientsToAvoid", {userID:  accountRedux.userID, ingredient:itemList[0]}, updateItemListFromServer)
+          setLastAction("")
+        }
+        else if (lastAction === "remove"){
+          debugger;
+          serverInfo.callServer("POST", "updateUserIngredientsToAvoid", {userID:  accountRedux.userID, ingredientsToAvoid :itemList}, updateItemListFromServer)
+          setLastAction("")
+   
+        }
+
+        }
+      }
+      else{
+        setIsItemListSynced(true)
+        setItemList(preferencesRedux.ingredientsToAvoid)
+      }
+    });
+  
+
+  function deleteItem(storageID) {
+    debugger;
+    let newCurrentList = itemList.filter(item => item.storageID !== storageID)
+    setItemList(newCurrentList);
+    setLastAction("remove")
+
+  }
+
+  const addItem = (ingredientName) => {
+    if (!ingredientName) {
       Alert.alert('Error', 'Please enter an item ', [{ text: "Ok" }]);
     }
     else {
@@ -83,25 +85,26 @@ function BlackListScreen({ route, navigation }) {
       obj.storageID = productsRedux.getAvailableProductId();
       setItemList([text, ...itemList]);
       */
-      let obj = {
-        storageID: 0,
-        companyName: companyName,
-      }
-      obj.storageID = commonFunctions.getMaxIdOfList(itemList) + 1
-      setItemList([obj, ...itemList]);
-      setLastAction("add")
+     let obj = {
+      storageID: 0,
+      ingredientName: ingredientName,
+    }
+    debugger
+    obj.storageID = commonFunctions.getMaxIdOfList(itemList) + 1
+    setItemList([obj, ...itemList]);
+    setLastAction("add")
       
     }
   }
 
   const ListItem = ({ item, deleteItem }) => {
+    
     return (
       <TouchableOpacity
         style={styles.listItem}
        >
-
         <View style={styles.listItemView}>
-          <Text style={styles.listItemText}>{item.companyName}</Text>
+          <Text style={styles.listItemText}>{item.ingredientName}</Text>
           <Icon name="remove" style={styles.removeIcon}
             onPress={() => deleteItem(item.storageID)} />
         </View>
@@ -114,11 +117,11 @@ function BlackListScreen({ route, navigation }) {
     <View style={styles.container}>
       <AddItem addItem={addItem}/>
       {syncWarning != "" && (<Text style={{color: 'red', fontSize: 30}}>{syncWarning}</Text>)}
+
       <FlatList
         data={itemList}
         renderItem={({ item }) => (<ListItem  item={item} deleteItem={deleteItem}> </ListItem>)}
         keyExtractor={(item, index) => item.storageID.toString()}
-
       />
     </View>
   );
@@ -185,4 +188,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BlackListScreen;
+export default IngredientListScreen;

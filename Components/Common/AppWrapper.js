@@ -13,7 +13,7 @@ import ServerScreen from "./../Views/ServerView/ServerScreen";
 import HomeScreen from "./../Views/HomeView/HomeScreen";
 import SignUpScreen from "./../Views/SignUpView/SignUpScreen";
 import BlackListScreen from "./../Views/BlackListView/BlackListScreen";
-import ChemicalListScreen from "./../Views/ChemicalListView/ChemicalListScreen";
+import IngredientListScreen from "./../Views/IngredientListView/IngredientListScreen";
 import CustomHeader from "./CustomHeader";
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -259,8 +259,8 @@ const getCurrentShoppingListFromCache = async () => {
                     }} 
                 />  
                 <Stack.Screen
-                    name="ChemicalListScreen"
-                    component={ChemicalListScreen}
+                    name="IngredientListScreen"
+                    component={IngredientListScreen}
                     options={{
                         headerTitle: props => <CustomHeader {...props}
                             />

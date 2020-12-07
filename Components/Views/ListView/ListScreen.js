@@ -208,15 +208,19 @@ function ListScreen({ route, navigation }) {
          }} />
          <Button title="Checkout" color = "blue" onPress={() => {
             let ghG = 0
+            let c = 0
             for (var x of itemList){
               ghG+=x.gHGEmissions
+              c+=1
             }
-            console.log(ghG)
-            dispatchProducts({ type: 'product/productListHistory/add', payload: ghG })
+            let avg = (ghG/c)
+            console.log(avg)
+            dispatchProducts({ type: 'product/productListHistory/add', payload: avg })
+            console.log(productsRedux.productListHistory)
             navigation.navigate("DataScreen")
           }} />
-         <Button title="Idk how to move buttons further up" color = "red" onPress={() => {}} />
-         <Button title="padding button" color = "red" onPress={() => {}} />
+         <Button title="" color = "red" onPress={() => {}} />
+         <Button title="" color = "red" onPress={() => {}} />
 
       {/* 
       <ThemeContext.Provider value="light">

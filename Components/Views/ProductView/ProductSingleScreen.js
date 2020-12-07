@@ -98,7 +98,7 @@ export default function ProductSingleScreen({ route, navigation }) {
       //     code: data,
       //   }),
       // });
-      //let response = await res.json();
+      // let response = await res.json();
         
 
 
@@ -191,9 +191,24 @@ export default function ProductSingleScreen({ route, navigation }) {
         "subsidiaries": [],
         "upc": "038000016110"
       }
+
+      let response3 = {
+        "gHGEmissions": 4.1,
+        "image": "https://images.barcodelookup.com/3494/34940244-1.jpg",
+        "ingredients": [],
+        "isFairTrade": false,
+        "isSustainableBrand": false,
+        "isVegan": true,
+        "isVegetarian": true,
+        "item": "Betty Crocker Fruit Roll Ups Tropical Tie-Dye Fruit Flavoured Snacks",
+        "manufacturer": "Betty Crocker",
+        "parentCompany": "General Mills",
+        "subsidiaries": [],
+        "upc": "065633492455"
+      }
       
-      let responses = [response0, response1, response2]
-      let response = responses[Math.floor(Math.random() * 3)];
+      let responses = [response0, response1, response2, response3]
+      let response = responses[productsRedux.productListCurrent.length];
       //let response = response2;
       //-------------------------------------------------------------------
       //Testing End =======================================================

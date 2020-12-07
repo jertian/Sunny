@@ -211,6 +211,7 @@ export default function ProductSingleScreen({ route, navigation }) {
   }
 
   if (action !== "") {
+    setHasFinishedScanning(false)
 
     if (action === DISPLAY_COMPARE_PRODUCT && compareProducts && compareProducts.length > 0) {
       setInfo({

@@ -27,8 +27,6 @@ let y = foo.y;
   let shouldToggle = isToggled()
   let color = shouldToggle? "#98FB98" : "#FFFFFF";
   let foo = {inActiveColor:"#FFFFFF", activeColor :"#98FB98"}
-  let {inActiveColor, activeColor} = foo
-  debugger;
 
 /*
   <Button

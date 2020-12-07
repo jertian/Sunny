@@ -53,6 +53,9 @@ export default function CustomHeader(props) {
         navigation.goBack()
       
     }
+    function profilePictureOnClick(){
+        navigation.navigate("HomeScreen")
+    }
     function TitleComponent(props) {
         if (props) {
             if (props.title != null && props.title !== "") {
@@ -60,7 +63,6 @@ export default function CustomHeader(props) {
                 return <Text style={styles.text}>  {props.title} </Text>
             }
         }
-        console.log("prev statement failed")
         return (<Text style={styles.text}>Welcome {account.firstName}</Text>)
 
     }
@@ -77,15 +79,18 @@ export default function CustomHeader(props) {
     function ProfilePicture() {
         if (account.photoURL !== "") {
             return (
+                <TouchableOpacity onPress = {profilePictureOnClick}>
                 <View style={styles.profilePicture}>
                     <Image source={{ uri: account.photoURL }} style={styles.profilePicture} />
                 </View>
+                </TouchableOpacity>
+
             )
         }
         else {
-            return (<View style={styles.profilePicture}>
+            return (<TouchableOpacity onPress = {profilePictureOnClick}><View style={styles.profilePicture}>
             <Image source={require('./../../assets/blank_profile.png')}  style={styles.profilePicture} />
-        </View>)
+        </View></TouchableOpacity>)
         }
     }
 

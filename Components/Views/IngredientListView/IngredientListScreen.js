@@ -42,12 +42,12 @@ function IngredientListScreen({ route, navigation }) {
         let response;
         if(lastAction === "add"){
           debugger;
-          serverInfo.callServer("POST", "addToUserIngredientsToAvoid", {userID:  accountRedux.userID, ingredient:itemList[0]}, updateItemListFromServer)
+          serverInfo.callServer("POST", "addToUserIngredientsToAvoid", {userID:  accountRedux.userID, passwordHash: accountRedux.passwordHash, ingredient:itemList[0]}, updateItemListFromServer)
           setLastAction("")
         }
         else if (lastAction === "remove"){
           debugger;
-          serverInfo.callServer("POST", "updateUserIngredientsToAvoid", {userID:  accountRedux.userID, ingredientsToAvoid :itemList}, updateItemListFromServer)
+          serverInfo.callServer("POST", "updateUserIngredientsToAvoid", {userID:  accountRedux.userID, passwordHash: accountRedux.passwordHash, ingredientsToAvoid :itemList}, updateItemListFromServer)
           setLastAction("")
    
         }

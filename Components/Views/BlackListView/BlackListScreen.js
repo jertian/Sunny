@@ -36,15 +36,13 @@ function BlackListScreen({ route, navigation }) {
   useEffect(() => {
     if(isItemListSynced){
     if(!commonFunctions.arraysEqual(itemList, preferencesRedux.blackList)){
-      debugger;
       dispatchPreferences({ type: 'preferences/blacklist/update', payload: itemList })
-      let response;
       if(lastAction === "add"){
-        serverInfo.callServer("POST", "addToUserBlackList", {userID:  accountRedux.userID, company:itemList[0]}, updateItemListFromServer)
+        serverInfo.callServer("POST", "addToUserBlackList", {userID:  accountRedux.userID, passwordHash: accountRedux.passwordHash, company:itemList[0]}, updateItemListFromServer)
         setLastAction("")
       }
       else if (lastAction === "remove"){
-        serverInfo.callServer("POST", "updateUserBlackList", {userID:  accountRedux.userID, blackList :itemList}, updateItemListFromServer)
+        serverInfo.callServer("POST", "updateUserBlackList", {userID:  accountRedux.userID,passwordHash: accountRedux.passwordHash, blackList :itemList}, updateItemListFromServer)
         setLastAction("")
  
       }
@@ -61,7 +59,6 @@ function BlackListScreen({ route, navigation }) {
   
   
   function deleteItem(preferencestorageID) {
-    debugger;
     let newCurrentList = itemList.filter(item => item.storageID !== preferencestorageID)
     setItemList(newCurrentList);
     setLastAction("remove")

@@ -19,12 +19,13 @@ const PreferencesScreen = ({navigation}) => {
   const accountRedux = useSelector(selectAccount);
   const updatePreferenceFromServerResponse = (response) => {
     debugger;
-    dispatchPreferences({ type: 'preferences/update', preference: "Vegetarian", payload: response.isAVegetarian })
-    dispatchPreferences({ type: 'preferences/update', preference: "Vegan", payload: response.isAVegan })
+    dispatchPreferences({ type: 'preferences/update', preference: "Vegetarian", payload: response.preference.isAVegetarian })
+    dispatchPreferences({ type: 'preferences/update', preference: "Vegan", payload: response.preference.isAVegan })
 
   }
   const updatePreference = (preference, isTracking) => {
-    serverInfo.callServer("POST", "toggleUserIsA" + preference, {userID:  accountRedux.userID}, (response)=>updatePreferenceFromServerResponse(response))
+    debugger;
+    serverInfo.callServer("POST", "toggleUserIsA" + preference, {userID:  accountRedux.userID, passwordHash: accountRedux.passwordHash }, (response)=>updatePreferenceFromServerResponse(response))
 
   }
 

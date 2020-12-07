@@ -18,11 +18,13 @@ import { StackActions, NavigationActions } from 'react-navigation';
 
 //Set to false to stay on screen to do other things
 //Used for faster testing
-const fastGuestLogin = true;
+const fastGuestLogin = false;
 
 const fastGoogleLogin = false;
-const GUESTLOGINSCREEN = "PreferencesScreen"
+const GUESTLOGINSCREEN = "HomeScreen";
+const isGuestButtonEnabled = false;
 //BlackListScreen //IngredientListScreen //PreferencesScreen
+//HomeScreen DataScreen
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -35,21 +37,22 @@ const LoginScreen = ({ navigation }) => {
   const dispatchPreferences = useDispatch()
   const dispatchProducts = useDispatch()
 
-  function dispatchBasedOnServerResponse(response){
+  function dispatchBasedOnServerResponse(response) {
     dispatchAccount({ type: 'account/login', payload: true })
+    dispatchAccount({ type: 'account/loginMethod', payload: response.user.loginMethod })
+    dispatchAccount({ type: 'account/passwordHash', payload: response.user.passwordHash })
     dispatchAccount({ type: 'account/firstName', payload: response.user.firstName })
     dispatchAccount({ type: 'account/lastName', payload: response.user.lastName })
     dispatchAccount({ type: 'account/email', payload: response.user.userID })
     dispatchAccount({ type: 'account/userID', payload: response.user.userID })
-
     dispatchAccount({ type: 'account/photoURL', payload: response.user.photoUrl })
     dispatchPreferences({ type: 'preferences/update', preference: "Vegan", payload: response.user.isAVegan })
     dispatchPreferences({ type: 'preferences/update', preference: "Vegetarian", payload: response.user.isAVegetarian })
-    dispatchPreferences({ type: 'preferences/blacklist/update',  payload: response.user.blackList })
+    dispatchPreferences({ type: 'preferences/blacklist/update', payload: response.user.blackList })
     dispatchProducts({ type: 'product/productListHistory/replaceAll', payload: response.user.scannedHistory })
-    dispatchPreferences({ type: 'preferences/ingredientsToAvoid/update',  payload: response.user.ingredientsToAvoid })
+    dispatchPreferences({ type: 'preferences/ingredientsToAvoid/update', payload: response.user.ingredientsToAvoid })
   }
-  
+
   async function signInWithGoogleAsync() {
     try {
 
@@ -72,37 +75,26 @@ const LoginScreen = ({ navigation }) => {
         } else {
           result.CLIENT_ID = CLIENT_ID
         }
-        //let res = await fetch(serverInfo.path + "/verifyGoogleLogin", {
-        let res = await fetch(serverInfo.path + "/getUser", {
+        result.userID = result.user.email;
+        serverInfo.callServer("POST", "loginViaGoogle", result, (response) => {
 
-          method: "POST",
-          //mode: 'no-cors', // no-cors, *cors, same-origin, cors
+          if (response.type && response.type === "success") {
+            dispatchBasedOnServerResponse(response)
 
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          //body: JSON.stringify(result),
-          body: {
-            "userID" : "tobiaswheaton@gmail.com"
-          
+            navigateToHome()
           }
 
-        });
-        let response = await res.json();
-
-        if (response.type && response.type === "success") {
-          dispatchBasedOnServerResponse(response)
-
-          navigateToHome()
+          else {
+            setLoginResult("Error with google login, please sign up/in via email");
+          }
         }
-        return result.accessToken;
-      } else {
-        return { cancelled: true };
+
+        );
       }
+    
     } catch (e) {
       debugger;
-      setLoginResult("Error with google login, please sign in as guest");
+      setLoginResult("Error with google login, please sign up/in via email");
 
       console.error("Error logging in")
       console.error(e)
@@ -168,37 +160,29 @@ const LoginScreen = ({ navigation }) => {
     return false;
   }
 
-  async function guestLoginOnClick (event) {
-    try{
-        //let res = await fetch(serverInfo.path + "/verifyGoogleLogin", {
-        let res = await fetch(serverInfo.path + "/getUser", {
+  async function guestLoginOnClick(event) {
+    try {
+      let body = {
+        "userID": "jamesvachao1@gmail.com",
+        "password": "abc123"
+      }
+      serverInfo.callServer("POST", "login", body, (response) => {
 
-          method: "POST",
-          //mode: 'no-cors', // no-cors, *cors, same-origin, cors
-
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          //body: JSON.stringify(result),
-          body: JSON.stringify({
-          userID : "tobiaswheaton@gmail.com"
-          
-          })
-
-        });
-        let response = await res.json();
+        response.user.loginMethod = "email"
         dispatchBasedOnServerResponse(response)
-        
+
         navigation.reset({
           index: 0,
           routes: [{ name: GUESTLOGINSCREEN }],
         });
       }
-      catch(e){
-        console.error("Error with guest login");
-        console.error(e);
-      }
+      )
+   
+    }
+    catch (e) {
+      console.error("Error with guest login");
+      console.error(e);
+    }
 
   }
   if (fastGuestLogin) {
@@ -213,18 +197,24 @@ const LoginScreen = ({ navigation }) => {
       routes: [{ name: 'HomeScreen' }],
     });
   }
-  const signInOnClick = (event) => {
-    console.log(email);
-
-
+  const signInViaEmailOnClick = (event) => {
     if (validateEmail(email)) {
-      
-      dispatchAccount({ type: "account/login", payload: true })
-      dispatchAccount({ type: "account/name", payload: email })
-      navigateToHome()
+      let body = {
+        "userID": email,
+        "password": password
+      }
+      serverInfo.callServer("POST", "login", body, (response) => {
+        if (response.type == "success") {
+          dispatchBasedOnServerResponse(response)
+          navigateToHome()
+
+        }
+        else{
+          setLoginResult("login result unsucessful: " + response.msg)
+        }
+      });
 
     } else {
-
       setLoginResult("Not a real email");
     }
   }
@@ -259,12 +249,14 @@ const LoginScreen = ({ navigation }) => {
 
       <LoginButton
         buttonTitle="Sign In"
-        onClick={signInOnClick}
+        onClick={signInViaEmailOnClick}
       />
-      <LoginButton
-        buttonTitle="Guest Login"
-        onClick={guestLoginOnClick}
-      />
+      {isGuestButtonEnabled &&
+        <LoginButton
+          buttonTitle="Guest Login"
+          onClick={guestLoginOnClick}
+        />
+      }
       <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
         <Text style={styles.navButtonText}>Forgot Password?</Text>
       </TouchableOpacity>
@@ -287,7 +279,7 @@ const LoginScreen = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={() => navigation.navigate('Signup')}>
+        onPress={() => {debugger;navigation.navigate('SignUpScreen')}}>
         <Text style={styles.navButtonText}>
           Don't have an acount? Create here
         </Text>

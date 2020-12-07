@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 const ThemeContext = React.createContext("light");
 
 const DataScreen = ({navigation}) => {
+  debugger;
   const dispatchProducts = useDispatch()
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
@@ -46,6 +47,7 @@ const DataScreen = ({navigation}) => {
       <Text>
         Account Purchase History
       </Text>
+      {d.length> 0 &&
       <LineChart
         data={data}
         width={Dimensions.get('window').width-50} // from react-native
@@ -58,6 +60,13 @@ const DataScreen = ({navigation}) => {
           borderRadius: 16
         }}
       />
+      }
+      {d.length == 0 &&
+        <Text>
+        Your history will be displayed here when you've checkout. If you're seeing this it means you have no history yet!
+      </Text>
+      }
+
       <Button title="Clear History" color = "red" onPress={() => {
         dispatchProducts({ type: 'product/productListHistory/replaceAll', payload: []})
         console.log(productsRedux.productListHistory)

@@ -24,7 +24,6 @@ async function callServer(method, route, body, onResponse) {
   console.log("RESPONSE FROM SERVER ========================");
 
   console.log(JSON.stringify(response));
-  debugger;
 
   if(onResponse){
     (onResponse(response))

@@ -4,7 +4,9 @@ const initialState = {
     email : "",
     lastName : "",
     photoURL : "",
-    userID : ""
+    userID : "",
+    passwordHash : "",
+    loginMethod: ""
 
 }
 
@@ -29,6 +31,22 @@ export default function accountSlice(state = initialState, action) {
         return {
             ...state,
             userID : action.payload
+            
+        }
+         
+      }
+      case 'account/loginMethod': {
+        return {
+            ...state,
+            loginMethod : action.payload
+            
+        }
+         
+      }
+      case 'account/passwordHash': {
+        return {
+            ...state,
+            passwordHash : action.payload
             
         }
          

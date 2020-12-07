@@ -6,6 +6,7 @@ import LoginButton from "./LoginButton"
 import { createStackNavigator } from "@react-navigation/stack";
 const ThemeContext = React.createContext("light");
 import { windowHeight, windowWidth } from '../../../utils/Dimensions';
+import serverInfo from './../../Common/ServerInfo.js';
 
 const Stack = createStackNavigator();
 
@@ -14,7 +15,7 @@ const Stack = createStackNavigator();
 Testing purposes
 //======================================================
 */
-let shouldNavigateOnLoad = false;
+let shouldNavigateOnLoad = true && serverInfo.DEBUG_MODE;
 let navigateLocation = "ProductSingleScreen"
 
 //ProductSingleScreen
@@ -49,10 +50,49 @@ function navigateOnLoad(navigation) {
     "upc": "052000322514",
     "warnings": []
 }
+let response2 = {
+  "gHGEmissions": 3.1,
+  "image": "https://images.barcodelookup.com/2754/27543194-1.jpg",
+  "ingredients": [
+    "rice",
+    "wheat gluten",
+    "sugar",
+    "defatted wheat germ",
+    "contains 2% or less of salt",
+    "whey",
+    "malt flavor",
+    "calcium caseinate.vitamins and minerals: vitamin c (ascorbic acid)",
+    "reduced iron",
+    "niacinamide",
+    "vitamin b6 (pyridoxine hydrochloride)",
+    "vitamin b1 (thiamin hydrochloride)",
+    "vitamin b2 (riboflavin)",
+    "folic acid",
+    "vitamin a palmitate",
+    "vitamin b12",
+    "vitamin d3."
+  ],
+  "isFairTrade": false,
+  "isSustainableBrand": true,
+  "isVegan": false,
+  "isVegetarian": true,
+  "item": "Special K Original Breakfast Cereal - 12oz - Kellogg's",
+  "manufacturer": "Special K",
+  "parentCompany": "Kellogg's",
+  "subsidiaries": [],
+  "upc": "038000016110"
+}
+let compareProducts = [response1]
   let product = response1;
   let action = "DisplayExistingProduct";
+  let type = "upc"
+  let data = "038000016110"
+
   if (navigateLocation === "ProductSingleScreen") {
-    navigation.navigate(navigateLocation, { action, product });
+    action = "DisplayCompareProduct";
+    navigation.navigate("ProductSingleScreen", { type, data, action, compareProducts });
+
+    //navigation.navigate(navigateLocation, { action, product });
   } else {
     navigation.navigate(navigateLocation);
 

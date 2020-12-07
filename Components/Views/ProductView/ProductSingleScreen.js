@@ -43,7 +43,6 @@ export default function ProductSingleScreen({ route, navigation }) {
     manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
   });
 
-  debugger;
 
   /*
   action must not be null when navigating to product screen
@@ -63,7 +62,6 @@ export default function ProductSingleScreen({ route, navigation }) {
   let response;
   //Change this once, it is called when either a product is loaded or data from server retrieved
   function setInfoFromResponse(response) {
-    debugger;
     setInfo({
       scanned: true,
       gHGEmissions: Math.round(parseFloat(response.gHGEmissions)),
@@ -221,10 +219,7 @@ export default function ProductSingleScreen({ route, navigation }) {
         isVegan: false, isVegetarian: false, item: "",
         manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
       });
-      getInfo().then(() => {
-        compareProducts.push(response);
-
-      });
+      getInfo()
 
 
     }
@@ -251,7 +246,6 @@ export default function ProductSingleScreen({ route, navigation }) {
         type = "[type_info should be here]";
       }
       getInfo()
-      debugger;
       //console.log("Calling get info");
     }
     route.params.action = "";
@@ -268,6 +262,7 @@ export default function ProductSingleScreen({ route, navigation }) {
   }
 
   function viewComparison() {
+    debugger;
     compareProducts.push(info);
     navigation.navigate("CompareScreen", { compareProducts })
   }
@@ -345,7 +340,6 @@ export default function ProductSingleScreen({ route, navigation }) {
     )
   }
   function ScanFailComponent() {
-    debugger;
     return (      <Fragment>
       <Text style={{ color: 'red', fontSize: 30 }} >Could not find item via scraping or APIs, please scan another item</Text>
           <Button title="Scan Another Item" color="black" onPress={() => {

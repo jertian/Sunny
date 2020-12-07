@@ -22,14 +22,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import { View, Button, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import serverInfo from './ServerInfo.js';
 
 
 
 
 
 const Stack = createStackNavigator();
-const initialScreen = "LandingScreen";
-
+let initialScreen = "LandingScreen";
+if(serverInfo.DEBUG_MODE){
+    initialScreen = "LoginScreen";
+}
 //ProductSingleScreen //LandingScreen //Camera //HomeScreen //LoginScreen
 //PreferencesScreen //SignUpScreen
 

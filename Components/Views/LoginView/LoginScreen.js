@@ -18,7 +18,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 
 //Set to false to stay on screen to do other things
 //Used for faster testing
-const fastGuestLogin = false;
+const fastGuestLogin = true && serverInfo.DEBUG_MODE;
 
 const fastGoogleLogin = false;
 const GUESTLOGINSCREEN = "HomeScreen";

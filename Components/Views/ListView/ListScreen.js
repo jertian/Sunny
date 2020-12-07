@@ -2,11 +2,11 @@ import React, { useState, useEffect, Fragment } from "react";
 import { View, Button, Text, StyleSheet, TouchableOpacity, FlatList, Alert, Image } from "react-native";
 import { v4 as uuidv4 } from 'uuid';
 import Header from "./Header"
-import AddItem from "./AddItem"
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import ListItem from "./ListItem"
 import { useSelector, useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import commonFunctions from './../../Common/commonFunctions.js';
 
 const ThemeContext = React.createContext("light");
 
@@ -48,7 +48,7 @@ function ListScreen({ route, navigation }) {
     //Once cache is loaded we can deal with any products that have been passed in
     if (productToAdd) {
       productCopy = Object.assign({}, productToAdd)
-      productCopy.storageId = Number(productsRedux.getAvailableProductId())
+      productCopy.storageId = commonFunctions.getMaxIdOfList(itemList) + 1
       setItemList([...itemList, productCopy]);
       route.params.productToAdd = null;
     }    
@@ -67,45 +67,7 @@ function ListScreen({ route, navigation }) {
     setItemList(newCurrentList);
   }
 
-  const addItem = (text) => {
-    if (!text) {
-      Alert.alert('Error', 'Please enter an item ', [{ text: "Ok" }]);
-    }
-    else {
-      let response = {
-        "gHGEmissions": 3.1579166666666665,
-        "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
-        "ingredients": [
-          "whole grain oats",
-          "corn starch",
-          "sugar",
-          "salt",
-          "tripotassium phosphate. vitamin e (mixed tocopherols) added to preserve freshness.vitamins and minerals: calcium carbonate",
-          "iron and zinc (mineral nutrients)",
-          "vitamin c (sodium ascorbate)",
-          "a b vitamin (niacinamide)",
-          "vitamin b6 (pyridoxine hydrochloride)",
-          "vitamin a (palmitate)",
-          "vitamin b1 (thiamin mononitrate)",
-          "a b vitamin (folic acid)",
-          "vitamin b12",
-          "vitamin d3."
-        ],
-        "isFairTrade": false,
-        "isSustainableBrand": false,
-        "isVegan": false,
-        "isVegetarian": true,
-        "item": "Cheerios Cereal - 18.0 Oz",
-        "manufacturer": "Cheerios",
-        "parentCompany": "General Mills",
-        "subsidiaries": [],
-        "upc": "016000275287",
 
-      };
-      response.storageId = productsRedux.getAvailableProductId();
-      setItemList([response, ...itemList]);
-    }
-  }
 
   const ListItem = ({ item, deleteItem }) => {
     function ProductImage(item) {
@@ -140,7 +102,6 @@ function ListScreen({ route, navigation }) {
   return (
 
     <View style={styles.container}>
-      <AddItem addItem={addItem} />
       <FlatList
         data={itemList}
         renderItem={({ item }) => (<ListItem id={item.storageId} item={item} deleteItem={deleteItem}> </ListItem>)}
@@ -163,6 +124,7 @@ function ListScreen({ route, navigation }) {
             let avg = (ghG/c)
             console.log(avg)
             dispatchProducts({ type: 'product/productListHistory/add', payload: avg })
+            setItemList([]);
             console.log(productsRedux.productListHistory)
             navigation.navigate("DataScreen")
           }} />

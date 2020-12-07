@@ -84,7 +84,6 @@ export default function ProductSingleScreen({ route, navigation }) {
 
   async function getInfo() {
     try {
-
       console.log("calling server at : " + serverInfo.path + "/scannedCode")
       //let res = await fetch(serverInfo.path + "/JamesTest", {
       let res = await fetch(serverInfo.path + "/scannedCode", {
@@ -198,6 +197,9 @@ export default function ProductSingleScreen({ route, navigation }) {
       let responses = [response0, response1, response2]
       //let response = responses[Math.floor(Math.random() * 3)];
       //response = response2;
+      
+      //let response = responses[productsRedux.productListCurrent.length];
+      //let response = response2;
       //-------------------------------------------------------------------
       //Testing End =======================================================
 
@@ -344,9 +346,15 @@ export default function ProductSingleScreen({ route, navigation }) {
   }
   function ScanFailComponent() {
     debugger;
-    return (
+    return (      <Fragment>
       <Text style={{ color: 'red', fontSize: 30 }} >Could not find item via scraping or APIs, please scan another item</Text>
-    )
+          <Button title="Scan Another Item" color="black" onPress={() => {
+        navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] });
+        let shouldCompare = false;
+        let compareProducts = [];
+        navigation.navigate("Camera", {shouldCompare, compareProducts});
+         }} />
+         </Fragment> )
   }
   return (
     <Fragment>

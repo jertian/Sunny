@@ -71,9 +71,10 @@ let y = foo.y;
       onClickCallback(!isToggled); //isToggled not updated yet
      }}>
       <Image
-        source={require('../../../assets/login_person.png')}
+        source={buttonImage}
         style={styles.logo}
       />
+      
       <Text style={styles.buttonText}>{buttonTitle}</Text>
     </TouchableOpacity>
     
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#A3A3A3',
+    fontFamily: 'Nunito_400Regular'
   },
   logo: {
     height: 50,

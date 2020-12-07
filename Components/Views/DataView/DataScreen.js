@@ -1,3 +1,4 @@
+import { NunitoSans_700Bold } from "@expo-google-fonts/nunito-sans";
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { View, Button, TouchableOpacity,Image, Text, StyleSheet, Dimensions } from "react-native";
@@ -17,10 +18,10 @@ const DataScreen = ({navigation}) => {
 
   const chartConfig = {
     backgroundColor: '#e26a00',
-    backgroundGradientFrom: '#1E2923',
-    backgroundGradientTo: '#08130D',
+    backgroundGradientFrom: '#FFFFFF',
+    backgroundGradientTo: '#FFFFFF',
     decimalPlaces: 2, // optional, defaults to 2dp
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    color: (opacity = 1) => `rgba(	250, 185, 25, ${opacity})`,
     style: {
       borderRadius: 16
     }
@@ -28,8 +29,11 @@ const DataScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text>
+      <Text style={styles.textTitle}>
         Account Purchase History
+      </Text>
+      <Text style={styles.text}>
+        This page allows you to see your green house emission over time. 
       </Text>
       <LineChart
         data={data}
@@ -39,10 +43,13 @@ const DataScreen = ({navigation}) => {
         fromZero={true}
         bezier
         style={{
-          marginVertical: 8,
+          marginVertical: 20,
           borderRadius: 16
         }}
       />
+      <Text style={styles.text}>
+        The average green house gas emissions per product is 3.4
+      </Text>
     </View>
   );
 };
@@ -70,10 +77,19 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     borderRadius:10,
   },
-  text: {
+  textTitle: {
     fontSize: 28,
-    marginBottom: 10,
-    color: '#051d5f',
+    marginVertical: 40,
+    color: '#FFFFFF',
+    fontFamily: 'Nunito_400Regular'
+   
+  },
+  text: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontFamily: 'Nunito_400Regular'
+   
   },
   navButton: {
     marginTop: 15,

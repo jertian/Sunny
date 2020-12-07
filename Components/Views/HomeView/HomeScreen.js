@@ -36,6 +36,7 @@ function navigateOnLoad(navigation){
           "Grocery International Holdings, Inc."
       ],
       "upc": "030000010402",
+      "warnings": ["hello"]
 
   }
   let product = response1;

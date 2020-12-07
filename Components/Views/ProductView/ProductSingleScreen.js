@@ -1,6 +1,7 @@
   
 import React, { Fragment, useState, useEffect } from "react";
-import { Button, View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Button, View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Modal} from "react-native";
+import { List } from 'react-native-paper';
 import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font'
@@ -24,6 +25,7 @@ const DISPLAY_COMPARE_PRODUCT = "DisplayCompareProduct"
 export default function ProductSingleScreen({ route, navigation }) {
   const [isWaitingOnInfo, setIsWaitingOnInfo] = useState(true);
   const [isWaitingOnCompareInfo, setIsWaitingOnCompareInfo] = useState(true);
+  const [displayAlert, setDisplayAlert] = useState(false);
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
   let [isCacheLoaded, setIsCacheLoaded] = useState(false);
@@ -39,7 +41,8 @@ export default function ProductSingleScreen({ route, navigation }) {
   const [info, setInfo] = useState({
     scanned: false, gHGEmissions: 0, image: "", ingredients: [],
     isVegan: false, isVegetarian: false, item: "",
-    manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
+    manufacturer: "", parentCompany: "",subsidiaries:"",manufacturerHeadquarters:"", upc: "", isFairTrade: false, isSustainableBrand: false,
+    warnings:[],
   });
 
 
@@ -72,20 +75,24 @@ export default function ProductSingleScreen({ route, navigation }) {
       item: response.item, //name
       manufacturer: response.manufacturer,
       parentCompany: response.parentCompany,
+      subsidiaries:response.subsidiaries,
       upc: response.upc,
       isFairTrade: response.isFairTrade,
-      isSustainableBrand: response.isSustainableBrand
+      isSustainableBrand: response.isSustainableBrand,
+      manufacturerHeadquarters: response.manufacturerHeadquarters,
+      warnings: response.warnings,
     })
   }
 
+  
   
   async function getInfo() {
     try {
       
       console.log("calling server at : " + serverInfo.path + "/scannedCode")
-      //let res = await fetch(serverInfo.path + "/JamesTest", {
+        //let res = await fetch(serverInfo.path + "/JamesTest", {
         let res = await fetch(serverInfo.path + "/scannedCode", {
-
+        //let res = await fetch(serverInfo.path + "/paulinaTest", {
         method: "POST",
         //mode: 'no-cors', // no-cors, *cors, same-origin, cors
 
@@ -249,6 +256,29 @@ export default function ProductSingleScreen({ route, navigation }) {
 
 }
 
+  function showAlert(infoWarnings){
+    debugger
+    //let isEmpty = infoWarnings.length > 0
+    if(typeof infoWarnings !== 'undefined' && infoWarnings.length   && displayAlert != true){
+      Alert.alert(
+        "Warning",
+        " " + infoWarnings,
+        [
+          {
+            text: "hi",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false })
+        setDisplayAlert(true)
+    }
+      
+      
+  }
+
+
   function compare() {
     let shouldCompare  = true;
     compareProducts = [];
@@ -277,7 +307,12 @@ export default function ProductSingleScreen({ route, navigation }) {
   }
 }
   return (
+   
     <Fragment>
+     <ScrollView>
+     
+     
+
       <View style={styles.container}>
         {/*
       <Text style={styles.textTitle}>Product Screen</Text>
@@ -355,7 +390,46 @@ export default function ProductSingleScreen({ route, navigation }) {
             </TouchableOpacity>
           }
         </View>
+          <List.Section  style={styles.accordion}>
+              
+            <List.Accordion 
+              titleStyle = {{color:'black'}}
+              title="Parent Company"
+              
+              //left={props => <List.Icon {...props} icon="folder" />}
+              >
+              <List.Item  title={info.parentCompany} />
+            </List.Accordion>
+
+            <List.Accordion
+              title="Subsidaries"
+              titleStyle = {{color:'black',}}
+              
+              //left={props => <List.Icon {...props} icon="folder" />}
+              //expanded={expanded}
+              >
+              
+              <List.Item
+                 title={<View style = {{ flexDirection: 'row' }} ><Text>{info.subsidiaries}</Text></View>}
+                 titleStyle = {{color:'black',flexWrap: 'wrap'  }}
+                 descriptionNumberOfLines={5}
+              />
+            </List.Accordion>
+            <List.Accordion
+              title="Headquarters"
+              titleStyle = {{color:'black'}}
+              //left={props => <List.Icon {...props} icon="folder" />}
+              //expanded={expanded}
+              >
+              <List.Item title={info.manufacturerHeadquarters} />
+            </List.Accordion>
+        </List.Section>
+        
+        {showAlert(info.warnings)}
+        
       </View>
+      
+      </ScrollView>
     </Fragment>
   );
 
@@ -437,4 +511,16 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     paddingTop:10,
   },
+  accordion:{
+    textAlign: 'center',
+    color: "black",
+    width: 350,
+   
+    
+  },
+  listItem:{
+    height: 50,
+    color: "red",
+  }
+  
 });

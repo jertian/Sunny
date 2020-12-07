@@ -30,6 +30,8 @@ const PreferencesScreen = ({navigation}) => {
   const preferences = useSelector(selectPreferences);
   console.log(preferences);
 
+  let imagePath = require('../../../assets/fair_trade.png');
+
 
   return (
 
@@ -93,10 +95,10 @@ const PreferencesScreen = ({navigation}) => {
 
       <View style={{ flexDirection: 'row', margin: 10, }}>
       <PreferenceButton
-        buttonTitle="Vegetarian" initialToggle={preferences.isTrackingVegetarian} onClickCallback={(isTracking) => updatePreference("Vegetarian", isTracking)}
+        buttonTitle="Vegetarian" buttonImage = {require('../../../assets/vegetarian.png')} initialToggle={preferences.isTrackingVegetarian} onClickCallback={(isTracking) => updatePreference("Vegetarian", isTracking)}
       />
        <PreferenceButton
-        buttonTitle="Vegan" initialToggle= {preferences.isTrackingVegan} onClickCallback={(isTracking) => updatePreference("Vegan", isTracking)}
+        buttonTitle="Vegan" buttonImage = {require('../../../assets/vegan.png')} initialToggle= {preferences.isTrackingVegan} onClickCallback={(isTracking) => updatePreference("Vegan", isTracking)}
       />
       </View>
       {/*
@@ -106,22 +108,20 @@ const PreferencesScreen = ({navigation}) => {
       */}
       <View style={{ flexDirection: 'row', margin: 10, }}>
       <PreferenceButton
-        buttonTitle="Fair Trade" initialToggle= {preferences.isTrackingFairTrade} onClickCallback={(isTracking) => updatePreference("FairTrade", isTracking)}
+        buttonTitle="Fair Trade" buttonImage = {require('../../../assets/fair_trade.png')} initialToggle= {preferences.isTrackingFairTrade} onClickCallback={(isTracking) => updatePreference("FairTrade", isTracking)}
       />
       <PreferenceButton
-        buttonTitle="Sustainability" initialToggle= {preferences.isTrackingSustainability} onClickCallback={(isTracking) => updatePreference("Sustainable", isTracking)}
+        buttonTitle="Sustainability" buttonImage = {require('../../../assets/sustainable.png')} initialToggle= {preferences.isTrackingSustainable} onClickCallback={(isTracking) => updatePreference("Sustainable", isTracking)}
       />
       </View>
       <View style={{ flexDirection: 'row', margin: 10, }}>
       <PreferenceButton
-        buttonTitle="Emissions" initialToggle= {preferences.isTrackingGreenHouseEmisssions} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
+        buttonTitle="Emissions" buttonImage = {require('../../../assets/ghg.png')} initialToggle= {preferences.isTrackingGreenHouse} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
       />
-      <PreferenceButton
-        buttonTitle="Emissions" initialToggle= {preferences.isTrackingGreenHouseEmisssions} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
-      />
+   
       </View>
       <Text style={styles.textSmall} onPress={() => navigation.navigate('BlackListScreen')}>Black list a company </Text>
-      <Text style={styles.textSmall} onPress={() => navigation.navigate('ChemicalListScreen')}>Add a chemical you want to avoid </Text>
+      <Text style={styles.textSmall} onPress={() => navigation.navigate('ChemicalListScreen')}>Add an ingredient you want to avoid </Text>
     </View>
   );
 };
@@ -147,6 +147,8 @@ const styles = StyleSheet.create({
   },
   textSmall:{
     height: -10,
+    margin:5,
+    fontFamily: 'Nunito_400Regular'
   },
   navButton: {
     marginTop: 15,

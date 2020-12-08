@@ -1,0 +1,2 @@
+Fixed product screen, fixed list screen, recoded these two to follow a command pattern and to work with additional products
+added cache functionality, list of items saved between sessions

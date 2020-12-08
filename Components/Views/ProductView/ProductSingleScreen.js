@@ -1,4 +1,4 @@
-  
+
 import React, { Fragment, useState, useEffect } from "react";
 import { Button, View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Modal} from "react-native";
 import { List } from 'react-native-paper';
@@ -17,9 +17,9 @@ import "firebase/firestore";
 import firebaseConfig from "./../../Common/Firebase/firebase";
 
 var products = []
-const DISPLAY_EXISTING_PRODUCT = "DisplayExistingProduct" 
-const DISPLAY_SCANNED_PRODUCT = "DisplayScannedProduct" 
-const DISPLAY_COMPARE_PRODUCT = "DisplayCompareProduct" 
+const DISPLAY_EXISTING_PRODUCT = "DisplayExistingProduct"
+const DISPLAY_SCANNED_PRODUCT = "DisplayScannedProduct"
+const DISPLAY_COMPARE_PRODUCT = "DisplayCompareProduct"
 
 
 export default function ProductSingleScreen({ route, navigation }) {
@@ -29,11 +29,12 @@ export default function ProductSingleScreen({ route, navigation }) {
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
   let [isCacheLoaded, setIsCacheLoaded] = useState(false);
+  let [hasFinishedScanning, setHasFinishedScanning] = useState(false);
   //let [hasActionBeenTaken, setHasActionBeenTaken] = useState(false);
-  
+
   const [currentShoppingList, setCurrentShoppingList] = useState([]);
 
-  if(!isCacheLoaded && productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache){
+  if (!isCacheLoaded && productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache) {
     setCurrentShoppingList(productsRedux.productListCurrent)
     setIsCacheLoaded(true)
   }
@@ -54,7 +55,7 @@ export default function ProductSingleScreen({ route, navigation }) {
     "DisplayCompareProduct" : sent a upc to process to display with option to compare
   */
 
-  let { action } = route.params; 
+  let { action } = route.params;
   let { data } = route.params;
   let { type } = route.params;
   let { name } = route.params;
@@ -64,7 +65,6 @@ export default function ProductSingleScreen({ route, navigation }) {
   let response;
   //Change this once, it is called when either a product is loaded or data from server retrieved
   function setInfoFromResponse(response) {
-
     setInfo({
       scanned: true,
       gHGEmissions: Math.round(parseFloat(response.gHGEmissions)),
@@ -82,13 +82,11 @@ export default function ProductSingleScreen({ route, navigation }) {
       manufacturerHeadquarters: response.manufacturerHeadquarters,
       warnings: response.warnings,
     })
+    setHasFinishedScanning(true);
   }
 
-  
-  
   async function getInfo() {
     try {
-      
       console.log("calling server at : " + serverInfo.path + "/scannedCode")
         //let res = await fetch(serverInfo.path + "/JamesTest", {
         let res = await fetch(serverInfo.path + "/scannedCode", {
@@ -106,14 +104,14 @@ export default function ProductSingleScreen({ route, navigation }) {
         }),
       });
       let response = await res.json();
-        
+
 
 
 
 
       //Testing =======================================================
       //-------------------------------------------------------------------
-      
+
       let response0 = {
         "gHGEmissions": 3.1579166666666665,
         "image": "https://images.barcodelookup.com/3215/32152544-1.jpg",
@@ -198,10 +196,13 @@ export default function ProductSingleScreen({ route, navigation }) {
         "subsidiaries": [],
         "upc": "038000016110"
       }
-      
+
       let responses = [response0, response1, response2]
       //let response = responses[Math.floor(Math.random() * 3)];
       //response = response2;
+      
+      //let response = responses[productsRedux.productListCurrent.length];
+      //let response = response2;
       //-------------------------------------------------------------------
       //Testing End =======================================================
 
@@ -213,32 +214,32 @@ export default function ProductSingleScreen({ route, navigation }) {
       console.error(e);
     }
   }
-  
-  if(action !== ""){
 
-  if (action === DISPLAY_COMPARE_PRODUCT && compareProducts && compareProducts.length > 0){
-    setInfo({    scanned: false, gHGEmissions: 0, image: "", ingredients: [],
-    isVegan: false, isVegetarian: false, item: "",
-    manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
-    });
-    getInfo().then(()=> {
-      compareProducts.push(response);
+  if (action !== "") {
+    setHasFinishedScanning(false)
 
-    });
+    if (action === DISPLAY_COMPARE_PRODUCT && compareProducts && compareProducts.length > 0) {
+      setInfo({
+        scanned: false, gHGEmissions: 0, image: "", ingredients: [],
+        isVegan: false, isVegetarian: false, item: "",
+        manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
+      });
+      getInfo()
 
 
-  }
+    }
     //Check if I sent a product here from list screen
     //If i did send a product then just display it, no need to query
     //Also make sure our products is not populated because if it is, were comparing something
-    if ( action === DISPLAY_EXISTING_PRODUCT) {
-      
+    if (action === DISPLAY_EXISTING_PRODUCT) {
+
       setInfoFromResponse(product)
     }
     if (action === DISPLAY_SCANNED_PRODUCT) {
-      setInfo({    scanned: false, gHGEmissions: 0, image: "", ingredients: [],
-      isVegan: false, isVegetarian: false, item: "",
-      manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
+      setInfo({
+        scanned: false, gHGEmissions: 0, image: "", ingredients: [],
+        isVegan: false, isVegetarian: false, item: "",
+        manufacturer: "", parentCompany: "", upc: "", isFairTrade: false, isSustainableBrand: false
       });
       //Testing purpose===============
       //let data = "016000275287";
@@ -251,10 +252,10 @@ export default function ProductSingleScreen({ route, navigation }) {
       }
       getInfo()
       //console.log("Calling get info");
-  }
-  route.params.action = "";
+    }
+    route.params.action = "";
 
-}
+  }
 
   function showAlert(infoWarnings){
     debugger
@@ -280,15 +281,16 @@ export default function ProductSingleScreen({ route, navigation }) {
 
 
   function compare() {
-    let shouldCompare  = true;
+    let shouldCompare = true;
     compareProducts = [];
     compareProducts.push(info);
-    navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }]}); 
-    navigation.navigate("Camera", {shouldCompare, compareProducts})
+    navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] });
+    navigation.navigate("Camera", { shouldCompare, compareProducts })
 
   }
 
   function viewComparison() {
+    debugger;
     compareProducts.push(info);
     navigation.navigate("CompareScreen", { compareProducts })
   }
@@ -296,101 +298,76 @@ export default function ProductSingleScreen({ route, navigation }) {
   function addItem() {
     //dispatchProducts({ type: 'product/productListCurrent/add', payload: info })
     let productToAdd = info;
-    navigation.navigate("ListScreen", {productToAdd})
+    navigation.navigate("ListScreen", { productToAdd })
 
   }
-  function ProductImage(){
-    if(info.image != ""){
-    return (<Image source={{ uri: info.image }} style={styles.productImage}/>)
-    }else {
-      return (  <Image source={{ uri: "../../../assets/loading_gif.gif" }} style={styles.productImage}/>)
+  function ProductImage() {
+    if (info.image != "") {
+      return (<Image source={{ uri: info.image }} style={styles.productImage} />)
+    } else {
+      return (<Image source={{ uri: "../../../assets/no_image_available.jpg" }} style={styles.productImage} />)
+    }
   }
-}
-  return (
-   
-    <Fragment>
-     <ScrollView>
-     
-     
+  function ScanLoadingComponent() {
+    return (<View>
+      <Text> Loading... </Text>
+      
+    </View>)
 
-      <View style={styles.container}>
-        {/*
-      <Text style={styles.textTitle}>Product Screen</Text>
-        */}
-        <ProductImage></ProductImage>
-
-        <View style={{ flexDirection: 'row', margin: 10, }}>
-          {/*
-                    <TouchableOpacity onPress={() => { }}>
-                        <Icon style={{ padding: 3 }} name="leaf" size={15} color="black" />
-                    </TouchableOpacity>
-*/}
-
-                    {info.isVegan &&                  
-                    <TouchableOpacity >
-                    <Image source={require('../../../assets/vegan.png')} style={styles.susIcon} />
-                    </TouchableOpacity>
-                    }
-                    {info.isVegetarian &&    
-                    <TouchableOpacity onPress={() => { }}>
-                    <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon}/>
-                    </TouchableOpacity>
-                     }
-                    {info.isFairTrade &&   
-                    <TouchableOpacity onPress={() => { }}>
-                    <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon}/>
-                    </TouchableOpacity>
-                    }  
-                    {info.isSustainableBrand &&   
-                    <TouchableOpacity onPress={() => { }}>
-                    <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon}/>
-                    </TouchableOpacity>
-                    }  
-                    
-                    {true && 
-                    <TouchableOpacity style={styles.greenEmission}>
-                    <Text style={styles.textEmission}> {info.gHGEmissions} </Text>
-                    </TouchableOpacity>
-                    }
-            </View>
-            <Text style={styles.text}>{data}</Text>
-        <Text style={styles.text}>{info.item}</Text>
-
-        {/*
-         <Text>
-        Bar code: {type} data {data} has been scanned!
-        </Text>
-        <Text>
-          Data: {data} has been scanned!
-        </Text>
-        <Text>
-          Info: {info.gHGEmissions}, {info.image}, {info.ingredients}, {info.isVegan}, {info.isVegetarian}, {info.item}
-          {info.manufacturer}, {info.parentCompany}, {info.upc}, 
-        </Text>
-        
-        
-        */}
-
-
-
-       { isCacheLoaded && <TouchableOpacity style={styles.buttonContainer} onPress={() => { addItem() }} >
-          <Text style={styles.buttonText}>add item</Text>
-        </TouchableOpacity>
-       }
-
-        <View style={{ flexDirection: 'row', margin: 10, }}>
-          <TouchableOpacity style={styles.buttonContainer} onPress={() => { compare() }} >
-            <Text style={styles.buttonText}>compare</Text>
+  }
+  function SuccessfulProductLoadComponent() {
+    return (
+      <ScrollView>
+    <View style={styles.container}>
+    
+      <ProductImage ></ProductImage>
+      <View style={{ flexDirection: 'row', margin: 10, }}>
+        {info.isVegan &&
+          <TouchableOpacity >
+            <Image source={require('../../../assets/vegan.png')} style={styles.susIcon} />
           </TouchableOpacity>
+        }
+        {info.isVegetarian &&
+          <TouchableOpacity onPress={() => { }}>
+            <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon} />
+          </TouchableOpacity>
+        }
+        {info.isFairTrade &&
+          <TouchableOpacity onPress={() => { }}>
+            <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon} />
+          </TouchableOpacity>
+        }
+        {info.isSustainableBrand &&
+          <TouchableOpacity onPress={() => { }}>
+            <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon} />
+          </TouchableOpacity>
+        }
 
-          {compareProducts && compareProducts.length > 0 &&
+        {true &&
+          <TouchableOpacity style={styles.greenEmission}>
+            <Text style={styles.textEmission}> {info.gHGEmissions} </Text>
+          </TouchableOpacity>
+        }
+      </View>
+      <Text style={styles.text}>{data}</Text>
+      <Text style={styles.text}>{info.item}</Text>
+      { isCacheLoaded && <TouchableOpacity style={styles.buttonContainer} onPress={() => { addItem() }} >
+        {info.item !== "" && <Text style={styles.buttonText}>add item</Text>}
+      </TouchableOpacity>
+      }
+      <View style={{ flexDirection: 'row', margin: 10, }}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => { compare() }} >
+          {info.item !== "" && <Text style={styles.buttonText}>compare</Text>}
+        </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonContainer} onPress={() => { viewComparison() }} >
-              <Text style={styles.buttonText}>view comparison</Text>
-            </TouchableOpacity>
-          }
+        {info.item !== "" && compareProducts && compareProducts.length > 0 &&
+
+          <TouchableOpacity style={styles.buttonContainer} onPress={() => { viewComparison() }} >
+            <Text style={styles.buttonText}>view comparison</Text>
+          </TouchableOpacity>
+        }
         </View>
-          <List.Section  style={styles.accordion}>
+        <List.Section  style={styles.accordion}>
               
             <List.Accordion 
               titleStyle = {{color:'black'}}
@@ -425,11 +402,29 @@ export default function ProductSingleScreen({ route, navigation }) {
             </List.Accordion>
         </List.Section>
         
-        {showAlert(info.warnings)}
-        
       </View>
+      {showAlert(info.warnings)}
       
-      </ScrollView>
+    
+    </ScrollView>
+    )
+  }
+  function ScanFailComponent() {
+    return (      <Fragment>
+      <Text style={{ color: 'red', fontSize: 30 }} >Could not find item via scraping or APIs, please scan another item</Text>
+          <Button title="Scan Another Item" color="black" onPress={() => {
+        navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] });
+        let shouldCompare = false;
+        let compareProducts = [];
+        navigation.navigate("Camera", {shouldCompare, compareProducts});
+         }} />
+         </Fragment> )
+  }
+  return (
+    <Fragment>
+      {hasFinishedScanning && info.item == "" && <ScanFailComponent />}
+      {hasFinishedScanning && info.item != "" && <SuccessfulProductLoadComponent></SuccessfulProductLoadComponent>}
+      {!hasFinishedScanning && <ScanLoadingComponent />}
     </Fragment>
   );
 
@@ -466,9 +461,9 @@ const styles = StyleSheet.create({
     height: 300,
     width: 250,
     resizeMode: 'contain',
-    borderRadius:10,
+    borderRadius: 10,
 
-    
+
   },
   textTitle: {
     fontSize: 38,
@@ -497,19 +492,19 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     color: '#2e64e5',
-    borderWidth:5,
-    borderColor  : "#f19820",
+    borderWidth: 5,
+    borderColor: "#f19820",
     borderRadius: 50,
-    alignItems : "center" ,
+    alignItems: "center",
     margin: 7
-    
+
   },
   textEmission: {
     fontSize: 17,
     color: "black",
-    
+
     textAlign: 'left',
-    paddingTop:10,
+    paddingTop: 10,
   },
   accordion:{
     textAlign: 'center',

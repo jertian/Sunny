@@ -1,0 +1,4 @@
+fixed product/list screen render warning, shouldn't have to touch it anymore
+revamped products and user on flask side
+imlpemeneted a database fascade to store products and users
+added routes to test add/remove database functions

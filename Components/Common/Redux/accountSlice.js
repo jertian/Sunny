@@ -1,9 +1,12 @@
 const initialState = {
     login : false,
-    fName : "Guest",
+    firstName : "Guest",
     email : "",
-    lName : "",
-    photoURL : ""
+    lastName : "",
+    photoURL : "",
+    userID : "",
+    passwordHash : "",
+    loginMethod: ""
 
 }
 
@@ -24,6 +27,30 @@ export default function accountSlice(state = initialState, action) {
         }
          
       }
+      case 'account/userID': {
+        return {
+            ...state,
+            userID : action.payload
+            
+        }
+         
+      }
+      case 'account/loginMethod': {
+        return {
+            ...state,
+            loginMethod : action.payload
+            
+        }
+         
+      }
+      case 'account/passwordHash': {
+        return {
+            ...state,
+            passwordHash : action.payload
+            
+        }
+         
+      }
       case 'account/email': {
         return {
             ...state,
@@ -32,17 +59,17 @@ export default function accountSlice(state = initialState, action) {
         }
          
       }
-      case 'account/fName': {
+      case 'account/firstName': {
         return {
             ...state,
-            fName : action.payload
+            firstName : action.payload
             
         }
       }
-      case 'account/lName': {
+      case 'account/lastName': {
         return {
             ...state,
-            lName : action.payload
+            lastName : action.payload
             
         }
       }

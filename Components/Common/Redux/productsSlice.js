@@ -36,13 +36,33 @@ export default function productSlice(state = initialState, action) {
       case 'product/productListHistory/replaceAll': {
         return {
             ...state,
-            productListHistory : [action.payload]
+            productListHistory : action.payload
         }
       }
       case 'product/productListCurrent/add':{
         return {
           ...state,
           productListCurrent : [...state.productListCurrent, action.payload]
+      }
+      }
+      case 'product/productListHistory/add':{
+        return {
+          ...state,
+          productListHistory : [...state.productListHistory, action.payload]
+      }
+      }
+      case 'product/productListHistory/pop':{
+        let p = state.productListHistory
+        p.pop();
+        return {
+          ...state,
+          productListHistory : p
+      }
+      }
+      case 'product/productListHistory/clear':{
+        return {
+          ...state,
+          productListHistory : []
       }
       }
       case 'product/hasRetrievedFromCache': {

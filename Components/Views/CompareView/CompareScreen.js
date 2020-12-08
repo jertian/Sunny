@@ -8,7 +8,7 @@ import serverInfo from './../../Common/ServerInfo.js';
 export default function CompareScreen({ route, navigation }) {
   let { compareProducts } = route.params;
   let productInfo = compareProducts;
-
+  debugger;
 
 
     return (

@@ -1,0 +1,7 @@
+Added routes to the API for a user to be able to change their prefrenced (adding/removing an ingredient to their chemicalsToAvoid list, 
+adding/removing a company from thier blackList, setting if they are vegan or vegetarian) 
+
+creating companies collection in firebase for storing the root company of a manufatuer 
+
+Added user specific warnings to the responds JSON for scannedCode (these are messages that will be displayed on the 
+front end if a product they scanned has violated some of thier prefrences)

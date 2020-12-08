@@ -18,11 +18,6 @@ import CustomHeader from "./Components/Common/CustomHeader";
 
 const Stack = createStackNavigator();
 
-
-
-
-store.dispatch({type: 'preferences/update', preference: "PeanutAllergy", payload: true})
-
 function LogoTitle() {
   return (
     <View style={{

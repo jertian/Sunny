@@ -11,46 +11,23 @@ import {firebaseConfig} from "./../../Common/Firebase/firebase"
 //import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Google from 'expo-google-app-auth';
 import { StackActions, NavigationActions } from 'react-navigation';
-
-if (!firebase.apps.length) {
-
-firebase.initializeApp(firebaseConfig);
-}
-
-//Set to false to stay on screen to do other things
-//Used for faster testing
-const fastGuestLogin = false;
-
-const fastGoogleLogin = false;
+import serverInfo from './../../Common/ServerInfo.js';
 
 
-/*
-const ThemeContext = React.createContext("light");
-const selectAccount = state => state.account
-const providerGoogle = new firebase.auth.GoogleAuthProvider();
-providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.profile');
-providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.email');
-const providerFacebook = new firebase.auth.FacebookAuthProvider();
-providerFacebook.addScope('user_photos');
-providerFacebook.setCustomParameters({
-  'display': 'popup'
-});
-firebase.auth().languageCode = 'en';
-providerGoogle.setCustomParameters({
-  'login_hint': 'user@example.com'
-});
-*/
 
 
 
 const LoginScreen = ({ navigation }) => {
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loginResult, setLoginResult] = useState("");
-  
   const dispatchAccount = useDispatch()
+  const dispatchPreferences = useDispatch()
+  const dispatchProducts = useDispatch()
   function navigateToHome(){
 
     navigation.reset({
@@ -58,140 +35,21 @@ const LoginScreen = ({ navigation }) => {
       routes: [{ name: 'HomeScreen' }],
     });
   }
-  async function signInWithGoogleAsync() {
-    try {
 
-      const result = await Google.logInAsync({
-        androidClientId: "967944969087-bs2s7470jbft6scjau1fajhjcs5tkltb.apps.googleusercontent.com",
-        iosClientId: "967944969087-6b4do4v4ffsfb5qldjp462md0edasaej.apps.googleusercontent.com",
-        clientId: "967944969087-igc0ds2nch2bjkb375h3opot65pela5g.apps.googleusercontent.com",
-        scopes: ['profile', 'email'],
-      });
-  
-      if (result.type === 'success') {
-        debugger;
-        console.log("Google Sign In Scuessful")
-        console.log(result);
-        dispatchAccount({ type: 'account/login', payload: true })
-        dispatchAccount({ type: 'account/fName', payload: result.user.givenName})
-        dispatchAccount({ type: 'account/lName', payload: result.user.familyName })
-        dispatchAccount({ type: 'account/email', payload: result.user.photoUrl })
-        dispatchAccount({ type: 'account/photoURL', payload: result.user.photoUrl })
-
-        navigateToHome()
-
-        return result.accessToken;
-      } else {
-        return { cancelled: true };
-      }
-    } catch (e) {
-      debugger;
-      setLoginResult("Error with google login, please sign in as guest");
-
-      console.error("Error logging in")
-      console.error(e)
-
-      return { error: true };
-    }
-  }
-
-  /*
-  debugger;
-  const initAsync = async () => {
-    await GoogleSignIn.initAsync({
-    });
-    this._syncUserWithStateAsync();
-  };
-  initAsync();
-*/
-  const facebookLoginClick = () => {
-/*
-    firebase.auth().signInWithCredential(facebookCred)
-       .then(function(result) {
-      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-      var token = result.credential.accessToken;
-      console.log("facebook button click")
-      // The signed-in user info.
-      debugger;
-      var user = result.user;
-      dispatchAccount({ type: 'account/login', payload: true })
-      dispatchAccount({ type: 'account/name', payload: user.displayName })
-      dispatchAccount({ type: 'account/email', payload: user.email })
-      navigation.navigate("HomeScreen")
-    }).catch(function(error) {
-      debugger;
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      console.error(error)
-      // ...
-    });
-    */
-  }
-  /*
-  const signInGoogleAsync = async () => {
-    try {
-      await GoogleSignIn.askForPlayServicesAsync();
-      const { type, user } = await GoogleSignIn.signInAsync();
-      if (type === 'success') {
-        this._syncUserWithStateAsync();
-      }
-    } catch ({ message }) {
-      alert('login: Error:' + message);
-    }
-  };
-  //const cred = firebase.auth.GoogleAuthProvider.credential(googleIdToken, googleAccessToken);
-*/
-  
-  const googleLoginOnClick = () =>{
-    signInWithGoogleAsync();
-    /*
-    const { type, accessToken, user } = await Google.logInAsync({
-      iosClientId: `967944969087-8l43mueeeg97trtt5aa5u42pe7on7qev.apps.googleusercontent.com`,
-      androidClientId: `<YOUR_ANDROID_CLIENT_ID_FOR_EXPO>`,
-    });
-    if (type === 'success') {
-      // Then you can use the Google REST API
-      let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-    }
-    */
-    //signInGoogleAsync();
-
-    /*
-    console.log("google button cluck")
-    firebase.auth().signInWithCredential(googleCred)
-      .then(function(result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    var token = result.credential.accessToken;
-    // The signed-in user info.
-    var user = result.user;
+  function dispatchBasedOnServerResponse(response) {
     dispatchAccount({ type: 'account/login', payload: true })
-    dispatchAccount({ type: 'account/name', payload: user.displayName })
-    dispatchAccount({ type: 'account/email', payload: user.email })
-    navigation.navigate("HomeScreen")
-    // ...
-  }).catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
-    console.error(error)
-    // ...
-  });
-  */
-}
-  if(fastGoogleLogin){
-    googleLoginOnClick();
-
+    dispatchAccount({ type: 'account/loginMethod', payload: response.user.loginMethod })
+    dispatchAccount({ type: 'account/passwordHash', payload: response.user.passwordHash })
+    dispatchAccount({ type: 'account/firstName', payload: response.user.firstName })
+    dispatchAccount({ type: 'account/lastName', payload: response.user.lastName })
+    dispatchAccount({ type: 'account/email', payload: response.user.userID })
+    dispatchAccount({ type: 'account/userID', payload: response.user.userID })
+    dispatchAccount({ type: 'account/photoURL', payload: response.user.photoUrl })
+    dispatchPreferences({ type: 'preferences/update', preference: "Vegan", payload: response.user.isAVegan })
+    dispatchPreferences({ type: 'preferences/update', preference: "Vegetarian", payload: response.user.isAVegetarian })
+    dispatchPreferences({ type: 'preferences/blacklist/update', payload: response.user.blackList })
+    dispatchProducts({ type: 'product/productListHistory/replaceAll', payload: response.user.scannedHistory })
+    dispatchPreferences({ type: 'preferences/ingredientsToAvoid/update', payload: response.user.ingredientsToAvoid })
   }
 
   function validateEmail(email) {
@@ -199,38 +57,33 @@ const LoginScreen = ({ navigation }) => {
     return re.test(email);
   }
 
-  function validate() {
-
+  const signUpOnClick = (event) => {
     if (validateEmail(email)) {
-      $result.text(email + " is valid :)");
-      $result.css("color", "green");
-    } else {
-      $result.text(email + " is not valid :(");
-      $result.css("color", "red");
+      if(password === confirmPassword){
+      let body = {
+        "userID": email,
+        "password": password,
+        "firstName" : firstName,
+        "lastName" : lastName
+
+      }
+      serverInfo.callServer("POST", "registerUser", body, (response) => {
+        if (response.type == "success") {
+          dispatchBasedOnServerResponse(response)
+          navigateToHome()
+
+        }
+        else{
+          setLoginResult("signup result unsucessful: " + response.msg)
+        }
+      });
     }
-    return false;
-  }
+      else{
+        setLoginResult("passwords are not equal");
 
-  const guestLoginOnClick = (event) => {
-    
-    navigation.navigate("HomeScreen");
-
-  }
-  if (fastGuestLogin){
-    guestLoginOnClick();
-  }
-
-  const signInOnClick = (event) => {
-    console.log(email);
-
-    
-    if (validateEmail(email)) {
-      dispatchAccount({ type: "account/login", payload: true })
-      dispatchAccount({ type: "account/name", payload: email })
-      navigateToHome()
+      }
 
     } else {
-
       setLoginResult("Not a real email");
     }
   }
@@ -241,15 +94,21 @@ const LoginScreen = ({ navigation }) => {
       <Text style={styles.smallText}>The first step to making a change is deciding to start</Text>
 
       <LoginInput
-        labelValue={name}
-        onChangeText={(userName) => setName(userName)}
-        placeholderText="Name"
+        labelValue={firstName}
+        onChangeText={(firstName) => setFirstName(firstName)}
+        placeholderText="First Name"
         iconType="user"
-        keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
       />
-
+      <LoginInput
+        labelValue={lastName}
+        onChangeText={(lastName) => setLastName(lastName)}
+        placeholderText="Last Name"
+        iconType="user"
+        autoCapitalize="none"
+        autoCorrect={false}
+      />
       <LoginInput
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
@@ -269,7 +128,7 @@ const LoginScreen = ({ navigation }) => {
       />
        <LoginInput
         labelValue={confirmPassword}
-        onChangeText={(userPassword) => setPassword(userPassword)}
+        onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
         placeholderText="Confirm Password"
         iconType="lock"
         secureTextEntry={true}
@@ -280,34 +139,18 @@ const LoginScreen = ({ navigation }) => {
 
       <LoginButton
         buttonTitle="Sign Up"
-        onClick={signInOnClick}
+        onClick={signUpOnClick}
       />
-      <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
-        <Text style={styles.navButtonText}>Forgot Password?</Text>
-      </TouchableOpacity>
+
 
       <LoginSocialButton
-        buttonTitle="Sign In with Facebook"
-        btnType="facebook"
+        buttonTitle="Already have an acount? Sign In Here"
+        btnType="sign-in"
         color="#4867aa"
         backgroundColor="#e6eaf4"
-        onPress={() => {facebookLoginClick() }}
-      />
-      <LoginSocialButton
-        buttonTitle="Sign Up with Google"
-        btnType="google"
-        color="#de4d41"
-        backgroundColor="#f5e7ea"
-        onPress={() => {googleLoginOnClick() }}
-      />
+        onPress={() => navigation.navigate('LoginScreen')}
+      ></LoginSocialButton>
 
-      <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={() => navigation.navigate('LoginScreen')}>
-        <Text style={styles.navButtonText} >
-          Already have an acount? Sign In Here
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -338,9 +181,7 @@ const styles = StyleSheet.create({
   navButton: {
     marginTop: 10,
   },
-  forgotButton: {
-    marginVertical: 10,
-  },
+
   navButtonText: {
     fontSize: 15,
     fontWeight: '500',

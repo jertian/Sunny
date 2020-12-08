@@ -1,0 +1,1 @@
+preped for d3, not much coding done, did some research on facebook login/archietecutre/design patterns, lots of meetings to restructure code to follow proper architecture and designs

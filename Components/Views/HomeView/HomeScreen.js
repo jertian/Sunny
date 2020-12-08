@@ -16,7 +16,7 @@ Testing purposes
 //======================================================
 */
 let shouldNavigateOnLoad = true && serverInfo.DEBUG_MODE;
-let navigateLocation = "ProductSingleScreen"
+let navigateLocation = "DataScreen"
 
 //ProductSingleScreen
 
@@ -93,7 +93,13 @@ let compareProducts = [response1]
     navigation.navigate("ProductSingleScreen", { type, data, action, compareProducts });
 
     //navigation.navigate(navigateLocation, { action, product });
-  } else {
+  } 
+  
+  if (navigateLocation === "DataScreen") {
+    navigation.navigate(navigateLocation, {hasLoadedRecommendedProducts: false});
+
+  }
+  else {
     navigation.navigate(navigateLocation);
 
   }
@@ -251,7 +257,7 @@ export default function HomeScreen({ navigation }) {
           style={styles.logo} />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("DataScreen")}>
+      <TouchableOpacity onPress={() => navigation.navigate("DataScreen", {hasLoadedRecommendedProducts: false})}>
         <Image
           source={require('../../../assets/orange_data.png')}
           style={styles.logo} />

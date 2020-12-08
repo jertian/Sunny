@@ -126,7 +126,7 @@ function ListScreen({ route, navigation }) {
             dispatchProducts({ type: 'product/productListHistory/add', payload: avg })
             setItemList([]);
             console.log(productsRedux.productListHistory)
-            navigation.navigate("DataScreen")
+            navigation.navigate("DataScreen", {hasLoadedRecommendedProducts: false})
           }} />
          <Button title="" color = "red" onPress={() => {}} />
          <Button title="" color = "red" onPress={() => {}} />

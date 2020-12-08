@@ -1,20 +1,92 @@
 import { NunitoSans_700Bold } from "@expo-google-fonts/nunito-sans";
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
-import { View, Button, TouchableOpacity,Image, Text, StyleSheet, Dimensions } from "react-native";
+import React, { useState,Component, useEffect } from "react";
+import { View, Button,Animated,ScrollView ,SafeAreaView, TouchableOpacity,Image, Text, StyleSheet, Dimensions } from "react-native";
 import { LineChart } from 'react-native-chart-kit';
 import { useSelector, useDispatch } from 'react-redux';
 import serverInfo from './../../Common/ServerInfo.js';
 
+const deviceWidth = Dimensions.get('window').width -20
+const FIXED_BAR_WIDTH = 280
+const BAR_SPACE = 10
+
+const images = [
+  'https://s-media-cache-ak0.pinimg.com/originals/ee/51/39/ee5139157407967591081ee04723259a.png',
+  'https://s-media-cache-ak0.pinimg.com/originals/40/4f/83/404f83e93175630e77bc29b3fe727cbe.jpg',
+  'https://s-media-cache-ak0.pinimg.com/originals/8d/1a/da/8d1adab145a2d606c85e339873b9bb0e.jpg',
+]
+
 
 const ThemeContext = React.createContext("light");
 
-const DataScreen = ({navigation}) => {
+const DataScreen = ({route, navigation}) => {
   const dispatchProducts = useDispatch()
   const selectProduct = state => state.products;
   const selectAccount = state => state.account;
   const accountRedux = useSelector(selectAccount);
   const productsRedux = useSelector(selectProduct);
+  let [itemList, setItemList] = useState([]);
+  const {hasLoadedRecommendedProducts} = route.params
+  let numItems = images.length
+  let itemWidth = (FIXED_BAR_WIDTH / numItems) - ((numItems - 1) * BAR_SPACE)
+  let animVal = new Animated.Value(0)
+  let imageArray = []
+    let barArray = []
+    itemList.forEach((item, i) => {
+      debugger;
+      console.log(item, i)
+      const thisImage = (
+        <View key={`image${i}` } style={{ width: deviceWidth }}
+        >
+        <Text style = {{  textAlign: 'center'}}>{item.product.item}</Text>
+        <Image
+          source={{ uri: item.product.image}}
+          style={styles.productImage}
+        />
+        </View>
+      )
+      imageArray.push(thisImage)
+
+      const scrollBarVal = animVal.interpolate({
+        inputRange: [deviceWidth * (i - 1), deviceWidth * (i + 1)],
+        outputRange: [-itemWidth, itemWidth],
+        extrapolate: 'clamp',
+      })
+
+      const thisBar = (
+        <View
+          key={`bar${i}`}
+          style={[
+            styles.track,
+            {
+              width: itemWidth,
+              marginLeft: i === 0 ? 0 : BAR_SPACE,
+            },
+          ]}
+        >
+          <Animated.View
+
+            style={[
+              styles.bar,
+              {
+                width: itemWidth,
+                transform: [
+                  { translateX: scrollBarVal },
+                ],
+              },
+            ]}
+          />
+        </View>
+      )
+      barArray.push(thisBar)
+    })
+  function handleSetRecommendedProducts(response){
+    setItemList(response.bestScans)
+  }
+  if(!route.params.hasLoadedRecommendedProducts){
+    serverInfo.callServer("POST", "getUsersBestScans", {userID:  accountRedux.userID, passwordHash: accountRedux.passwordHash}, handleSetRecommendedProducts)
+    route.params.hasLoadedRecommendedProducts = true;
+  }
 
   async function pushDB(data){
     try {
@@ -75,6 +147,9 @@ const DataScreen = ({navigation}) => {
   }
 
   return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+
     <View style={styles.container}>
       <Text style={styles.textTitle}>
         Account Purchase History
@@ -107,44 +182,113 @@ const DataScreen = ({navigation}) => {
         dispatchProducts({ type: 'product/productListHistory/pop'})
         console.log(productsRedux.productListHistory)
       }} />
+      <View style={styles.lineBreak}> 
+
+      <Text style={styles.textTitle}>
+        Best Products Scanned
+      </Text>
+      </View>
+       <View
+        style={styles.productCaroselContainer}
+      >
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          scrollEventThrottle={10}
+          pagingEnabled
+          onScroll={
+            Animated.event(
+              [{ nativeEvent: { contentOffset: { x: animVal } } }],
+              {useNativeDriver: false}
+            )
+          }
+        >
+
+          {imageArray}
+
+        </ScrollView>
+        <View
+          style={styles.barContainer}
+        >
+          {barArray}
+        </View>
+      </View>
     </View>
+    </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  lineBreak:{
+    marginTop : 40
+  },
+  scrollView: {
+    marginHorizontal: 0,
+  },
   container: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center', 
     alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#fab919',
+    padding: 0,
+    backgroundColor: '#ffffff',
   },
-  logo: {
-    height: 150,
-    width: 150,
-    resizeMode: 'cover',
-    margin: 7,
-    borderRadius:10,
+  productContainer: {
+    height: 350,
+    justifyContent: 'center', 
+    alignItems: 'center',
+    
+  },
+  productImage: {
+    height: 300,
+    resizeMode: 'contain',
+
+
+  },
+  productCaroselContainer: {
+    margin: 10,
+    height : 300,
+    flex: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  barContainer: {
+    position: 'absolute',
+    zIndex: 2,
+    bottom: 40,
+    flexDirection: 'row',
+  },
+  track: {
+    backgroundColor: '#5294d6',
+    overflow: 'hidden',
+    height: 2,
+  },
+  bar: {
+    backgroundColor: '#fab919',
+    height: 2,
+    position: 'absolute',
+    left: 0,
+    top: 0,
   },
   bigGraph: {
     height: 200,
     width: 300,
     resizeMode: 'cover',
-    borderRadius:10,
+    borderRadius:0,
   },
   textTitle: {
-    fontSize: 28,
-    marginVertical: 40,
-    color: '#FFFFFF',
+    fontSize: 17,
+    marginTop: 15,
+    color: '#fab919',
     fontFamily: 'Nunito_400Regular'
    
   },
   text: {
     fontSize: 14,
     textAlign: 'center',
-    color: '#FFFFFF',
+    color: '#fab919',
     fontFamily: 'Nunito_400Regular'
    
   },

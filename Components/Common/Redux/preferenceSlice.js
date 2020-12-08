@@ -5,6 +5,7 @@ const initialState = {
     isTrackingFairTrade: false,
     isTrackingSustainable: false,
     isTrackingGreenHouse: false,
+    chemicalList:[],
     blackList:[],
     ingredientsToAvoid:[],
     availablePreferenceId : 0,
@@ -60,6 +61,19 @@ export default function todosReducer(state = initialState, action) {
             }return newState
 
         }
+        case 'preferences/chemicallist/update': {
+            
+            let newState = Object.assign({}, state);
+            //we want to access the blacklist and check if null
+            //if not null update blacklist with new data
+            if (newState["chemicalList"] != null) {
+                newState["chemicalList"] = action.payload;
+            }else{
+                console.error("Issue with action");   
+                console.error(action);
+            }return newState
+
+        }
         case 'preferences/ingredientsToAvoid/update': {
             
             let newState = Object.assign({}, state);
@@ -73,6 +87,7 @@ export default function todosReducer(state = initialState, action) {
             }return newState
 
         }
+        
 
         default:
             return state

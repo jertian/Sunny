@@ -15,6 +15,7 @@ import SignUpScreen from "./../Views/SignUpView/SignUpScreen";
 import BlackListScreen from "./../Views/BlackListView/BlackListScreen";
 import IngredientListScreen from "./../Views/IngredientListView/IngredientListScreen";
 import CustomHeader from "./CustomHeader";
+import ChemicalListScreen from "./../Views/ChemicalListView/ChemicalListScreen";
 
 import { useSelector, useDispatch } from 'react-redux'
 import React, { useState, useEffect, Fragment,  } from "react";
@@ -29,7 +30,7 @@ import serverInfo from './ServerInfo.js';
 
 
 const Stack = createStackNavigator();
-let initialScreen = "LandingScreen";
+let initialScreen = "LoginScreen";
 if(serverInfo.DEBUG_MODE){
     initialScreen = "LoginScreen";
 }
@@ -261,6 +262,16 @@ const getCurrentShoppingListFromCache = async () => {
                             />
                     }} 
                 />  
+
+                <Stack.Screen
+                    name="ChemicalListScreen"
+                    component={ChemicalListScreen}
+                    options={{
+                        headerTitle: props => <CustomHeader {...props}
+                            />
+                    }} 
+                /> 
+                
                 <Stack.Screen
                     name="IngredientListScreen"
                     component={IngredientListScreen}

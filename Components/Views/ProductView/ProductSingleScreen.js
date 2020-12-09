@@ -25,7 +25,6 @@ const DISPLAY_COMPARE_PRODUCT = "DisplayCompareProduct"
 export default function ProductSingleScreen({ route, navigation }) {
   const [isWaitingOnInfo, setIsWaitingOnInfo] = useState(true);
   const [isWaitingOnCompareInfo, setIsWaitingOnCompareInfo] = useState(true);
-  const [displayAlert, setDisplayAlert] = useState(false);
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
   const selectAccount = state => state.account;
@@ -86,6 +85,9 @@ export default function ProductSingleScreen({ route, navigation }) {
       warnings: response.warnings,
     })
     setHasFinishedScanning(true);
+    if(info.item != ""){
+    showAlert(response.warnings)
+    }
   }
 
   async function getInfo() {
@@ -258,12 +260,12 @@ export default function ProductSingleScreen({ route, navigation }) {
       //console.log("Calling get info");
     }
     route.params.action = "";
-    
+
   }
 
   function showAlert(infoWarnings){
     //let isEmpty = infoWarnings.length > 0
-    if(typeof infoWarnings !== 'undefined' && infoWarnings.length   && displayAlert != true){
+    if(typeof infoWarnings !== 'undefined' && infoWarnings.length ){
       Alert.alert(
         "Warning",
         " " + infoWarnings,
@@ -276,12 +278,10 @@ export default function ProductSingleScreen({ route, navigation }) {
           { text: "OK", onPress: () => console.log("OK Pressed") }
         ],
         { cancelable: false })
-        setDisplayAlert(true)
     }
       
       
   }
-  showAlert(info.warnings)
 
   function compare() {
     let shouldCompare = true;

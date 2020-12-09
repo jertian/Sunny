@@ -28,6 +28,8 @@ export default function ProductSingleScreen({ route, navigation }) {
   const [displayAlert, setDisplayAlert] = useState(false);
   const selectProduct = state => state.products;
   let productsRedux = useSelector(selectProduct);
+  const selectAccount = state => state.account;
+  const accountRedux = useSelector(selectAccount);
   let [isCacheLoaded, setIsCacheLoaded] = useState(false);
   let [hasFinishedScanning, setHasFinishedScanning] = useState(false);
   //let [hasActionBeenTaken, setHasActionBeenTaken] = useState(false);
@@ -99,6 +101,7 @@ export default function ProductSingleScreen({ route, navigation }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          userID: accountRedux.userID,
           codeType: "",
           code: data,
         }),

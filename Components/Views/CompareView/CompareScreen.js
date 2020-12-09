@@ -140,13 +140,13 @@ const styles = StyleSheet.create({
     marginVertical: 35,
   },
   susIcon: {
-    height: 40,
-    width: 40,
+    height: 60,
+    width: 60,
     margin: 7
   },
   greenEmission: {
-    height: 40,
-    width: 40,
+    height: 60,
+    width: 60,
     fontSize: 12,
     color: '#2e64e5',
     borderWidth:5,
@@ -157,10 +157,10 @@ const styles = StyleSheet.create({
     
   },
   textEmission: {
-    fontSize: 17,
+    fontSize: 18,
     color: "black",
     
     textAlign: 'left',
-    paddingTop:5,
+    paddingTop:13,
   },
 });

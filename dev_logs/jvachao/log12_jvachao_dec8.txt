@@ -1,3 +1,10 @@
 final finishes for coding before submission
+    minor component/logic fixes to remove all warnings on the app. 
+    ui changes
+added feature
+    added the recommended product ui and logic on front end
 worked on finishing login linkage between database, server and front end
+    linked ingredients screen, blacklist screen, login screen, signup screen, redux, and preference screen between front and back
+
+Dec 8th and beyond:
 worked on publishing to google play store

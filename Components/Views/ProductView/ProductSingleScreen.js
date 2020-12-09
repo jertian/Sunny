@@ -85,7 +85,7 @@ export default function ProductSingleScreen({ route, navigation }) {
       warnings: response.warnings,
     })
     setHasFinishedScanning(true);
-    if(info.item != ""){
+    if(response.item != ""){
     showAlert(response.warnings)
     }
   }
@@ -270,11 +270,7 @@ export default function ProductSingleScreen({ route, navigation }) {
         "Warning",
         " " + infoWarnings,
         [
-          {
-            text: "hi",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
-          },
+          
           { text: "OK", onPress: () => console.log("OK Pressed") }
         ],
         { cancelable: false })

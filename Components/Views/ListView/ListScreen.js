@@ -18,7 +18,6 @@ function ListScreen({ route, navigation }) {
   let productsRedux = useSelector(selectProduct);
   let [itemList, setItemList] = useState([]);
   let [isCacheLoaded, setIsCacheLoaded] = useState(false);
-  debugger;
   useEffect(() => {
     if (itemList != productsRedux.productListCurrent) {
       storeData(itemList);
@@ -47,7 +46,6 @@ function ListScreen({ route, navigation }) {
   //we do this so that we give time for cache to load both on the app and on this list page
   if (!productsRedux.shouldRetrieveFromCache || productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache && isCacheLoaded) {
     //Once cache is loaded we can deal with any products that have been passed in
-    debugger;
 
     if (productToAdd) {
       let productCopy = Object.assign({}, productToAdd)
@@ -82,7 +80,6 @@ function ListScreen({ route, navigation }) {
       }
 
     }
-    debugger;
     return (
       <TouchableOpacity 
         key={`image${item.storageID}` }
@@ -115,7 +112,6 @@ function ListScreen({ route, navigation }) {
             item.storageID.toString()
           }
           catch(e){
-            debugger;
             //item.storageID = 0
           }
           

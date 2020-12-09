@@ -136,11 +136,7 @@ const PreferencesScreen = ({navigation}) => {
       <Text style={styles.buttonText}>Avoid an Ingredient</Text>
     </TouchableOpacity>
       </View>
-      <View style={{ flexDirection: 'row', margin: 10, }}>
-      <PreferenceButton
-        buttonTitle="Emissions" buttonImage = {require('../../../assets/ghg.png')} isToggled= {()=>preferences.isTrackingGreenHouse} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
-      />
-      </View>
+      
     
     </View>
   );

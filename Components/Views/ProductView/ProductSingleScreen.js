@@ -318,13 +318,14 @@ export default function ProductSingleScreen({ route, navigation }) {
       <ScrollView>
     <View style={styles.container}>
     
-    <Icon name="info-circle" style={styles.infoIcon}
-            onPress={() => setModalOpen(true)} />
-      
+    
 
 
       <ProductImage ></ProductImage>
+      
+      
       <View style={{ flexDirection: 'row', margin: 10, }}>
+      
         {info.isVegan &&
           <TouchableOpacity >
             <Image source={require('../../../assets/vegan.png')} style={styles.susIcon} />
@@ -351,6 +352,8 @@ export default function ProductSingleScreen({ route, navigation }) {
             <Text style={styles.textEmission}> {info.gHGEmissions} </Text>
           </TouchableOpacity>
         }
+        <Icon name="info-circle" style={styles.infoIcon}
+            onPress={() => setModalOpen(true)} />
       </View>
       <Modal visible={modalOpen} animationType = "slide">
       <View style={styles.modalContent}>
@@ -580,7 +583,7 @@ const styles = StyleSheet.create({
   },
   infoIcon:{
     color: 'black',
-    fontSize: 25, 
+    fontSize: 20, 
     textAlign: 'center',
   },
   removeIcon:{

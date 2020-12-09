@@ -204,7 +204,7 @@ const getCurrentShoppingListFromCache = async () => {
                 <Stack.Screen name="ListScreen" component={ListScreen}
                     options={{
                         headerTitle: props => <CustomHeader {...props}
-                            title="Scanned List" />
+                            title="Item List" />
                     }} />
 
                 <Stack.Screen name="LoginScreen" component={LoginScreen}
@@ -220,12 +220,11 @@ const getCurrentShoppingListFromCache = async () => {
                 />
                 <Stack.Screen name="Camera" component={CameraScreen} 
                     options={{
-                        headerTitle: props => <CustomHeader {...props}
-                            />
+                        headerTitle: props => <CustomHeader {...props} title = "Scan a product!" />
                     }} 
                 />
                 <Stack.Screen name="DataScreen" component={DataScreen}
-                    options={{ headerTitle: props => <CustomHeader {...props} title="Statistics" /> }}
+                    options={{ headerTitle: props => <CustomHeader {...props} title="Data" /> }}
 
                 />
                 <Stack.Screen name="PreferencesScreen" component={PreferencesScreen}
@@ -236,7 +235,7 @@ const getCurrentShoppingListFromCache = async () => {
                 <Stack.Screen
                     name="ProductSingleScreen"
                     component={ProductSingleScreen}
-                    options={{ headerTitle: props => <CustomHeader {...props} title="Product Screen" /> }}
+                    options={{ headerTitle: props => <CustomHeader {...props} title="Product Info" /> }}
 
                 />
                 <Stack.Screen

@@ -18,6 +18,7 @@ function ListScreen({ route, navigation }) {
   let productsRedux = useSelector(selectProduct);
   let [itemList, setItemList] = useState([]);
   let [isCacheLoaded, setIsCacheLoaded] = useState(false);
+  debugger;
   useEffect(() => {
     if (itemList != productsRedux.productListCurrent) {
       storeData(itemList);
@@ -46,9 +47,11 @@ function ListScreen({ route, navigation }) {
   //we do this so that we give time for cache to load both on the app and on this list page
   if (!productsRedux.shouldRetrieveFromCache || productsRedux.shouldRetrieveFromCache && productsRedux.hasRetrievedFromCache && isCacheLoaded) {
     //Once cache is loaded we can deal with any products that have been passed in
+    debugger;
+
     if (productToAdd) {
-      productCopy = Object.assign({}, productToAdd)
-      productCopy.storageId = commonFunctions.getMaxIdOfList(itemList) + 1
+      let productCopy = Object.assign({}, productToAdd)
+      productCopy.storageID = commonFunctions.getMaxIdOfList(itemList) + 1
       setItemList([...itemList, productCopy]);
       route.params.productToAdd = null;
     }    
@@ -62,8 +65,8 @@ function ListScreen({ route, navigation }) {
 
   }
 
-  function deleteItem(productStorageId) {
-    let newCurrentList = itemList.filter(item => item.storageId !== productStorageId)
+  function deleteItem(productstorageID) {
+    let newCurrentList = itemList.filter(item => item.storageID !== productstorageID)
     setItemList(newCurrentList);
   }
 
@@ -79,8 +82,10 @@ function ListScreen({ route, navigation }) {
       }
 
     }
+    debugger;
     return (
-      <TouchableOpacity
+      <TouchableOpacity 
+        key={`image${item.storageID}` }
         style={styles.listItem}
         onPress={() => onPress(item)}>
 
@@ -88,7 +93,7 @@ function ListScreen({ route, navigation }) {
           <ProductImage item={item}></ProductImage>
           <Text style={styles.listItemText}>{item.item}</Text>
           <Icon name="remove" style={styles.removeIcon}
-            onPress={() => deleteItem(item.storageId)} />
+            onPress={() => deleteItem(item.storageID)} />
         </View>
       </TouchableOpacity>
     );
@@ -104,8 +109,17 @@ function ListScreen({ route, navigation }) {
     <View style={styles.container}>
       <FlatList
         data={itemList}
-        renderItem={({ item }) => (<ListItem id={item.storageId} item={item} deleteItem={deleteItem}> </ListItem>)}
-        keyExtractor={(item, index) => {item.storageId.toString()}}
+        renderItem={({ item }) => (<ListItem id={item.storageID} key = {item.storageID} item={item} deleteItem={deleteItem}> </ListItem>)}
+        keyExtractor={(item, index) => {
+          try { 
+            item.storageID.toString()
+          }
+          catch(e){
+            debugger;
+            //item.storageID = 0
+          }
+          
+          }}
 
       />
       <Button title="Scan Another Item" color="black" onPress={() => {

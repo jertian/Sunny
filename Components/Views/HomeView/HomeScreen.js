@@ -280,7 +280,7 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: -50,
+    marginTop: 0,
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',

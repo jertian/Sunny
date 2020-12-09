@@ -69,7 +69,7 @@ export default function ProductSingleScreen({ route, navigation }) {
   function setInfoFromResponse(response) {
     setInfo({
       scanned: true,
-      gHGEmissions: Math.round(parseFloat(response.gHGEmissions)),
+      gHGEmissions: Math.round(parseFloat(response.gHGEmissions)* 100) / 100,
       image: response.image,
       ingredients: response.ingredients,
       isVegan: response.isVegan,
@@ -217,7 +217,7 @@ export default function ProductSingleScreen({ route, navigation }) {
       console.error(e);
     }
   }
-
+  
   if (action !== "") {
     setHasFinishedScanning(false)
 
@@ -257,7 +257,7 @@ export default function ProductSingleScreen({ route, navigation }) {
       //console.log("Calling get info");
     }
     route.params.action = "";
-
+    
   }
 
   function showAlert(infoWarnings){
@@ -280,7 +280,7 @@ export default function ProductSingleScreen({ route, navigation }) {
       
       
   }
-
+  showAlert(info.warnings)
 
   function compare() {
     let shouldCompare = true;
@@ -404,7 +404,7 @@ export default function ProductSingleScreen({ route, navigation }) {
         </List.Section>
         
       </View>
-      {showAlert(info.warnings)}
+      
       
     
     </ScrollView>

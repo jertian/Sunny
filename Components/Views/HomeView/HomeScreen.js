@@ -16,7 +16,7 @@ Testing purposes
 //======================================================
 */
 let shouldNavigateOnLoad = true && serverInfo.DEBUG_MODE;
-let navigateLocation = "DataScreen"
+let navigateLocation = "ProductSingleScreen"
 
 //ProductSingleScreen
 

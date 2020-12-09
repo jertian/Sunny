@@ -261,7 +261,6 @@ export default function ProductSingleScreen({ route, navigation }) {
   }
 
   function showAlert(infoWarnings){
-    debugger
     //let isEmpty = infoWarnings.length > 0
     if(typeof infoWarnings !== 'undefined' && infoWarnings.length   && displayAlert != true){
       Alert.alert(
@@ -293,7 +292,6 @@ export default function ProductSingleScreen({ route, navigation }) {
   }
 
   function viewComparison() {
-    debugger;
     compareProducts.push(info);
     navigation.navigate("CompareScreen", { compareProducts })
   }

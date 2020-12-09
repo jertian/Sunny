@@ -82,8 +82,10 @@ function ListScreen({ route, navigation }) {
       }
 
     }
+    debugger;
     return (
-      <TouchableOpacity
+      <TouchableOpacity 
+        key={`image${item.storageID}` }
         style={styles.listItem}
         onPress={() => onPress(item)}>
 
@@ -107,13 +109,14 @@ function ListScreen({ route, navigation }) {
     <View style={styles.container}>
       <FlatList
         data={itemList}
-        renderItem={({ item }) => (<ListItem id={item.storageID} item={item} deleteItem={deleteItem}> </ListItem>)}
+        renderItem={({ item }) => (<ListItem id={item.storageID} key = {item.storageID} item={item} deleteItem={deleteItem}> </ListItem>)}
         keyExtractor={(item, index) => {
           try { 
             item.storageID.toString()
           }
           catch(e){
-            item.storageID = 0
+            debugger;
+            //item.storageID = 0
           }
           
           }}

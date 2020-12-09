@@ -96,20 +96,26 @@ function ListScreen({ route, navigation }) {
     );
   };
 
-
+  function isCacheLoadedAndDoWeCare(){
+    return isCacheLoaded && productsRedux.shouldRetrieveFromCache || !productsRedux.shouldRetrieveFromCache.shouldRetrieveFromCache;
+  }
   function RenderProducts() {
     itemList.map((product, id) => (<ListItem key={id} item={product} deleteItem={deleteItem}> </ListItem>))
   }
 
   return (
-
+  <View style={styles.container}>
+  {}
+    { !isCacheLoadedAndDoWeCare() && <Text style={{color: "blue"}}>Loading from cache</Text>}
+    { isCacheLoadedAndDoWeCare() &&
     <View style={styles.container}>
+
       <FlatList
         data={itemList}
-        renderItem={({ item }) => (<ListItem id={item.storageID} key = {item.storageID} item={item} deleteItem={deleteItem}> </ListItem>)}
+        renderItem={({ item }) => { debugger;return(<ListItem id={item.storageID} key = {item.storageID} item={item} deleteItem={deleteItem}> </ListItem>)}}
         keyExtractor={(item, index) => {
           try { 
-            item.storageID.toString()
+            return item.storageID.toString()
           }
           catch(e){
             //item.storageID = 0
@@ -138,17 +144,8 @@ function ListScreen({ route, navigation }) {
             console.log(productsRedux.productListHistory)
             navigation.navigate("DataScreen", {hasLoadedRecommendedProducts: false})
           }} />
-         <Button title="" color = "red" onPress={() => {}} />
-         <Button title="" color = "red" onPress={() => {}} />
-
-      {/* 
-      <ThemeContext.Provider value="light">
-        <Button
-          title="Go back to first screen in stack (Home)"
-          onPress={() => navigation.popToTop()}
-        />
-      </ThemeContext.Provider>
-      */}
+    </View>
+    }
     </View>
   );
 }

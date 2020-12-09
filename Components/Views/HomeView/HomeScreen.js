@@ -16,9 +16,9 @@ Testing purposes
 //======================================================
 */
 let shouldNavigateOnLoad = true && serverInfo.DEBUG_MODE;
-let navigateLocation = "ProductSingleScreen"
+let navigateLocation = "HomeScreen"
 
-//ProductSingleScreen
+//ProductSingleScreen //HomeScreen
 
 function navigateOnLoad(navigation) {
   let response1 = {
@@ -265,6 +265,7 @@ export default function HomeScreen({ navigation }) {
 
       <TouchableOpacity onPress={() => {
         let productToAdd = null;
+        debugger;
         navigation.navigate("ListScreen", {})
       }
       }>

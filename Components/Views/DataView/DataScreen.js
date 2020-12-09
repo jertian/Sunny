@@ -136,11 +136,11 @@ const DataScreen = ({route, navigation}) => {
   }
 
   const chartConfig = {
-    backgroundColor: '#e26a00',
-    backgroundGradientFrom: '#FFFFFF',
-    backgroundGradientTo: '#FFFFFF',
+    backgroundColor: '#000000',
+    backgroundGradientFrom: '#fab919',
+    backgroundGradientTo: '#fab919',
     decimalPlaces: 2, // optional, defaults to 2dp
-    color: (opacity = 1) => `rgba(	250, 185, 25, ${opacity})`,
+    color: (opacity = 1) => `rgba(	0, 0, 0, ${opacity})`,
     style: {
       borderRadius: 16
     }
@@ -188,9 +188,7 @@ const DataScreen = ({route, navigation}) => {
         Best Products Scanned
       </Text>
       </View>
-       <View
-        style={styles.productCaroselContainer}
-      >
+       <View style={styles.productCaroselContainer}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -221,7 +219,7 @@ const DataScreen = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
   lineBreak:{
-    marginTop : 40
+    marginTop : 60
   },
   scrollView: {
     marginHorizontal: 0,
@@ -249,7 +247,7 @@ const styles = StyleSheet.create({
   },
   productCaroselContainer: {
     margin: 10,
-    height : 300,
+    height : 370,
     flex: 0,
     alignItems: 'center',
     justifyContent: 'center',
@@ -279,9 +277,9 @@ const styles = StyleSheet.create({
     borderRadius:0,
   },
   textTitle: {
-    fontSize: 17,
+    fontSize: 30,
     marginTop: 15,
-    color: '#fab919',
+    color: '#dea71f',
     fontFamily: 'Nunito_400Regular'
    
   },

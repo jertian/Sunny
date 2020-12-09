@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {MaterialIcons} from "@expo/vector-icons"
 import serverInfo from '../../Common/ServerInfo.js';
 import commonFunctions from '../../Common/commonFunctions.js';
+import {windowHeight, windowWidth} from '../../../utils/Dimensions';
 
 const ThemeContext = React.createContext("light");
 const selectPreferences = state => state.preferences
@@ -118,20 +119,29 @@ const PreferencesScreen = ({navigation}) => {
       */}
 
       <View style={{ flexDirection: 'row', margin: 10, }}>
-      <PreferenceButton
-        buttonTitle="Fair Trade" buttonImage = {require('../../../assets/fair_trade.png')} isToggled= {()=>preferences.isTrackingFairTrade} onClickCallback={(isTracking) => updatePreference("FairTrade", isTracking)}
+      <TouchableOpacity style={{backgroundColor: "white", margin: 10, width: '50%',height: windowHeight / 7,padding: 10,alignItems: 'center',justifyContent: 'center',
+    borderRadius: 10,} } onPress={() => navigation.navigate('BlackListScreen')}>
+      <Image
+        source= {require('../../../assets/blacklist.png')}
+        style={styles.logo}
       />
-      <PreferenceButton
-        buttonTitle="Sustainability" buttonImage = {require('../../../assets/sustainable.png')} isToggled= {()=>preferences.isTrackingSustainable} onClickCallback={(isTracking) => updatePreference("Sustainable", isTracking)}
+      <Text style={styles.buttonText}>Blacklist</Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={{backgroundColor: "white", margin: 10, width: '50%',height: windowHeight / 7,padding: 10,alignItems: 'center',justifyContent: 'center',
+    borderRadius: 10,}} onPress={() => navigation.navigate('IngredientListScreen')}>
+      <Image
+        source= {require('../../../assets/avoid_food.png')}
+        style={styles.logo}
       />
+      <Text style={styles.buttonText}>Avoid an Ingredient</Text>
+    </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row', margin: 10, }}>
       <PreferenceButton
         buttonTitle="Emissions" buttonImage = {require('../../../assets/ghg.png')} isToggled= {()=>preferences.isTrackingGreenHouse} onClickCallback={(isTracking) => updatePreference("GreenHouse", isTracking)}
       />
       </View>
-      <Text style={styles.textSmall} onPress={() => navigation.navigate('BlackListScreen')}>Black list a company </Text>
-      <Text style={styles.textSmall} onPress={() => navigation.navigate('IngredientListScreen')}>Add a ingredient you want to avoid </Text>
+    
     </View>
   );
 };
@@ -229,6 +239,11 @@ const styles = StyleSheet.create({
     
     textAlign: 'left',
     paddingTop:10,
+  },
+  logo: {
+    height: 50,
+    width: 50,
+    resizeMode: 'cover',
   },
 });
 

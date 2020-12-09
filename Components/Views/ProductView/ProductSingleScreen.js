@@ -33,6 +33,7 @@ export default function ProductSingleScreen({ route, navigation }) {
   let [isCacheLoaded, setIsCacheLoaded] = useState(false);
   let [hasFinishedScanning, setHasFinishedScanning] = useState(false);
   //let [hasActionBeenTaken, setHasActionBeenTaken] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [currentShoppingList, setCurrentShoppingList] = useState([]);
 
@@ -323,6 +324,11 @@ export default function ProductSingleScreen({ route, navigation }) {
       <ScrollView>
     <View style={styles.container}>
     
+    <Icon name="info-circle" style={styles.infoIcon}
+            onPress={() => setModalOpen(true)} />
+      
+
+
       <ProductImage ></ProductImage>
       <View style={{ flexDirection: 'row', margin: 10, }}>
         {info.isVegan &&
@@ -352,6 +358,52 @@ export default function ProductSingleScreen({ route, navigation }) {
           </TouchableOpacity>
         }
       </View>
+      <Modal visible={modalOpen} animationType = "slide">
+      <View style={styles.modalContent}>
+        <Icon name="remove" style={styles.removeIcon}
+            onPress={() => setModalOpen(false)} />
+            <View style={{ flexDirection: 'row', margin: 10, }}>
+              <Image source={require('../../../assets/vegetarian.png')} style={styles.susIcon} />
+              <View style={{ flexDirection: 'column', margin: 10, }}>
+                <Text style={styles.modalTextTitle}>Vegetarian</Text>
+                <Text style={styles.modalText}>Foods that don't contain dairy or meat produce</Text>
+               </View>
+            </View>
+            <View style={{ flexDirection: 'row', margin: 10, }}>
+              <Image source={require('../../../assets/vegan.png')} style={styles.susIcon} />
+              <View style={{ flexDirection: 'column', margin: 10, }}>
+                <Text style={styles.modalTextTitle}>Vegan</Text>
+                <Text style={styles.modalText}>Foods that don't contain any ingredients produced by animals</Text>
+               </View>
+            </View>
+            <View style={{ flexDirection: 'row', margin: 10, }}>
+              <Image source={require('../../../assets/fair_trade.png')} style={styles.susIcon} />
+              <View style={{ flexDirection: 'column', margin: 10, }}>
+                <Text style={styles.modalTextTitle}>Fair Trade</Text>
+                <Text style={styles.modalText}>Products made under good working conditions and living wage</Text>
+               </View>
+            </View>
+            <View style={{ flexDirection: 'row', margin: 10, }}>
+              <Image source={require('../../../assets/sustainable.png')} style={styles.susIcon} />
+              <View style={{ flexDirection: 'column', margin: 10, }}>
+                <Text style={styles.modalTextTitle}>Sustainable</Text>
+                <Text style={styles.modalText}>This company is in the list of top 100 sustainable companies</Text>
+               </View>
+            </View>
+            <View style={{ flexDirection: 'row', margin: 10, }}>
+                    <TouchableOpacity style={styles.greenEmission}>
+                    <Text style={styles.textEmission}> 3.4 </Text>
+                    </TouchableOpacity>
+              <View style={{ flexDirection: 'column', margin: 10, }}>
+                <Text style={styles.modalTextTitle}>GHG Emission</Text>
+                <Text style={styles.modalText}>The amount of green house gas per kg (average is 3.4)</Text>
+               </View>
+            </View>
+               
+
+
+      </View>
+      </Modal>
       <Text style={styles.text}>{data}</Text>
       <Text style={styles.text}>{info.item}</Text>
       { isCacheLoaded && <TouchableOpacity style={styles.buttonContainer} onPress={() => { addItem() }} >
@@ -519,6 +571,42 @@ const styles = StyleSheet.create({
   listItem:{
     height: 50,
     color: "red",
-  }
+  },
+  modalTextTitle: {
+    fontSize: 25,
+   
+    color: 'black',
+    fontFamily: 'Nunito_400Regular'
+  },
+  modalText: {
+    fontSize: 14,
+    marginBottom: 10,
+    color: 'black',
+    fontFamily: 'Nunito_400Regular'
+  },
+  infoIcon:{
+    color: 'black',
+    fontSize: 25, 
+    textAlign: 'center',
+  },
+  removeIcon:{
+    color: 'black',
+    fontSize: 20, 
+    marginTop: 40
+    
+  }, 
+  modalDisplay: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#2e64e5',
+    height: 150,
+    width: 100,
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 22,
+    borderRadius: 0,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
   
 });

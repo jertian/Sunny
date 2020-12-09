@@ -114,7 +114,7 @@ function ListScreen({ route, navigation }) {
         let compareProducts = [];
         navigation.navigate("Camera", {shouldCompare, compareProducts});
          }} />
-         <Button title="Checkout" color = "blue" onPress={() => {
+         <Button title="Checkout" color = "black" onPress={() => {
             let ghG = 0
             let c = 0
             for (var x of itemList){
@@ -147,8 +147,9 @@ function ListScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   removeIcon: {
-    height: 20,
-    width: 20,
+    height: 40,
+    width: 40,
+    fontSize: 20, 
     color: '#fab742',
   },
   container: {

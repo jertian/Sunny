@@ -2,7 +2,7 @@
   "expo": {
     "name": "sunnyscanner",
     "slug": "sunnerscanner",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -32,9 +32,12 @@
     },
     "android": {
       "package": "com.sunnycompany.sunnyscanner",
-      "versionCode": 1,
-      "googleServicesFile": "./google-services.json"
+      "versionCode": 3,
+      "googleServicesFile": "./google-services.json",
+      "permissions": [ "CAMERA" ]
+    
     },
+    
     "description": ""
   }
 }
